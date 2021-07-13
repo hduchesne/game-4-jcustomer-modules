@@ -1,18 +1,32 @@
-# Gamification For jCustomer
+# Gamification experience
+Gamification is a great marketing tool to enrich a visitor's profile. **jExperience** is a great
+**[Customer Data Platform][cdp]** (a.k.a. CDP), **jContent** is a great **[Digital Experience Platform][dxp]**
+(a.k.a. DXP) so let combine the power of both to create and run marketing game like Quizzes or Assessment tool.
 
-This project is composed by 5 components:
-1. A core component which define common mixin
-1. A Quiz component which is used to enable the quiz creation in jContent
-1. A React application which render the quiz content created in jContent
-1. A Package builder
-1. A jCustomer plugin embedding a custom action (example of custom action but not used)
+This project present how to use the power of the Jahia suite to add gamification to the experience
+of your visitor.
+
+This project is composed by: 
+* 3 main components:
+    1. A [Core component][core] which contains configurations usable across multiple component
+    1. A [Quiz component][quiz] which contains configurations and views to create, update and display
+       Quizzes from jContent
+    1. A standalone [React application][webapp] which is the quiz engine. This application consumes contents
+       (quiz description, question & answers, warmup, video) from jContent and collects feedback for jExperience.
+* 2 sample components:   
+    1. A [Package builder][package] used to create a unique archive and deploy in shoot the Core and the Quiz
+    1. A [jCustomer plugin][jCust-plugin] sample code for a jCustomer custom action (not used)
 
 ## Overview
-This project is a Jahia Accelerator, so it presents a lots of implementation example on
-*how to create an headless application* configured from Jahia and consuming Jahia content.
+This project is a Jahia Accelerator. It presents how to architecture a lots of implementation example on
+*how to create a headless application* configured from Jahia and consuming Jahia content.
 The React quiz web application get editorial content and configuration content from Jahia.
 The module allow also to interact with jExperience to enhanced user profile and improve content
 personalization.
+
+//TODO schema archi
+
+
 
 Also, the user can :
 * override some part of the application `theme`,
@@ -53,4 +67,11 @@ When you have a quiz create you can create subcontent like *Question and Answer*
 
 [comment]: <> ([202]: doc/images/202_subContent.png)
 
+[core]: game-4-jcustomer-core/README.md
+[quiz]: game-4-jcustomer-components-quiz/README.md
+[webapp]: game-4-jcustomer-components-quiz-react/README.md
+[package]: game-4-jcustomer-package/README.md
+[jCust-plugin]: game-4-jcustomer-plugin/README.md
 
+[dxp]: https://en.wikipedia.org/wiki/Digital_experience_platform
+[cdp]: https://en.wikipedia.org/wiki/Customer_data_platform
