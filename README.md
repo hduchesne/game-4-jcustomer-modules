@@ -14,27 +14,36 @@ This project is composed by:
     1. A standalone [React application][webapp] which is the quiz engine. This application consumes contents
        (quiz description, question & answers, warmup, video) from jContent and collects feedback for jExperience.
 * 2 sample components:   
-    1. A [Package builder][package] used to create a unique archive and deploy in shoot the Core and the Quiz
+    1. A [Package builder][package] used to create a unique archive and deploy in one shoot the Core and the Quiz
     1. A [jCustomer plugin][jCust-plugin] sample code for a jCustomer custom action (not used)
 
 ## Overview
-This project is a Jahia Accelerator. It presents how to architecture a lots of implementation example on
-*how to create a headless application* configured from Jahia and consuming Jahia content.
-The React quiz web application get editorial content and configuration content from Jahia.
-The module allow also to interact with jExperience to enhanced user profile and improve content
+This project is a Jahia Accelerator. It presents implementation examples on
+*how to deal with a headless application*.
+
+### Features
+The Quiz React webapp has 3 main features:
+1. **Contributor oriented** : the webapp is fully editable and configurable from the jContent UI:
+    * Quiz description, question & answers, warmup, video, background image (*editorial content*). 
+      Media content can be added from a third party DAM or the local jContent Media repository
+    * Static content like button label, css style, transition fx (*configuration content*).
+1. **User Experience oriented** : The webapp can synchronize user responses with its CDP user profile
+   (jExperience) and the user can have a personalized result page. User profile data can also be used to personalized
+   your website content thereafter.
+1. **Multichannel oriented** : The Quiz webapp can be added in your jahia website in few seconds. But,
+   as a standalone application it can also be embedded via iframe or via a template in your favorite CMS.
+   Contribute and personalize in Jahia, broadcast where you want.
+
+### Data flow schema
+The React quiz webapp get editorial and configuration content from jContent.
+The module interact also with jExperience to enhanced user profile and improve content
 personalization.
 
-//TODO schema archi
+![010]
 
-
-
-Also, the user can :
-* override some part of the application `theme`,
-* enable/disable transition between slides
-* override the static labels used in the application (like "start" button)
-* enable a marketo form before to start the quiz
-* synchronize user response with the CDP jExperience
-* use a personalized content to present user results
+1. Marketeers create Quiz content from jContent and publish it. Now they have 2 options, embed the Quiz
+in a website managed by Jahia, or start a standalone Quiz webapp.
+1. A visitor visit the web page with the Quiz and start to answer questions.
 
 <!-- The jahia Assessment Tool module is an good usage example of this module --> 
 ## QuickStart
@@ -62,7 +71,7 @@ When you have a quiz create you can create subcontent like *Question and Answer*
 
 
 [100]: doc/images/100_modules.png
-
+[010]: doc/schema/010archi.png
 [comment]: <> ([200]: doc/images/200_contentToCreate.png)
 
 [comment]: <> ([202]: doc/images/202_subContent.png)
