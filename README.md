@@ -41,15 +41,22 @@ personalization.
 
 ![010]
 
-1. Marketeers create Quiz content from jContent and publish it. Now they have 2 options, embed the Quiz
+1. Marketeers create Quiz content from jContent and publish it. Thereafter, they have 2 options, embed the Quiz
 in a website managed by Jahia, or start a standalone Quiz webapp.
-1. A visitor visit the web page with the Quiz and start to answer questions.
+2. A visitor visits the web page with the Quiz.
+3. The Quiz webapp interact with jContent to get the content and configuration of the Quiz.
+4. (optional) When a user answers a question the webapp send an event to store the answer in a CDP user
+profile attribute.
+5. The last step of the Quiz is the page result. If there is a personalized content to display, the webapp get
+this content from a GraphQL call to jExperience.
+6. To calculate the score of the user, jExperience synchronize with jCustomer.
+7. For each step of the Quiz the html page is render to the user.
 
 <!-- The jahia Assessment Tool module is an good usage example of this module --> 
 ## QuickStart
 ### Prerequisite
 This module needs
-* widen-picker >= 2.1.0
+* widen-picker >= 2.2.0
 * codemirror-editor >= 1.1.2
 
 ### Install
@@ -70,10 +77,9 @@ When you have a quiz create you can create subcontent like *Question and Answer*
 <img src="./doc/images/202_subContent.png" width="375px"/>
 
 
-[100]: doc/images/100_modules.png
 [010]: doc/schema/010archi.png
+[comment]: <> ([100]: doc/images/100_modules.png)
 [comment]: <> ([200]: doc/images/200_contentToCreate.png)
-
 [comment]: <> ([202]: doc/images/202_subContent.png)
 
 [core]: game-4-jcustomer-core/README.md
