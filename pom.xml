@@ -19,8 +19,7 @@
         <connection>scm:git:git@github.com:hduchesne/game-4-jcustomer-modules.git</connection>
         <developerConnection>scm:git:git@github.com:hduchesne/game-4-jcustomer-modules.git</developerConnection>
         <url>https://github.com/hduchesne/game-4-jcustomer-modules</url>
-    <tag>game-4-jcustomer-1.0.3</tag>
-  </scm>
+    </scm>
     <repositories>
         <repository>
             <id>jahia-public</id>
