@@ -58,6 +58,7 @@ this content from a GraphQL call to jExperience.
 This module needs
 * widen-picker >= 2.2.0
 * codemirror-editor >= 1.1.2
+* jexperience >= 2.1.0
 
 ### Install
 1. In jContent, go to `Administration` panel.
