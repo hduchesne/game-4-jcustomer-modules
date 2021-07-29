@@ -4,14 +4,6 @@ import './QnAJsonCmp.css';
 
 import {Input, Toggle} from '@jahia/design-system-kit';
 
-// Import Checkbox from '@material-ui/core/Checkbox';
-// import FormGroup from '@material-ui/core/FormGroup';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import FormLabel from '@material-ui/core/FormLabel';
-// import TextField from '@material-ui/core/TextField';
-// import {Checkbox, FormGroup, FormControlLabel, FormControl, FormLabel, TextField, withStyles} from '@material-ui/core';
-// import {Checkbox, FormGroup, FormControlLabel, FormControl, FormLabel, InputBase, withStyles} from '@material-ui/core';
 import {Grid, FormControlLabel, withStyles} from '@material-ui/core';
 const styles = () => ({
     switchLabel: {
@@ -21,36 +13,12 @@ const styles = () => ({
         }
     },
     container: {
-        // Border: '1px solid rgba(19, 28, 33, 1)',
         padding: '.5rem',
         boxShadow: '0px 2px 10px -5px #000000, 2px 5px 15px 5px rgba(0,0,0,0);'
     },
     toggle: {
         margin: 0
     }
-    // Root: {
-    //     background: '#fff',
-    //     display: 'flex',
-    //     boxShadow: 'none',
-    //     zIndex: 3,
-    //     margin: '0 auto',
-    // },
-    // input: {
-    //     flex: '100%',
-    //     borderBottom: `1px solid ${theme.palette.primary.main}`,
-    //     height: '50px'
-    // },
-    // inputCdp: {
-    //     flex: '50%',
-    //     borderBottom: `1px solid ${theme.palette.primary.main}`,
-    //     height: '50px'
-    // }
-    // Root: {
-    //     '& > *': {
-    //         margin: Number(theme.spacing.unit),
-    //         width: '25ch'
-    //     }
-    // }
 });
 
 const formatValue = value => {
@@ -59,12 +27,8 @@ const formatValue = value => {
         label: '',
         cdpValue: ''
     };
-    // Console.log('value :', value);
-    // console.log('typeof value :', typeof value);
 
     if (value === undefined) {
-        // Console.log('value is undefined, return default:', defaultAnswer);
-        // Return {...defaultAnswer} ;
         return defaultAnswer;
     }
 

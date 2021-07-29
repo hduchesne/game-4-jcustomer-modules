@@ -1,13 +1,9 @@
 package org.jahia.se.modules.game.quiz.rules;
 
-//import org.jahia.services.content.rules.BackgroundAction;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
 import org.jahia.services.content.decorator.JCRSiteNode;
 
 
@@ -34,15 +30,6 @@ public class ScoreAsUserProperty {
 
     private String key="scoreAsUserProperty";
     private ContextServerService contextServerService;
-
-//    private JExperienceConfigFactory contextServerSettingsService;
-//    private CreateOrUpdateUserProperties myRuleService;
-//
-//    public void setCreateOrUpdateUserProperties(CreateOrUpdateUserProperties myRuleService) {
-//
-//        this.myRuleService = myRuleService;
-//
-//    }
 
     @Reference(service=ContextServerService.class)
     public void setContextServerService(ContextServerService contextServerService) {
@@ -144,79 +131,6 @@ public class ScoreAsUserProperty {
         }
 
         return response;
-
-//        public static String post(String url, String json, Long timeOut, TimeUnit timeUnit, String charset) {
-//            Future<Response> f = null;
-//            try (AsyncHttpClient asyncHttpClient = new AsyncHttpClient()) {
-//                AsyncHttpClient.BoundRequestBuilder builder = asyncHttpClient.preparePost(url);
-//                builder.setBodyEncoding(StandardCharsets.UTF_8.name()).setBody(json);
-//                return (f = builder.execute()).get(timeOut == null ? DEFEAT_TIMEOUT : timeOut,
-//                        timeUnit == null ? DEFEAT_UNIT : timeUnit)
-//                        .getResponseBody(charset == null ? StandardCharsets.UTF_8.name() : charset);
-//            } catch (Exception e) {
-//                _log.error(ExceptionUtils.errorInfo(e));
-//                throw new RuntimeException(e);
-//            } finally {
-//                if (f != null) f.cancel(true);
-//            }
-//        }
-
-
-
     }
-
-//TODO review this
-//    private boolean createNewProperty(String siteKey, String json) throws IOException {
-//        ContextServerSettings contextServerSettings = contextServerSettingsService.getSettings(siteKey);
-//        if (contextServerSettings != null) {
-//            EntityUtils.consume(
-//                HttpUtils.executePostRequest(
-//                    contextServerSettings.getAdminHttpClient(),
-//                    contextServerSettings.getContextServerURL() + "/cxs/rules/",
-//                    json,
-//                    null,
-//                    null
-//                )
-//            );
-//            return true;
-//        }
-//        return false;
-//    }
-    //TODO review query to get property based on id
-//    private String getProperty(String siteKey, String formMappingID) throws IOException {
-//        ContextServerSettings contextServerSettings = contextServerSettingsService.getSettings(siteKey);
-//        if (contextServerSettings != null) {
-//            HttpEntity entity = HttpUtils.executeGetRequest(contextServerSettings.getAdminHttpClient(), contextServerSettings.getContextServerURL() + "/cxs/rules/" + formMappingID, null, null);
-//    //Pkoi pas retourner un JSONObject?
-//            if (entity != null) {
-//                String json = EntityUtils.toString(entity);
-//                EntityUtils.consume(entity);
-//                return json;
-//            }
-//        }
-//        return null;
-//    }
-
-
-
-//    public void executeActionNow(NodeFact node,KnowledgeHelper drools) throws JSONException{
-//
-////        JSONObject o = new JSONObject(properties);
-////        logger.info("properties : "+node.getNode().getProperty("game4:jExpPropertyName").getString());
-//        logger.info("executeActionNow ! ");
-//    }
-
-//    public void executeActionNow(NodeFact node, final String actionToExecute, KnowledgeHelper drools) throws SchedulerException, RepositoryException {
-//
-//        final BackgroundAction action = ServicesRegistry.getInstance().getJahiaTemplateManagerService().getBackgroundActions().get(actionToExecute);
-//
-//        if (action != null) {
-//            if (node instanceof PublishedNodeFact) {
-//                if (((PublishedNodeFact) node).getNode().getProperty("j:published").getBoolean()) {
-//                    action.executeBackgroundAction(((PublishedNodeFact) node).getNode());
-//                }
-//            }
-//        }
-//    }
 }
 

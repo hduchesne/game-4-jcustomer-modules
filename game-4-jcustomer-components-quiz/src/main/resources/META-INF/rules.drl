@@ -15,6 +15,14 @@ global Logger logger
 global JCRContentUtils jcrUtils
 global ScoreAsUserProperty scoreAsUserProperty
 
+rule "Create Remove user profile attribute"
+    when
+        A property game4:quizKey has been set on a node
+        - the node has the type game4nt:quiz
+    then
+        Quiz score as jCustomer property from property
+end
+
 //rule "Enable default quiz label"
 //    when
 //        A new node is created
@@ -44,16 +52,3 @@ global ScoreAsUserProperty scoreAsUserProperty
 ////        Log "node " + node
 //        Create or update jCustomer property from node
 //end
-
-rule "Create Remove user profile attribute"
-    when
-        A property game4:quizKey has been set on a node
-        - the node has the type game4nt:quiz
-//        - it has the extension type game4mix:usesResultAsProperty
-    then
-//        Log "property.getValue() : " + property.getValue().toString()
-//        Log "property.getProperty() : " + property.getProperty().getString()
-//        Log "property.getStringValue() " + property.getValue().getString()
-//        Log "node " + node.getClass()
-        Quiz score as jCustomer property from property
-end

@@ -8,14 +8,14 @@ of your visitor.
 
 This project is composed by: 
 * 3 main components:
-    1. A [Core component][core] which contains configurations usable across multiple component
-    1. A [Quiz component][quiz] which contains configurations and views to create, update and display
+    1. A [Core component][core.md] which contains configurations usable across multiple component
+    1. A [Quiz component][quiz.md] which contains configurations and views to create, update and display
        Quizzes from jContent
-    1. A standalone [React application][webapp] which is the quiz engine. This application consumes contents
+    1. A standalone [React application][webapp.md] which is the quiz engine. This application consumes contents
        (quiz description, question & answers, warmup, video) from jContent and collects feedback for jExperience.
 * 2 sample components:   
-    1. A [Package builder][package] used to create a unique archive and deploy in one shoot the Core and the Quiz
-    1. A [jCustomer plugin][jCust-plugin] sample code for a jCustomer custom action (not used)
+    1. A [Package builder][package.md] used to create a unique archive and deploy in one shoot the Core and the Quiz
+    1. A [jCustomer plugin][jCust-plugin.md] sample code for a jCustomer custom action (not used)
 
 ## Overview
 This project is a Jahia Accelerator. It presents implementation examples on
@@ -60,33 +60,48 @@ This module needs
 * codemirror-editor >= 1.1.2
 
 ### Install
-Import the package module in your Jahia server. This deploys 2 modules :
+1. In jContent, go to `Administration` panel.
+2. In the `Server` section expand the `Modules and Extensions` entry and click `Modules`.
+3. From the right panel, click `Available modules` and search for **gam**.
+
+   ![101]
+
+1. Click the icon ![201] in the right of the package to download and install the module
+
+The module is a package, therefore, it uploads and deploys 2 modules :
 * game-4-jcustomer-components-quiz
 * game-4-jcustomer-core
+![102]
 
+<!--
 <img src="./doc/images/100_modules.png" width="600px"/>
-  
-To be able to create Quiz enable game-4-jcustomer-components-quiz for your project.
+ --> 
+Before to create a Quiz in your site you must enable game-4-jcustomer-components-quiz for your project.
+![103]
 
-Now your are able to create a Quiz in jContent or create a Quiz Reference in Page composer.
+Now your can to create a Quiz in jContent or create a Quiz Reference in Page composer.
 
 <img src="./doc/images/200_contentToCreate.png" width="375px"/>
 
-When you have a quiz create you can create subcontent like *Question and Answer* (Qna) and *Warmup*
+To know more about Quiz creation [Read this dedicated page][quiz.md]
 
-<img src="./doc/images/202_subContent.png" width="375px"/>
+
 
 
 [010]: doc/schema/010archi.png
+[101]: doc/images/101_storeInstall.png
+[102]: doc/images/102_storeInstalled.png
+[103]: doc/images/103_enableQuiz.png
+[201]: doc/images/201_modules_download_icon.png
 [comment]: <> ([100]: doc/images/100_modules.png)
 [comment]: <> ([200]: doc/images/200_contentToCreate.png)
 [comment]: <> ([202]: doc/images/202_subContent.png)
 
-[core]: game-4-jcustomer-core/README.md
-[quiz]: game-4-jcustomer-components-quiz/README.md
-[webapp]: game-4-jcustomer-components-quiz-react/README.md
-[package]: game-4-jcustomer-package/README.md
-[jCust-plugin]: game-4-jcustomer-plugin/README.md
+[core.md]: game-4-jcustomer-core/README.md
+[quiz.md]: game-4-jcustomer-components-quiz/README.md
+[webapp.md]: game-4-jcustomer-components-quiz-react/README.md
+[package.md]: game-4-jcustomer-package/README.md
+[jCust-plugin.md]: game-4-jcustomer-plugin/README.md
 
 [dxp]: https://en.wikipedia.org/wiki/Digital_experience_platform
 [cdp]: https://en.wikipedia.org/wiki/Customer_data_platform
