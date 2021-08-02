@@ -78,20 +78,72 @@ we want, we use as child type the mixin `game4mix:quizChild`
 This mixin is defined in the core module (see the core [defnition.cnd][core_cnd]).
 3. `game4mix:showInTree` meaning the node is visible in the jContent tree
 4. `game4mix:usesConsents` meaning the contributor can select jExperience consent that user must
-approve before to start the quiz.
+approve before to start the quiz (see the core [defnition.cnd][core_cnd]).
 5. `wdenmix:mediaReference` meaning the contributor can select a background for the Quiz 'slide' coming
 from jContent Media repository or from Widen Dam if the contributor has a licence with them.
-6. `game4mix:quizConfiguration`
-7. `game4mix:marketingFormReference`
-8. `game4mix:quizStaticLabels`
-9. `mix:title`
+6. `game4mix:quizConfiguration` meaning the contributor can configure the behavior of some part
+of the Quiz.
+
+7. `game4mix:marketingFormReference` meaning the contributor can select a marketing form provider
+to expose a form in the first slide of the Quiz. Currently, the accelerator is configured with Marketo
+only.
+8. `game4mix:quizStaticLabels` meaning the contributor can update and translate the "static" content
+used in the Quiz, mostly buttons label.
+9. `mix:title` meaning the contributor will have a **title** property which will be automatically
+sync with the System name field.
 
 ###### Mixins
-###### game4mix:quizStaticLabels
-###### game4mix:quizConfiguration
-###### game4mix:marketingFormReference
-###### wdenmix:mediaReference
 ###### game4mix:usesConsents
+This mixin is defined in the [core component][core_cnd] :
+```cnd
+[game4mix:usesConsents] mixin
+ - game4:consentType (weakreference, choicelist[nodes='$currentSite/consentTypes;wemnt:consentType']) multiple nofulltext
+```
+This mixin adds to the nodeType using it a property with a `choiceList selectorType` which lists
+the consents created in jExperience.
+
+Consent in jExperience
+![001]
+
+Contributor select a consent in a Quiz (Jahia backend)
+![002]
+
+Website visitor must consent before to start the Quiz
+![003]
+
+###### wdenmix:mediaReference
+This mixin is defined in the [Widen module][widen_module]. That means you have to install this module
+to use the Quiz.
+> [Widen][widen] is an external DAM provider.
+
+This mixin adds two properties in the nodeType using it :
+1. **Media Source** : select the source where you want to pick a media (Widen or jContent).
+2. **Media Content** : picker to select the media you want to use as background of the Quiz slide.
+
+Select a content from Widen Dam selecting "**Widen**" as Media Source.
+![012]
+
+Then click "Add Widen Asset" placeholder to select the media you want
+(see more about [widen picker][widen_picker])
+![014]
+
+Select a content from jContent Media repository selecting "**jContent**" as Media Source.
+![011]
+
+> Note : it is **not required** to have a Widen account to use this mixin. Indeed, if you do not have a Widen account
+> configured the **picker** displays an error message if you select "Widen" as Media Source, so, you
+> have to select jContent to pick a media.
+
+![010]
+
+###### game4mix:quizConfiguration
+* enable/disable transition between slide
+* enable/disable the reset button
+* enable/disable the browsing from the progress bar
+* change the css theme
+###### game4mix:marketingFormReference
+###### game4mix:quizStaticLabels
+
 
 ##### Views
 
@@ -104,6 +156,14 @@ from jContent Media repository or from Widen Dam if the contributor has a licenc
 
 <img src="./doc/images/202_subContent.png" width="375px"/>
 
+[001]: ./doc/images/001_consent.png
+[002]: ./doc/images/002_consent.png
+[003]: ./doc/images/003_consent.png
+
+[010]: ./doc/images/010_widenOff.png
+[011]: ./doc/images/011_widenOffJcontentOn.png
+[012]: ./doc/images/012_widenOn.png
+[014]: ./doc/images/014_widenOnSelected.png
 
 [overview.md]: ../README.md
 [definitions.cnd]: ./src/main/resources/META-INF/definitions.cnd
@@ -115,3 +175,6 @@ from jContent Media repository or from Widen Dam if the contributor has a licenc
 [jExp_conf]: ./src/main/resources/META-INF/jexperience
 [selector_conf]:  ./src/main/resources/META-INF/jahia-content-editor-forms/fieldsets
 [core_cnd]: ../game-4-jcustomer-core/src/main/resources/META-INF/definitions.cnd
+[widen_module]: https://store.jahia.com/contents/modules-repository/org/jahia/se/modules/widen-picker.html
+[widen]: https://www.widen.com/
+[widen_picker]: https://github.com/Jahia/widen-asset-picker/blob/main/doc/en/picker.md
