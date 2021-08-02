@@ -51,19 +51,20 @@ The main goal of this module is to create Quizzes and a quiz (`game4nt:quiz`) ha
 
 The hierarchy between the mixins and node types is presented in the schema below:
 
-<img src="./doc/schema/020_quizArch.png" width="650px"/>
+<img src="./doc/schema/020_quizArch.png" width="800px"/>
 
 #### game4nt:quiz
-This nodeType is the main entry of a Quiz and the only one type a user can create directly in jContent.
-The nodeType support directly the Quiz key, subtitle, description, duration and a reference to a
-personalized result content as presented in the following image.
+This nodeType is the main entry of a Quiz and the only type a user can create directly in jContent.
+The nodeType definition is used by jContent to create the editorial form. As presented in the
+following image, properties like quizkey, Subtitle, Description, Duration and a Personalized
+Result page are defined at the Quiz level (JCONTENT QUIZ section).
 
 <img src="./doc/images/050_quiz.png" width="650px"/>
 
 The nodeType support also other properties which are provided by mixins
 
 ##### Definition
-This node type is defined like this:
+This node type is defined as follows:
 ```cnd
 [game4nt:quiz] > jnt:content, game4mix:components, game4mix:showInTree, game4mix:usesConsents, wdenmix:mediaReference,game4mix:quizConfiguration,game4mix:marketingFormReference, mix:title, game4mix:quizStaticLabels orderable
  - game4:quizKey (string) primary mandatory
@@ -74,8 +75,8 @@ This node type is defined like this:
  + * (game4mix:quizChild)
 ```
 
-To be flexible and to have the capability to add Warmup and QnA in the order we want and the number
-we want, we use as child type the mixin `game4mix:quizChild`
+To be flexible and to have the capability to add Warmup and QnA in the order we want and
+in the quantity we want, we use the mixin `game4mix:quizChild` as child type.
 
 `game4nt:quiz` extends 1 supertype:
 1. `jnt:content` meaning the node type is a content node type.
