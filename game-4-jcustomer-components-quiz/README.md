@@ -51,14 +51,14 @@ The main goal of this module is to create Quizzes and a quiz (`game4nt:quiz`) ha
 
 The hierarchy between the mixins and node types is presented in the schema below:
 
-<img src="./doc/schema/020_quizArch.png" style="max-width:800px;"/>
+<img src="./doc/schema/020_quizArch.png" width="650px"/>
 
 #### game4nt:quiz
 This nodeType is the main entry of a Quiz and the only one type a user can create directly in jContent.
 The nodeType support directly the Quiz key, subtitle, description, duration and a reference to a
 personalized result content as presented in the following image.
 
-<img src="./doc/images/050_quiz.png" style="max-width:800px;"/>
+<img src="./doc/images/050_quiz.png" width="650px"/>
 
 The nodeType support also other properties which are provided by mixins
 
@@ -104,7 +104,7 @@ sync with the System name field.
 This mixin add the section **CONSENT (GDPR)** in the Quiz edit form
 as presented in the following image.
 
-<img src="./doc/images/002_consent.png" style="max-width:800px;"/>
+<img src="./doc/images/002_consent.png" width="650px"/>
 
 This mixin is defined in the [core component][core_cnd]:
 ```cnd
@@ -118,18 +118,18 @@ Consent in jExperience
 ![001]
 
 Contributor select a consent in a Quiz (Jahia backend)
-<img src="./doc/images/002_consent.png" style="max-width:800px;"/>
+<img src="./doc/images/002_consent.png" width="650px"/>
 
 
 Website visitor must consent before to start the Quiz
-<img src="./doc/images/003_consent.png" style="max-width:800px;"/>
+<img src="./doc/images/003_consent.png" width="650px"/>
 
 
 ###### wdenmix:mediaReference
 This mixin add the section **MEDIA MANAGEMENT** in the Quiz edit form
 as presented in the following image.
 
-<img src="./doc/images/012_widenOn.png" style="max-width:800px;"/>
+<img src="./doc/images/012_widenOn.png" width="650px"/>
 
 This mixin is defined in the [Widen module][widen_module]. That means you have to install this module
 to use the Quiz.
@@ -140,26 +140,26 @@ This mixin adds two properties in the nodeType using it :
 2. **Media Content** : picker to select the media you want to use as background of the Quiz slide.
 
 Select a content from Widen Dam selecting "**Widen**" as Media Source.
-<img src="./doc/images/012_widenOn.png" style="max-width:800px;"/>
+<img src="./doc/images/012_widenOn.png" width="650px"/>
 
 Then click "Add Widen Asset" placeholder to select the media you want
 (see more about [widen picker][widen_picker])
-<img src="./doc/images/014_widenOnSelected.png" style="max-width:800px;"/>
+<img src="./doc/images/014_widenOnSelected.png" width="650px"/>
 
 Select a content from jContent Media repository selecting "**jContent**" as Media Source.
-<img src="./doc/images/011_widenOffJcontentOn.png" style="max-width:800px;"/>
+<img src="./doc/images/011_widenOffJcontentOn.png" width="650px"/>
 
 > Note : it is **not required** to have a Widen account to use this mixin. Indeed, if you do not have a Widen account
 > configured the **picker** displays an error message if you select "Widen" as Media Source, so, you
 > have to select jContent to pick a media.
 
-<img src="./doc/images/010_widenOff.png" style="max-width:800px;"/>
+<img src="./doc/images/010_widenOff.png" width="650px"/>
 
 ###### game4mix:quizConfiguration
 This mixin add the section **WEBAPP CONFIGURATION** in the Quiz edit form
 as presented in the following image.
 
-<img src="./doc/images/020_webAppConfig.png" style="max-width:800px;"/>
+<img src="./doc/images/020_webAppConfig.png" width="650px"/>
 
 This mixin is defined as follows in the [definitions.cnd]:
 ```cnd
@@ -216,7 +216,7 @@ properties in the `pallette`. Then, this json looks like this:
 This mixin add the section **START WITH MARKETING FORM** in the Quiz edit form
 as presented in the following image.
 
-<img src="./doc/images/030_mktoForm.png" style="max-width:800px;"/>
+<img src="./doc/images/030_mktoForm.png" width="650px"/>
 
 This mixin is defined as follows in the [definitions.cnd] file:
 ```cnd
@@ -292,7 +292,7 @@ is defined as follows in the [game4mix_mktoForm.json][s_mktoForm] file:
 This mixin add the section **REACT PERSONALIZED LABEL** in the Quiz edit form
 as presented in the following image.
 
-<img src="./doc/images/040_labels.png" style="max-width:800px;"/>
+<img src="./doc/images/040_labels.png" width="650px"/>
 
 This mixin is defined as follows in the [definitions.cnd] file:
 ```cnd
@@ -329,7 +329,7 @@ label.game4_wrongAnswer=Incorrect
 This mixin add the section *TITLE** in the Quiz edit form
 as presented in the following image.
 
-<img src="./doc/images/060_title.png" style="max-width:800px;"/>
+<img src="./doc/images/060_title.png" width="650px"/>
 
 ##### Views
 This module provides two views for a Quiz, the [default][quiz_default] and the [content][quiz_content].
