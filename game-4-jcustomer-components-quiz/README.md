@@ -3,7 +3,32 @@
 The quiz component is part of the Gamification Experience project. To know more about
 the full component of the project [read this page][overview.md].
 
-## Overview
+- [Module content](#module-content)
+- [Node Type definitions and views](#node-type-definitions-and-views)
+    - [overview](#overview)
+    - [game4nt:quiz](#game4ntquiz)
+      - [Definition](#definition)
+      - [Mixins](#mixins)
+        - [game4mix:usesConsents](#game4mixusesconsents)
+        - [wdenmix:mediaReference](#wdenmixmediareference)
+        - [game4mix:quizConfiguration](#game4mixquizconfiguration)
+        - [game4mix:marketingFormReference](#game4mixmarketingformreference)
+        - [game4mix:quizStaticLabels](#game4mixquizstaticlabels)
+        - [mix:title](#mixtitle)
+      - [Views](#views)
+        - [The default view](#the-default-view)
+        - [The content view](#the-content-view)
+    - [game4nt:warmup](#game4ntwarmup)
+      - [Definition](#definition-1)
+      - [Mixins](#mixins-1)
+        - [game4mix:multiMediaReference](#game4mixmultimediareference)
+    - [game4nt:qna](#game4ntqna)
+      - [Definition](#definition-2)
+      - [Mixins](#mixins-2)
+        - [game4mix:usesResultAsJExpProperty](#game4mixusesresultasjexpproperty)
+    - [game4nt:quizReference](#game4ntquizreference)
+      - [Definition](#definition-3)
+## Module content
 
 This module is used to configure Jahia as a backend of the Quiz React webapp.
 Also, it contains :
@@ -23,9 +48,7 @@ on this score to personalize the content displayed to the user.
 * A set of **configuration files for jExperience** to create automatically 
 user profile properties and rules (see [the folder][jExp_conf])
 
-## Module in details
-
-### Node Type definitions and views
+## Node Type definitions and views
 One feature of this module is to be **Contributor oriented**. That means,
 the Quiz webapp must be fully editable and configurable from the jContent UI.
 The marketeer must be able to create at least a Quiz content and its related children
@@ -41,7 +64,7 @@ But to be really contributor oriented, the marketeer must also be able to :
 
 All of these requirements can be achieved with a well configured Jahia backend.
 
-#### overview
+### overview
 The nodeTypes and mixins written in the [definitions.cnd] file are defined to create the best Jahia
 backend.
 The main goal of this module is to create Quizzes and a quiz (`game4nt:quiz`) has two types of children:
@@ -53,8 +76,8 @@ The hierarchy between the mixins and node types is presented in the schema below
 
 <img src="./doc/schema/020_quizArch.png" width="800px"/>
 
-#### game4nt:quiz
-This nodeType is the main entry of a Quiz and the only type a user can create directly in jContent.
+### game4nt:quiz
+This nodeType is the main entry of a Quiz and the only content type a user can create directly in jContent.
 The nodeType definition is used by jContent to create the editorial form. As presented in the
 following image, properties like quizkey, Subtitle, Description, Duration and a Personalized
 Result page are defined at the Quiz level (JCONTENT QUIZ section).
@@ -63,7 +86,7 @@ Result page are defined at the Quiz level (JCONTENT QUIZ section).
 
 The nodeType support also other properties which are provided by mixins
 
-##### Definition
+#### Definition
 This node type is defined as follows:
 ```cnd
 [game4nt:quiz] > jnt:content, game4mix:components, game4mix:showInTree, game4mix:usesConsents, wdenmix:mediaReference,game4mix:quizConfiguration,game4mix:marketingFormReference, mix:title, game4mix:quizStaticLabels orderable
@@ -100,8 +123,8 @@ used in the Quiz, mostly buttons label.
 8. `mix:title` meaning the contributor will have a **title** property which will be automatically
 sync with the System name field.
 
-##### Mixins
-###### game4mix:usesConsents
+#### Mixins
+##### game4mix:usesConsents
 This mixin add the section **CONSENT (GDPR)** in the Quiz edit form
 as presented in the following image.
 
@@ -126,7 +149,7 @@ Website visitor must consent before to start the Quiz
 <img src="./doc/images/003_consent.png" width="650px"/>
 
 
-###### wdenmix:mediaReference
+##### wdenmix:mediaReference
 This mixin add the section **MEDIA MANAGEMENT** in the Quiz edit form
 as presented in the following image.
 
@@ -156,7 +179,7 @@ Select a content from jContent Media repository selecting "**jContent**" as Medi
 
 <img src="./doc/images/010_widenOff.png" width="650px"/>
 
-###### game4mix:quizConfiguration
+##### game4mix:quizConfiguration
 This mixin add the section **WEBAPP CONFIGURATION** in the Quiz edit form
 as presented in the following image.
 
@@ -213,7 +236,7 @@ properties in the `pallette`. Then, this json looks like this:
 }
 ```
 
-###### game4mix:marketingFormReference
+##### game4mix:marketingFormReference
 This mixin add the section **START WITH MARKETING FORM** in the Quiz edit form
 as presented in the following image.
 
@@ -287,9 +310,9 @@ is defined as follows in the [game4mix_mktoForm.json][s_mktoForm] file:
   ]
 }
 ```
->The CodeMirror editor is custom module, developed to enhance the default capabilities of the 
+>The CodeMirror editor is custom module, developed to enhance the default capabilities of the
 
-###### game4mix:quizStaticLabels
+##### game4mix:quizStaticLabels
 This mixin add the section **REACT PERSONALIZED LABEL** in the Quiz edit form
 as presented in the following image.
 
@@ -326,17 +349,20 @@ label.game4_correctAnswer=Correct
 label.game4_wrongAnswer=Incorrect
 ```
 
-###### mix:title
+##### mix:title
 This mixin add the section *TITLE** in the Quiz edit form
 as presented in the following image.
 
 <img src="./doc/images/060_title.png" width="650px"/>
 
-##### Views
+#### Views
 This module provides two views for a Quiz, the [default][quiz_default] and the [content][quiz_content].
 
-###### The default view
+##### The default view
 The [default][quiz_default] view is used to display the Quiz with the React webapp.
+
+![100]
+
 Thus, the view can be divided in three parts :
 * Part 1: Embeds the build of the Quiz React webapp from the [css] and [javascript] directory.
   ```jsp
@@ -384,6 +410,229 @@ Thus, the view can be divided in three parts :
     ...
   <script>
   ```
+##### The content view
+The [content][quiz_content] view is used to display the Quiz as an HTML card. It is an example
+of usual rendering in Jahia.
+
+Below an example of the view. Clicking the "Read more" button displays the Quiz as main
+content using the default view.
+
+![501]
+
+> As you can see in the image above, even if the content is the same, the presentation is
+completely different of the one in the default view. The language to render the Quiz is also
+different Javascript/HTML vs jsp/HTML
+
+### game4nt:warmup
+This nodeType can be created only as a child of a Quiz. A warmup is used to introduce a set of QnA.
+A warmup display a text or a video to provide information or to introduce the context
+of coming set of questions. A Warmup can have its own set of questions.
+
+<img src="./doc/images/201_warmup.png" width="650px"/>
+
+Render in the React webapp the Warmup looks like this:
+
+![120]
+
+
+The nodeType support also other properties which are provided by mixins
+
+#### Definition
+This node type is defined as follows:
+```cnd
+[game4nt:warmup] > jnt:content, game4mix:showInTree, game4mix:quizChild, game4mix:multiMediaReference, mix:title orderable
+ - game4:subtitle (string) internationalized
+ - game4:content (string, richtext[ckeditor.toolbar='Tinny',ckeditor.customConfig='$context/modules/game-4-jcustomer-components-quiz/javascript/ckeditor/config/small.js']) internationalized
+ - game4:qnaDuration (string,choicelist[resourceBundle]) = '5 mins' autocreated indexed=no < '5 mins', '10 mins', '30 mins', '1h' , '> 1h'
+ + * (game4nt:qna)
+```
+
+`game4nt:warmup` extends 1 supertype:
+1. `jnt:content` meaning the node type is a content node type.
+
+`game4nt:warmup` is extended by 4 mixins:
+1. `game4mix:showInTree` meaning the node is visible in the jContent tree.
+2. `game4mix:quizChild` meaning the node can be child of a Quiz.
+3. `game4mix:multiMediaReference` meaning the contributor can select a video from Widen, jContent
+or copy past an external URL. The contributor can also select a background for the Warmup 'slide'.
+4. `mix:title` meaning the contributor will have a **title** property which will be automatically
+   sync with the System name field, see the [mix:title](#mixtitle) section.
+
+#### Mixins
+##### game4mix:multiMediaReference
+This mixin adds the sections **MULTIMEDIA MANAGEMENT** and **MEDIA MANAGEMENT** in the Warmup
+edit form as presented in the following images.
+
+<img src="./doc/images/202_warmupMultiMedia.png" width="650px"/>
+<img src="./doc/images/203_warmupMediaMgt.png" width="650px"/>
+
+This mixin is defined as follows in the [definitions.cnd] file:
+```cnd
+[game4mix:multiMediaReference] > wdenmix:mediaReference mixin
+ - game4:videoLink (string) indexed=no
+```
+This mixin is extended by the [wdenmix:mediaReference](#wdenmixmediareference).
+
+This mixin adds one property in the nodeType using it :
+1. **Video Source** : select the source where you want to pick a video (Widen, jContent, direct URL).
+
+The mixin adds the property `game4:videoLink` in the nodeType using it. This property
+is a string, and use a **Choicelist** as selectorType in the form. The selectorType
+is defined as follows in the [game4mix_multiMediaReference.json][s_multiMediaReference] file:
+```json
+{
+  "name": "game4mix:multiMediaReference",
+  "description": "",
+  "dynamic": false,
+  "fields": [
+    {
+      "name": "game4:videoLink",
+      "selectorType": "Choicelist",
+      "valueConstraints": [
+        {
+          "value": {
+            "type": "String",
+            "value": "widen"
+          },
+          "displayValue": "Widen (DAM)",
+          "propertyList": [
+            {
+              "name": "addMixin",
+              "value": "game4mix:damVideoLink"
+            }
+          ]
+        },
+        ...
+      ]
+    }
+```
+The selectorType, configured above, create a choiceList with three entries. The first
+entry label is **Widen (DAM)**, the value saved when selected is **widen** and when
+the value is selected we add the mixin `game4mix:damVideoLink` to the current content
+(in our case the warmup).
+
+The three mixins added are `game4mix:damVideoLink`, `game4mix:internalVideoLink` and
+`game4mix:externalVideoLink`.
+
+Depending on the choice made by contributor for the **Video Source** a new property appears
+to pick the video or copy/past the video URL depending on the mixin added.
+
+The mixin `game4mix:damVideoLink` is defined as follows in the [definitions.cnd] file:
+```cnd
+[game4mix:damVideoLink] > jmix:dynamicFieldset mixin
+ extends = game4mix:multiMediaReference
+ - game4:videoIntPath (weakreference) internationalized < wdenmix:widenAsset
+```
+The mixin adds the property `game4:videoIntPath` in the nodeType using it. This property
+is a reference to another content, in that case a widenAsset.
+
+The mixin `game4mix:damVideoLink` is defined as follows in the [definitions.cnd] file:
+```cnd
+[game4mix:internalVideoLink] > jmix:dynamicFieldset mixin
+ extends = game4mix:multiMediaReference
+ - game4:videoIntPath (weakreference) internationalized < jnt:file
+```
+The mixin adds the property `game4:videoIntPath` in the nodeType using it. This property
+is a reference to another content, in that case a jContent media file.
+
+The mixin `game4mix:externalVideoLink` is defined as follows in the [definitions.cnd] file:
+```cnd
+[game4mix:externalVideoLink] > jmix:dynamicFieldset mixin
+ extends = game4mix:multiMediaReference
+ - game4:videoExtPath (string) = 'https://' internationalized
+```
+The mixin adds the property `game4:videoExtPath` in the nodeType using it. This property
+is a string which contains the URL of on online video.
+
+### game4nt:qna
+This nodeType can be created as a child of a Quiz or a Warmup. A Question and Answer (QnA)
+is used to write question and the possible answer. A QnA can be used to test the maturity
+of a visitor on a subject and/or to get used data based on visitor answers.
+
+A QnA displays a question, an optional help message and a set of responses. Answers can be
+displayed in a random order and the response can be ignored to calculate the final score.
+
+<img src="./doc/images/300_qna.png" width="650px"/>
+
+Render in the React webapp the QnA looks like this:
+
+![1112]
+
+The nodeType support also other properties which are provided by mixins
+
+#### Definition
+This node type is defined as follows:
+```cnd
+[game4nt:qna] > jnt:content, game4mix:showInTree, game4mix:usesResultAsJExpProperty, game4mix:quizChild, wdenmix:mediaReference, mix:title
+ - game4:question (string) mandatory internationalized
+ - game4:help (string) internationalized
+ - game4:answers (string) mandatory multiple internationalized
+ - game4:randomSelection (boolean) = false autocreated indexed=no
+ - game4:notUsedForScore (boolean) indexed=no
+```
+
+`game4nt:qna` extends 1 supertype:
+1. `jnt:content` meaning the node type is a content node type.
+
+`game4nt:warmup` is extended by 4 mixins:
+1. `game4mix:showInTree` meaning the node is visible in the jContent tree.
+2. `game4mix:quizChild` meaning the node can be child of a Quiz.
+3. `game4mix:usesResultAsJExpProperty` meaning the contributor can select a video from Widen, jContent
+   or copy past an external URL. The contributor can also select a background for the Warmup 'slide'.
+4. `wdenmix:mediaReference` meaning the contributor can select a background for the Quiz 'slide' coming
+   from jContent Media repository or from Widen Dam if the contributor has a licence with them,
+see the [wdenmix:mediaReference](#wdenmixmediareference) section.
+5. `mix:title` meaning the contributor will have a **title** property which will be automatically
+   sync with the System name field, see the [mix:title](#mixtitle) section.
+
+#### Mixins
+##### game4mix:usesResultAsJExpProperty
+This mixin adds the sections **STORE RESULT IN USER PROFILE** in the QnA
+edit form as presented in the following images.
+
+<img src="./doc/images/301_qnajExp.png" width="650px"/>
+
+This mixin is defined in the [core component][core_cnd]:
+```cnd
+[game4mix:usesResultAsJExpProperty] mixin
+ - game4:jExpCard (string, choicelist[jExpProfileCardsInitializer,resourceBundle]) indexed=no
+ - game4:jExpProperty (string, choicelist[jExpProfilePropertiesInitializer,dependentProperties='game4:jExpCard',resourceBundle]) indexed=no
+```
+This mixin adds to the nodeType using it two properties with a `choiceList selectorType`.
+
+There is a dependency between the value selected in `game4:jExpCard` and the values displayed
+in the choiceList of `game4:jExpProperty`.
+
+Indeed, only the properties of the cards are displayed in the property selector.
+These choiceLists are populated by custom initializers, respectively [jExpProfileCardsInitializer]
+and [jExpProfilePropertiesInitializer].
+
+The values are the same as the ones configured in the jExperience Profile Properties Manager.
+
+<img src="./doc/images/302_qnaJExpCard.png" width="650px"/>
+
+### game4nt:quizReference
+This nodeType is used to create a Quiz reference in the Page Composer interface.
+
+<img src="./doc/images/050_quiz.png" width="650px"/>
+
+#### Definition
+This node type is defined as follows:
+```cnd
+[game4nt:quizReference] > jnt:content,jmix:nodeReference, game4mix:components
+ - j:node (weakreference) < 'game4nt:quiz'
+```
+`game4nt:quizReference` extends 1 supertypes:
+1. `jnt:content` meaning the node type is a content node type.
+
+`game4nt:quizReference` is extended by 2 mixins:
+1. `game4mix:components` meaning the node type appears in the **Game Center** menu entry.
+This mixin is defined in the core module (see the core [defnition.cnd][core_cnd]).
+2. `jmix:nodeReference` meaning the node is like a *wrapper* used to reference a Quiz node.
+This mixin provides a default attribute `j:node` used to store the path of the referenced node.
+
+>In this definition, the property `j:node` is overwritten. Indeed, we want to restrict the allowed
+> node type to be picked to the node type `game4nt:quiz`.
 
 ### The Custom selectorType QnAJson.jsx
 ### The drools rule
@@ -404,6 +653,11 @@ Thus, the view can be divided in three parts :
 [014]: ./doc/images/014_widenOnSelected.png
 
 [020]: ./doc/images/020_webAppConfig.png
+
+[100]: ./doc/images/100_quizHome.png
+[120]: ./doc/images/120_warmup.png
+[1112]: ./doc/images/111_qnaAnswered2.png
+[501]: ./doc/images/501_viewContent.png
 
 [overview.md]: ../README.md
 [definitions.cnd]: ./src/main/resources/META-INF/definitions.cnd
@@ -426,6 +680,10 @@ Thus, the view can be divided in three parts :
 
 [s_marketingFormRef]: ./src/main/resources/META-INF/jahia-content-editor-forms/fieldsets/game4mix_marketingFormReference.json
 [s_mktoForm]:./src/main/resources/META-INF/jahia-content-editor-forms/fieldsets/game4mix_mktoForm.json
+[s_multiMediaReference]: ./src/main/resources/META-INF/jahia-content-editor-forms/fieldsets/game4mix_multiMediaReference.json
+
+[jExpProfileCardsInitializer]: ../game-4-jcustomer-core/src/main/java/org/jahia/se/modules/game/quiz/initializers/jExperience/JExpProfileCardsInitializer.java
+[jExpProfilePropertiesInitializer]: ../game-4-jcustomer-core/src/main/java/org/jahia/se/modules/game/quiz/initializers/jExperience/JExpProfilePropertiesInitializer.java
 
 [quiz_default]: ./src/main/resources/game4nt_quiz/html/quiz.jsp
 [quiz_content]: ./src/main/resources/game4nt_quiz/html/quiz.content.jsp
