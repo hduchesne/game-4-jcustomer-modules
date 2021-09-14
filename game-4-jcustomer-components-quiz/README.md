@@ -70,7 +70,7 @@ backend.
 The main goal of this module is to create Quizzes and a quiz (`game4nt:quiz`) has two types of children:
 1. Warmup (`game4nt:warmup`) used to introduce a set of QnA. A warmup can display a text or a video to provide information
  or to introduce the context of coming questions.
-2. QnA (`game4nt:qna`) used to ask a question and to display a set of response.
+2. QnA (`game4nt:qna`) used to ask a question and to display a set of responses.
 
 The hierarchy between the mixins and node types is presented in the schema below:
 
