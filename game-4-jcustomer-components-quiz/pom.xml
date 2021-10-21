@@ -68,7 +68,7 @@
           <instructions>
             <_dsannotations>org.jahia.se.modules.game.quiz.rules.*</_dsannotations>
 <!--            <Export-Package>org.jahia.modules.bootstrap4</Export-Package>-->
-            <Jahia-Static-Resources>/css,/fonts,/javascript</Jahia-Static-Resources>
+            <Jahia-Static-Resources>/css,/fonts,/javascript,/icons</Jahia-Static-Resources>
           </instructions>
         </configuration>
       </plugin>
