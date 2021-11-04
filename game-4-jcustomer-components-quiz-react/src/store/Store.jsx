@@ -178,7 +178,7 @@ const reducer = (state, action) => {
 
             console.debug("[STORE] SHOW_RESULT - currentResult: ", currentResult);
 
-            const resultSet = [...state.resultSet, currentResult];
+            const resultSet = currentResult !== null ? [...state.resultSet, currentResult]:[...state.resultSet];
             const {quiz} = state;
             let {score,currentSlide:nextSlide} = state;
 

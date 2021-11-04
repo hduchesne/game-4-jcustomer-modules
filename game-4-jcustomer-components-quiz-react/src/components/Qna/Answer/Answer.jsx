@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
             "&.checked":{
                 backgroundColor: theme.palette.background.checkedAnswer,
                 borderRadius: theme.geometry.checkedAnswer.borderRadius,
-                "& .MuiTypography-body1":{
+                "& [class*=\"-MuiTypography-body1\"]":{
                     color: theme.palette.grey[900],
                 },
                 "& + div::before":{

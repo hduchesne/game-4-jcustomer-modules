@@ -192,7 +192,7 @@ const Qna = (props) => {
             case:"SHOW_RESULT",
             payload:{
                 skipScore:qna.notUsedForScore,
-                result: qna.answers
+                result: qna.notUsedForScore ? null : qna.answers
                     .filter(answer => answer.isAnswer)
                     .reduce( (test,answer) => test && answer.checked,true)
             }
