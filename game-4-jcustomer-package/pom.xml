@@ -10,7 +10,7 @@
     </parent>
     <artifactId>game-experience-package</artifactId>
     <name>Jahia Gamification Experience Package</name>
-    <version>1.0.8.1</version>
+    <version>1.0.8.2</version>
     <description>This project package game-4-jcustomer modules: including core and Quiz modules</description>
     <packaging>pom</packaging>
     <properties>
