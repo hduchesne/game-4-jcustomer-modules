@@ -16,7 +16,7 @@
     <properties>
         <jahia.package.assembly.file>src/main/assembly/dependencies.xml</jahia.package.assembly.file>
         <jahia.package.sources.assembly.file>src/main/assembly/dependencies-sources.xml</jahia.package.sources.assembly.file>
-        <jahia.final.package.name>Gamification Experience</jahia.final.package.name>
+        <jahia.final.package.name>GamificationExperience</jahia.final.package.name>
         <jahia.manifest.package.id>game-experience-package</jahia.manifest.package.id>
         <jahia.manifest.description>game-4-jcustomer-core, game-4-jcustomer-components-quiz</jahia.manifest.description>
         <jahia.manifest.license>org.jahia.core</jahia.manifest.license>
