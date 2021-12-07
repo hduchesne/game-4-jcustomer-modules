@@ -59,6 +59,7 @@
 <!--    </script>-->
 
     <script>
+      const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJodHRwOi8vamFoaWEuY29tIiwic3ViIjoiYXBpIHZlcmlmaWNhdGlvbiIsImlzcyI6ImR4Iiwic2NvcGVzIjpbImdhbWU0UXVpeiJdLCJpYXQiOjE2MjAwMzY2MjIsImp0aSI6IjAxZjA4ODU4LTI0ODgtNDIzMy1iYWM2LTI3ZWQ0MzBhYjFjMCJ9.kgQy5hZwnDqOrGwn8afRHxlf3nMPpKUrOJZurSbc0dk';
       //Default value for commented keys in context can be defined in .env
       const context_2={
         // host,
@@ -66,7 +67,7 @@
         scope:"myFashionBlog",//site key
         // files_endpoint:`${host}/files/${workspace}`,
         // gql_endpoint:`${host}/modules/graphql`,
-        gql_authorization:"Basic cm9vdDpyb290",//`Bearer ${token}`,
+        gql_authorization: `Bearer ${token}`,//"Basic cm9vdDpyb290",//`Bearer ${token}`,
         gql_variables:{
           // workspace:"default",
           // id:"f3fb9760-d16a-48c3-9e98-fc0be023d5e6",
@@ -75,7 +76,8 @@
           // id:"7e80a32d-3384-4121-a66c-61e94b778a79",
           // id:"6dc374d1-2f4f-4130-a135-e7fd20ef2622",
           // id:"0fb58a65-1184-4156-8351-45fa2513a1a4", //Terminator
-          id:"8c9ce479-1457-4d81-993e-9fd4205ebeeb",//EV quiz
+          // id:"8c9ce479-1457-4d81-993e-9fd4205ebeeb",//EV quiz
+          id:"4160fb43-d673-4d20-8762-b974f6ed97ed", //EV quiz PoC s3
           language: "en",
           // language: "fr",
         },
