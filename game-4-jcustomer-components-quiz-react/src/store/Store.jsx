@@ -43,11 +43,16 @@ const reducer = (state, action) => {
         const answers = resultSet.length;
         const score = Math.floor((goodAnswers/answers)*100);
 
-        syncQuizScore({
-            quizKey,//:state.quiz.key,
-            split,//:state.jContent.score_splitPattern,
-            quizScore:score
-        });
+        //wait 1s before to call jExp in order to have time to synch user profile with answer
+        setTimeout(
+            () => syncQuizScore({
+                quizKey,//:state.quiz.key,
+                split,//:state.jContent.score_splitPattern,
+                quizScore:score
+            }),
+            1000
+        );
+
 
         return score;
     }

@@ -20,6 +20,21 @@
                                  jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="Game4Quiz"/>
+               <j:translation_fr jcr:language="fr"
+                                 jcr:primaryType="jnt:translation"
+                                 jcr:title="quiz"/>
+               <j:translation_es jcr:language="es"
+                                 jcr:primaryType="jnt:translation"
+                                 jcr:title="quiz"/>
+               <j:translation_de_DE jcr:language="de_DE"
+                                    jcr:primaryType="jnt:translation"
+                                    jcr:title="quiz"/>
+               <j:translation_it jcr:language="it"
+                                 jcr:primaryType="jnt:translation"
+                                 jcr:title="quiz"/>
+               <j:translation_pt jcr:language="pt"
+                                 jcr:primaryType="jnt:translation"
+                                 jcr:title="questionário"/>
                <pagecontent jcr:primaryType="jnt:contentList">
                   <header-1 jcr:primaryType="jnt:area"/>
                   <main-resource-display j:mainResourceView="react" jcr:primaryType="jnt:mainResourceDisplay"/>
