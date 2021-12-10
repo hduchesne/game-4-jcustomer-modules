@@ -6,12 +6,18 @@ game4Quiz:
 #    - always: true
     - origin: http://localhost:3000
 #    - origin: hosted
-#    - origin: http://localhost:3000
   grants:
     - api:
         include: graphql
+        node:
+          pathPattern: jcr,/,/sites/[^/]+/.*
+          nodeType: game4nt:quiz,game4nt:warmup,game4nt:qna,game4mix:quizChild,wemnt:consentType,wemnt:personalizedContent,wdenmix:widenAsset,jnt:file,jnt:contentReference,jnt:translation,jnt:bigText
+
 #      node: none
 #    - api: graphql.Query.jcr,graphql.JCRQuery.nodeById,graphql.JCRProperty,graphql.JCRNodeConnection,graphql.JCRNodeType,graphql.JCRNode
+#      node:
+#        pathPattern: jcr,/,/sites/[^/]+/.*
+#        nodeType: game4nt:quiz,game4nt:warmup,game4nt:qna,game4mix:quizChild,wemnt:consentType,wemnt:personalizedContent,wdenmix:widenAsset,jnt:file,jnt:contentReference,jnt:translation,jnt:bigText
 
 #    - api: graphql.Query.jcr
 #    - api: graphql.JCRQuery.nodeById
