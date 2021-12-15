@@ -14,24 +14,31 @@
                      jcr:mixinTypes="jmix:contributeMode"
                      jcr:primaryType="jnt:contentFolder">
                <j:translation_en jcr:language="en"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quizzes"/>
                <j:translation_de jcr:language="de"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_it jcr:language="it"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_fr jcr:language="fr"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_es jcr:language="es"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_de_DE jcr:language="de_DE"
+                                    jcr:mixinTypes="mix:title"
                                     jcr:primaryType="jnt:translation"
                                     jcr:title="quiz"/>
                <j:translation_pt jcr:language="pt"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="questionário"/>
             </quizzes>
@@ -48,22 +55,33 @@
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="Game4Quiz"/>
                <j:translation_fr jcr:language="fr"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_es jcr:language="es"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_de_DE jcr:language="de_DE"
+                                    jcr:mixinTypes="mix:title"
                                     jcr:primaryType="jnt:translation"
                                     jcr:title="quiz"/>
                <j:translation_it jcr:language="it"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="quiz"/>
                <j:translation_pt jcr:language="pt"
+                                 jcr:mixinTypes="mix:title"
                                  jcr:primaryType="jnt:translation"
                                  jcr:title="questionário"/>
                <pagecontent jcr:primaryType="jnt:contentList">
-                  <header-1 jcr:primaryType="jnt:area"/>
+                  <header-1 jcr:primaryType="jnt:area">
+                     <header-1 jcr:mixinTypes="jmix:systemNameReadonly"
+                               jcr:primaryType="jnt:contentList">
+                        <quizheading j:bindedComponent="#/modules/game-4-jcustomer-components-quiz/templates/game4quiz/pagecontent/main-resource-display"
+                                     jcr:primaryType="game4nt:quizHeading"/>
+                     </header-1>
+                  </header-1>
                   <main-resource-display j:mainResourceView="react" jcr:primaryType="jnt:mainResourceDisplay"/>
                </pagecontent>
             </game4quiz>
