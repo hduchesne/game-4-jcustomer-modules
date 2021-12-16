@@ -45,7 +45,8 @@ const syncQuizScore = ({quizKey,split,quizScore}) =>
     uTracker.track("setQuizScore",{
         update : {
             [`properties.quiz-score-${quizKey}`]:quizScore
-        }
+        },
+        quizKey:quizKey
     });
 
 
