@@ -1,0 +1,8 @@
+{{#if quizScore}}
+<div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: {{quizScore}}%" aria-valuenow="{{quizScore}}" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="mt-3"> <span class="text1">{{quizScore}} <span class="text2">/100</span></span> </div>
+{{else}}
+<p><a class="btn btn-primary btn-sm px-3 py-2" href="{{quizURL}}">{{quizStartBtnLabel}}</a></p>
+{{/if}}
