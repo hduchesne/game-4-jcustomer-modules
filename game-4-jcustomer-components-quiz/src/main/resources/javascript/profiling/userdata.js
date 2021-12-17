@@ -1,54 +1,85 @@
-// const USER_DATA_KEY = "wemUserData";
+const _getQuizScore = ({quiz,labelBtnStart}) =>{
+    const {
+        key,
+        scorePropertyName,
+        url,
+        question,
+        elemtId,
+        language
+    }=quiz;
 
-//this loads the profile from unomi
-const loadProfile = (completed) => {
-    // if(window.cxs === undefined) return;
-
-    const url = `${window.digitalData.contextServerPublicUrl}/context.json`;
-    // const url = window.digitalData.contextServerPublicUrl + '/context.json?sessionId=' + window.cxs.sessionId;
+    const fetchURL = window.digitalData.wemInitConfig.proxyServletUrl+'/cxs/events/search';
     const payload = {
-        source: {
-            itemId: window.digitalData.page.pageInfo.pageID,
-            itemType:"page",
-            scope: window.digitalData.scope
+        offset : 0,
+        limit : 1,
+        condition : {
+            type: "booleanCondition",
+            parameterValues: {
+                subConditions: [
+                    {
+                        type: "eventTypeCondition",
+                        parameterValues : {
+                            eventTypeId: "setQuizScore"
+                        }
+                    },
+                    {
+                        type: "eventPropertyCondition",
+                        parameterValues: {
+                            propertyName: "properties.quizKey",
+                            comparisonOperator: "equals",
+                            propertyValue: key
+                        }
+                    },
+                    {
+                        type: "eventPropertyCondition",
+                        parameterValues: {
+                            propertyName: "profileId",
+                            comparisonOperator: "equals",
+                            propertyValue: window.cxs.profileId
+                        }
+                    }
+                ],
+                operator: "and"
+            }
         },
-        requiredProfileProperties:["*"],
-        // requiredSessionProperties:["*"],
-        // requireSegments:true
+        sortby: "timeStamp:desc"
     };
-
-    fetch(url, {
+    fetch(fetchURL, {
         method: 'POST',
         headers: {
             'Accept': "application/json",
-            'Content-Type': "text/plain;charset=UTF-8"
+            'Content-Type': "application/json;charset=UTF-8"
         },
         credentials: 'include',
         body: JSON.stringify(payload)
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            // if(completed)
-            //     completed(data);
+    }).then(
+        response => response.json()
+    ).then( data => {
+        let templateData = {
+            quizQuestion:question,
+            quizURL:url,
+            quizStartBtnLabel:labelBtnStart
+        }
+        if(data.list.length === 1){
+            templateData = data.list.reduce((templateData,item) => {
+                templateData.quizScore = item.properties.update[`properties.${scorePropertyName}`];
+                const quizReleaseDate = new Date(item.timeStamp);
+                // const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const dateOptions = {
+                    year: '2-digit', month: '2-digit', day: '2-digit',
+                    hour:'2-digit', minute: '2-digit', second: '2-digit'};
+                templateData.quizReleaseDate = quizReleaseDate.toLocaleDateString(language,dateOptions);
+                return templateData;
+            },{...templateData});
+        }
 
-            //add the user data to window
-            // window[USER_DATA_KEY]=data;
+        const elemt = document.getElementById(elemtId);
+        const template = Handlebars.templates.quizScore;
+        elemt.innerHTML=template(templateData);
 
-            //notify any subscribers that the user data has been loaded
-            const elemts = [...document.getElementsByClassName("quiz-score-loaded-subscriber")];
-            elemts.forEach(elemt =>
-                elemt.dispatchEvent(
-                    new CustomEvent(
-                        'quizDataLoaded',
-                        {
-                            bubbles: true,
-                            detail:data
-                        }
-                    )
-                )
-            )
-        });
+    }).catch(e=>{
+        console.error("oups ! ",e)
+
+    });
+    return true;
 }
-window.addEventListener("DOMContentLoaded", (event) => {
-    loadProfile();
-})
