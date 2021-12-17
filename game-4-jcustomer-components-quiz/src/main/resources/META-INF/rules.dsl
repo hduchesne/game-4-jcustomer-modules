@@ -1,1 +1,0 @@
-[consequence][]Quiz score as jCustomer property from property=scoreAsUserProperty.executeActionNow(property);

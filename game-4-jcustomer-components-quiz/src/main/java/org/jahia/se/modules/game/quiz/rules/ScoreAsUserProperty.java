@@ -4,10 +4,11 @@ import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
+import org.jahia.services.content.JCRNodeWrapper;
 import org.jahia.services.content.decorator.JCRSiteNode;
 
 
-import org.jahia.services.content.rules.ChangedPropertyFact;
+import org.jahia.services.content.rules.BackgroundAction;
 import org.jahia.modules.jexperience.admin.ContextServerService;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,13 +23,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
-@Component(service = ScoreAsUserProperty.class, immediate = true)
-public class ScoreAsUserProperty {
+@Component(service = BackgroundAction.class, immediate = true)
+public class ScoreAsUserProperty implements BackgroundAction {
     private static final Logger logger = LoggerFactory.getLogger(ScoreAsUserProperty.class);
     private static final String PROPERTIES_PATH= "/cxs/profiles/properties";
-    private static final String PROPERTIES_ID= "quiz-score-";
+    private static final String PROPERTY_PREFIX_ID= "quiz-score-";
+    private static final String PROPERTY_NAME= "game4:quizKey";
 
-    private String key="scoreAsUserProperty";
     private ContextServerService contextServerService;
 
     @Reference(service=ContextServerService.class)
@@ -36,25 +37,26 @@ public class ScoreAsUserProperty {
         this.contextServerService = contextServerService;
     }
 
-    public void executeActionNow(ChangedPropertyFact propertyFact) throws RepositoryException {
-
-        String jExpPropertyId = propertyFact.getValue().toString();
-        String testPath = PROPERTIES_PATH+"/"+PROPERTIES_ID+jExpPropertyId;
-        JCRSiteNode site = propertyFact.getNode().getNode().getResolveSite();
-
-        logger.info("**** jExpPropertyId : "+jExpPropertyId);
-
-        String item = getItem(contextServerService,site,testPath);
-//        if(StringUtils.isNotBlank(item)) {
-//            logger.info("This item is already registered on Apache Unomi, id is {} and path is {}", jExpPropertyId, path);
-//        }else{
-//            item = registerItem(contextServerService, site, path);
-//        }
-        if(item=="")
-            item = registerItem(contextServerService, site, PROPERTIES_PATH, jExpPropertyId);
-
+    @Override
+    public String getName() {
+        return "scoreAsUserProperty";
     }
 
+    @Override
+    public void executeBackgroundAction(JCRNodeWrapper jcrNodeWrapper) {
+
+        String jExpPropertyId = jcrNodeWrapper.getPropertyAsString(PROPERTY_NAME);
+        String testPath = PROPERTIES_PATH+"/"+PROPERTY_PREFIX_ID+jExpPropertyId;
+        try {
+            JCRSiteNode site = jcrNodeWrapper.getResolveSite();
+
+            String item = getItem(contextServerService,site,testPath);
+            if(item=="")
+                item = registerItem(contextServerService, site, PROPERTIES_PATH, jExpPropertyId);
+        } catch (RepositoryException e) {
+            logger.error("",e);
+        }
+    }
 
     private static String getItem(ContextServerService contextServerService, JCRSiteNode site, String path){
         String responseString = "";
@@ -93,7 +95,7 @@ public class ScoreAsUserProperty {
             JSONObject metadata = new JSONObject();
             JSONArray systemTags = new JSONArray("[\"hasCardDataTag\",\"cardDataTag/_game4Quiz/20.1/Game4Quiz\",\"positionInCard.2\"]");
 
-            metadata.put("id",PROPERTIES_ID+jExpPropertyId);
+            metadata.put("id",PROPERTY_PREFIX_ID+jExpPropertyId);
             metadata.put("name","Quiz Score "+jExpPropertyId);
             metadata.put("readOnly",false);
             metadata.put("systemTags",systemTags);
@@ -125,7 +127,6 @@ public class ScoreAsUserProperty {
             } catch (IOException | ExecutionException | InterruptedException e) {
                 logger.error("Error happened", e);
             }
-
         }catch (JSONException e){
             logger.error("JSON builder failed : ",e);
         }

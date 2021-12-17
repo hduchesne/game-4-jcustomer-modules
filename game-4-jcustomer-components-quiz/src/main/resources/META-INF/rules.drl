@@ -4,8 +4,6 @@ package org.jahia.se.modules.games4jcustomer.componentsquiz.rules
 import org.jahia.services.content.rules.*
 import org.jahia.services.content.JCRContentUtils
 import org.slf4j.Logger
-import org.jahia.se.modules.game.quiz.rules.ScoreAsUserProperty
-
 //expander rules.dsl
 
 // declare any global variables here
@@ -13,14 +11,13 @@ global User user
 global Service service
 global Logger logger
 global JCRContentUtils jcrUtils
-global ScoreAsUserProperty scoreAsUserProperty
 
 rule "Create Remove user profile attribute"
     when
         A property game4:quizKey has been set on a node
         - the node has the type game4nt:quiz
     then
-        Quiz score as jCustomer property from property
+        Execute the action "scoreAsUserProperty" now on the node
 end
 
 //rule "Enable default quiz label"
