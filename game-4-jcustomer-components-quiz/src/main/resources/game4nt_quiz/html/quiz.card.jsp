@@ -5,9 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
 
-<template:addResources type="javascript" resources="profiling/vendor/handlebars.runtime.min.js"/>
-<template:addResources type="javascript" resources="profiling/templates/quizScore.precompiled.js"/>
-<template:addResources type="javascript" resources="profiling/userdata.js"/>
 <template:addResources type="css" resources="cards.css" />
 
 <c:set var="language" value="${currentResource.locale.language}"/>
@@ -18,6 +15,12 @@
 <c:set var="quizElemtId" value="quiz-${quizKey}"/>
 <c:set var="quizScorePropertyName" value="quiz-score-${quizKey}"/>
 <c:url var="quiz" value="${currentNode.url}"/>
+
+<c:set var="persoResultNode" value="${currentNode.properties['game4:personalizedResultContent'].node}"/>
+<c:set var="quizReset" value="${currentNode.properties['game4:reset'].boolean}"/>
+<c:if test="${empty quizReset}" >
+    <c:set var="quizReset" value="false"/>
+</c:if>
 
 <c:set var="imageNode" value="${currentNode.properties['wden:mediaNode'].node}"/>
 <c:choose>
@@ -33,29 +36,38 @@
     </c:otherwise>
 </c:choose>
 
-<script>
-    window.addEventListener("DOMContentLoaded", () => {
-        const loadQuizScore = (completed) =>{
-            if(window.cxs === undefined)
-                return;
+<c:if test="${!renderContext.editMode && empty persoResultNode}" >
+    <template:addResources type="javascript" resources="profiling/vendor/handlebars.runtime.min.js"/>
+    <template:addResources type="javascript" resources="profiling/templates/quizScore.precompiled.js"/>
+    <template:addResources type="javascript" resources="profiling/userdata.js"/>
 
-            completed(_getQuizScore({
-                labelBtnStart:'<fmt:message key="label.game4_btnStart"/>',
-                quiz:{
-                    key:'${quizKey}',
-                    scorePropertyName:'${quizScorePropertyName}',
-                    url:'${quiz}',
-                    question:'${quizQuestion}',
-                    elemtId:'${quizElemtId}',
-                    language:'${language}'
-                }
-            }));
-        }
-        const interval = setInterval(loadQuizScore, 500, (result) => {
-            clearInterval(interval);
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const loadQuizScore = (completed) =>{
+                if(window.cxs === undefined)
+                    return;
+
+                completed(_getQuizScore({
+                    labelBtnStart:'<fmt:message key="label.game4_btnStart"/>',
+                    labelBtnTryAgain:'<fmt:message key="label.game4_btnTryAgain"/>',
+                    quiz:{
+                        key:'${quizKey}',
+                        scorePropertyName:'${quizScorePropertyName}',
+                        url:'${quiz}',
+                        question:'${quizQuestion}',
+                        elemtId:'${quizElemtId}',
+                        language:'${language}',
+                        reset:${quizReset}
+                    }
+                }));
+            }
+            const interval = setInterval(loadQuizScore, 500, (result) => {
+                clearInterval(interval);
+            });
         });
-    });
-</script>
+    </script>
+</c:if>
+
 <div class="col-md-4">
     <div class="card text-white card-has-bg click-col" style="background-image:url('${imageURL}');">
         <div class="card-img-overlay d-flex flex-column quiz" id="${quizElemtId}">
@@ -63,9 +75,30 @@
                 <small class="card-meta mb-2">Quiz</small>
                 <h4 class="card-title mt-0 text-white">${quizQuestion}</h4>
 <%--                <small><i class="far fa-clock"></i>...</small>--%>
+                    <c:if test="${!empty persoResultNode}" >
+                        <c:choose>
+                            <c:when test="${renderContext.editMode}">
+                                <fmt:message key="label.persoResultNodeVisibleInPreview"/>...
+                            </c:when>
+                            <c:otherwise>
+                                <template:module node="${persoResultNode}" editable="false"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
             </div>
             <div class="card-footer">
-                <fmt:message key="label.game4_scoreCalculationInProgress"/>...
+            <c:choose>
+                <c:when test="${empty persoResultNode}">
+                    <fmt:message key="label.game4_scoreCalculationInProgress"/>...
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${quizReset}" >
+                        <p><a class="btn btn-primary btn-block px-3 py-2" href="${quiz}">
+                            <fmt:message key="label.game4_btnTryAgain"/>
+                        </a></p>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
             </div>
         </div>
     </div>

@@ -1,11 +1,12 @@
-const _getQuizScore = ({quiz,labelBtnStart}) =>{
+const _getQuizScore = ({quiz,labelBtnStart,labelBtnTryAgain}) =>{
     const {
         key,
         scorePropertyName,
         url,
         question,
         elemtId,
-        language
+        language,
+        reset
     }=quiz;
 
     const fetchURL = window.digitalData.wemInitConfig.proxyServletUrl+'/cxs/events/search';
@@ -58,11 +59,13 @@ const _getQuizScore = ({quiz,labelBtnStart}) =>{
         let templateData = {
             quizQuestion:question,
             quizURL:url,
-            quizStartBtnLabel:labelBtnStart
+            quizStartBtnLabel:labelBtnStart,
+            quizResetBtnLabel:labelBtnTryAgain
         }
         if(data.list.length === 1){
             templateData = data.list.reduce((templateData,item) => {
                 templateData.quizScore = item.properties.update[`properties.${scorePropertyName}`];
+                templateData.quizReset = reset;
                 const quizReleaseDate = new Date(item.timeStamp);
                 // const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 const dateOptions = {

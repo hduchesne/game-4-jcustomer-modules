@@ -6,6 +6,9 @@
     {{/if}}
 </div>
 <div class="card-footer">
+    {{#if quizReset}}
+    <p><a class="btn btn-primary btn-block px-3 py-2" href="{{quizURL}}">{{quizResetBtnLabel}}</a></p>
+    {{/if}}
     {{#if quizScore}}
     <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: {{quizScore}}%"
