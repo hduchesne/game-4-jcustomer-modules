@@ -76,7 +76,13 @@ export const GET_QUIZ = gql`
                         }
                     }
                 }
-                children{
+                children(propertiesFilter:{
+                    filters:[{
+                        property:"j:published",
+                        value:"true",
+                        evaluation:EQUAL
+                    }]
+                }){
                     nodes {
                         id: uuid
                         type: primaryNodeType{

@@ -60,10 +60,12 @@ const _getQuizScore = ({quiz,labelBtnStart,labelBtnTryAgain}) =>{
             quizQuestion:question,
             quizURL:url,
             quizStartBtnLabel:labelBtnStart,
-            quizResetBtnLabel:labelBtnTryAgain
+            quizResetBtnLabel:labelBtnTryAgain,
+            quizHasScore:false
         }
         if(data.list.length === 1){
             templateData = data.list.reduce((templateData,item) => {
+                templateData.quizHasScore=true;
                 templateData.quizScore = item.properties.update[`properties.${scorePropertyName}`];
                 templateData.quizReset = reset;
                 const quizReleaseDate = new Date(item.timeStamp);

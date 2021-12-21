@@ -9,7 +9,7 @@
     {{#if quizReset}}
     <p><a class="btn btn-primary btn-block px-3 py-2" href="{{quizURL}}">{{quizResetBtnLabel}}</a></p>
     {{/if}}
-    {{#if quizScore}}
+    {{#if quizHasScore}}
     <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: {{quizScore}}%"
             aria-valuenow="{{quizScore}}" aria-valuemin="0" aria-valuemax="100"></div>

@@ -39,18 +39,22 @@ const reducer = (state, action) => {
         slideSet.indexOf(slide) < max;
 
     const getScore = ({resultSet,quizKey,split}) =>{
-        const goodAnswers = resultSet.filter(result => result).length;
-        const answers = resultSet.length;
-        const score = Math.floor((goodAnswers/answers)*100);
 
-        //wait 1s before to call jExp in order to have time to synch user profile with answer
+        let score = 100;
+        if( resultSet.length>0){
+            const goodAnswers = resultSet.filter(result => result).length;
+            const answers = resultSet.length;
+            score = Math.floor((goodAnswers/answers)*100);
+        }
+
+        //wait 500ms before to call jExp in order to have time to synch user profile with answer
         setTimeout(
             () => syncQuizScore({
                 quizKey,//:state.quiz.key,
                 split,//:state.jContent.score_splitPattern,
                 quizScore:score
             }),
-            1000
+            500
         );
 
 
@@ -141,7 +145,7 @@ const reducer = (state, action) => {
             const {quiz} = state;
             let {score} = state;
 
-            if(!quiz.personalizedResult || !quiz.personalizedResult.id)
+            // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
                 score = getScore({
                     resultSet:state.resultSet,
                     quizKey:state.quiz.key,
@@ -189,7 +193,7 @@ const reducer = (state, action) => {
 
             if(skipScore) {
                 if(showScore){
-                    if(!quiz.personalizedResult || !quiz.personalizedResult.id)
+                    // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
                             score = getScore({
                             resultSet: resultSet,
                             quizKey: state.quiz.key,
