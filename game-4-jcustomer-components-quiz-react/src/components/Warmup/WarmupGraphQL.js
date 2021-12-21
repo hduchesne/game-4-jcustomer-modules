@@ -48,7 +48,13 @@ export const GET_WARMUP = gql`
                         path
                     }
                 }
-                children{
+                children(propertiesFilter:{
+                    filters:[{
+                        property:"j:published",
+                        value:"true",
+                        evaluation:EQUAL
+                    }]
+                }){
                     nodes {
                         id: uuid
                         type: primaryNodeType{
