@@ -4,9 +4,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
+<%@ taglib prefix="qjexp" uri="http://www.jahia.org/qjexp" %>
 
 <template:addResources type="css" resources="cards.css" />
-
+<c:set var="site" value="${renderContext.site.siteKey}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
 <c:set var="title" value="${fn:escapeXml(currentNode.displayableName)}"/>
 <c:set var="subtitle" value="${fn:escapeXml(currentNode.properties['game4:subtitle'])}"/>
@@ -35,6 +36,9 @@
         <c:url var="imageURL" value="${imageNode.url}"/>
     </c:otherwise>
 </c:choose>
+
+<c:set var="quizEventProps" value="${qjexp:searchQuizScore(request,site,quizKey,quizScorePropertyName,language)}"/>
+
 
 <c:if test="${!renderContext.editMode && empty persoResultNode}" >
     <template:addResources type="javascript" resources="profiling/vendor/handlebars.runtime.min.js"/>
@@ -74,7 +78,8 @@
             <div class="card-body">
                 <small class="card-meta mb-2">Quiz</small>
                 <h4 class="card-title mt-0 text-white">${quizQuestion}</h4>
-<%--                <small><i class="far fa-clock"></i>...</small>--%>
+                ${quizEventProps["quizScore"]}
+                <small><i class="far fa-clock"></i>${quizEventProps["quizReleaseDate"]}</small>
                     <c:if test="${!empty persoResultNode}" >
                         <c:choose>
                             <c:when test="${renderContext.editMode}">
