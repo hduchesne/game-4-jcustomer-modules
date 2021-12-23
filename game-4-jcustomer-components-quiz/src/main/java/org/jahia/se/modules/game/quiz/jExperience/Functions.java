@@ -11,9 +11,14 @@ import org.json.JSONObject;
 
 import org.jahia.modules.jexperience.admin.ContextServerService;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -31,14 +36,14 @@ public final class Functions {
     public static Map<String, String> searchQuizScoreEvent (HttpServletRequest request, String siteKey, String quizKey, String scorePropertyName, String locale) {
         ContextServerService contextServerService = BundleUtils.getOsgiService(ContextServerService.class,null);
         String profileId = contextServerService.getProfileId(request, siteKey);
-        Map<String, String> properties = null;
+        Map<String, String> properties = new HashMap<>();
         StringBuilder payloadJSONStringBuilder =
                 new StringBuilder("{\"offset\" : 0,\"limit\" : 1,\"sortby\": \"timeStamp:desc\",");
         payloadJSONStringBuilder.append("\"condition\" : { \"type\": \"booleanCondition\",\"parameterValues\": {");
         payloadJSONStringBuilder.append("\"operator\": \"and\",\"subConditions\": [");
         payloadJSONStringBuilder.append("{ \"type\": \"eventTypeCondition\",\"parameterValues\" : {\"eventTypeId\": \"setQuizScore\"} },");
-        payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"properties.quizKey\",\"comparisonOperator\": \"equals\",\"propertyValue\":"+quizKey+"} },");
-        payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"profileId\",\"comparisonOperator\": \"equals\",\"propertyValue\":"+profileId+"} }");
+        payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"properties.quizKey\",\"comparisonOperator\": \"equals\",\"propertyValue\":\""+quizKey+"\"} },");
+        payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"profileId\",\"comparisonOperator\": \"equals\",\"propertyValue\":\""+profileId+"\"} }");
         payloadJSONStringBuilder.append("]}}}");
 
         try {
@@ -80,10 +85,15 @@ public final class Functions {
                 if(eventList.length() == 1){
                     JSONObject event = eventList.getJSONObject(0);
                     String quizScore = event.getJSONObject("properties").getJSONObject("update").getString("properties."+scorePropertyName);
-                    String pattern = "YY MM dd HH:mm:ss";
-                    SimpleDateFormat simpleDateFormat =
-                            new SimpleDateFormat(pattern, new Locale(locale));
-                    String quizReleaseDate = simpleDateFormat.format(Date.from(Instant.parse(event.getString("timeStamp"))));
+//                    String pattern = "YY MM dd HH:mm:ss";
+//                    SimpleDateFormat simpleDateFormat =
+//                            new SimpleDateFormat(pattern, new Locale(locale));
+//                    String quizReleaseDate = simpleDateFormat.format(Date.from(Instant.parse(event.getString("timeStamp"))));
+//                    String quizReleaseDate = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).format(LocalDate.parse(event.getString("timeStamp")));
+                    DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale(locale));
+                    String quizReleaseDate = df.format(Date.from(Instant.parse(event.getString("timeStamp"))));
+
+
                     properties.put("quizScore",quizScore);
                     properties.put("quizReleaseDate",quizReleaseDate);
                 }

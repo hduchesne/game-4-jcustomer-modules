@@ -6,7 +6,7 @@
 <template:include view="hidden.header"/>
 
 <c:set var="isEmpty" value="true"/>
-<section class="section">
+<section class="">
     <div class="container">
         <div class="row">
             <c:forEach items="${moduleMap.currentList}" var="subchild" begin="${moduleMap.begin}" end="${moduleMap.end}">

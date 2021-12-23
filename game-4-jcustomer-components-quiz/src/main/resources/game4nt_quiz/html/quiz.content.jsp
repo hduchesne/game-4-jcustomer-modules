@@ -41,6 +41,7 @@
 <c:set var="description" value="${currentNode.properties['game4:description'].string}"/>
 
 <c:set var="imageNode" value="${currentNode.properties['wden:mediaNode'].node}"/>
+<template:addCacheDependency node="${imageNode}"/>
 <c:choose>
     <c:when test="${!empty imageNode && jcr:isNodeType(imageNode, 'wdenmix:widenAsset')}">
         <c:set var="imageURL" value="${imageNode.properties['wden:templatedUrl'].string}"/>
