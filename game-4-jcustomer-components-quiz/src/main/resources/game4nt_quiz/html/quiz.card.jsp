@@ -40,7 +40,7 @@
 
 <c:choose>
     <c:when test="${!empty persoResultNode}">
-        <template:include view="card.perso.hidden">
+        <template:include view="hidden.card.perso">
             <template:param name="quizQuestion" value="${quizQuestion}"/>
             <template:param name="imageURL" value="${imageURL}"/>
             <template:param name="quizReset" value="${quizReset}"/>
@@ -50,7 +50,7 @@
         </template:include>
     </c:when>
     <c:otherwise>
-        <template:include view="card.score.hidden">
+        <template:include view="hidden.card.score">
             <template:param name="quizQuestion" value="${quizQuestion}"/>
             <template:param name="imageURL" value="${imageURL}"/>
             <template:param name="quizReset" value="${quizReset}"/>
