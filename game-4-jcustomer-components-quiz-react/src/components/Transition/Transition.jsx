@@ -32,7 +32,7 @@ const Transition = (props) => {
     const useStyles = makeStyles(theme => ({
         loader: {
             position: 'absolute',
-            zIndex: '999',
+            zIndex: 5,//'999',
             top: 0,
             left: 0,
             bottom:0,

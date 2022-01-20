@@ -68,7 +68,7 @@ export default makeStyles((theme)=> ({
             paddingLeft:theme.geometry.caption.padding.xs,
             paddingBottom:theme.geometry.caption.padding.xs,
         },
-        zIndex: 10,
+        zIndex: 3,//10,
         textAlign: 'center',
 
         ".showResult &": {
