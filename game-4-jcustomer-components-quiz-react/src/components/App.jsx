@@ -68,15 +68,15 @@ const App = (props)=> {
     });
 
     React.useEffect(() => {
-        console.debug("App Quiz init !");
+        console.debug("[INIT] App Quiz");
         if(loading === false && data){
-            console.debug("App Quiz init Set Data!");
+            console.debug("[INIT] App Quiz Data");
 
             const quizData = get(data, "response.quiz", {});
             // const quizKey = get(quizData, "key.value");
 
             jContent.language_bundle = initLanguageBundle(quizData);
-            console.debug("jContent.language_bundle: ",jContent.language_bundle);
+            console.debug("[INIT] jContent.language_bundle: ",jContent.language_bundle);
 
             dispatch({
                 case:"DATA_READY",

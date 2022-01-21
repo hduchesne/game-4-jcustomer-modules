@@ -142,7 +142,7 @@ const reducer = (state, action) => {
         case "SHOW_SCORE": {
             console.debug("[STORE] SHOW_SCORE");
             const [slide] = state.slideSet.slice(-1);
-            const {quiz} = state;
+            // const {quiz} = state;
             let {score} = state;
 
             // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
@@ -188,7 +188,7 @@ const reducer = (state, action) => {
             console.debug("[STORE] SHOW_RESULT - currentResult: ", currentResult);
 
             const resultSet = currentResult !== null ? [...state.resultSet, currentResult]:[...state.resultSet];
-            const {quiz} = state;
+            // const {quiz} = state;
             let {score,currentSlide:nextSlide} = state;
 
             if(skipScore) {

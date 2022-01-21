@@ -115,7 +115,7 @@ function reducer(state, action) {
         case "DENIED_CONSENT":{
             const {consents} = state;
             const {id} = payload;
-            console.debug("[QUIZ] DENIED_CONSENT -> id :",id);
+            // console.debug("[QUIZ] DENIED_CONSENT -> id :",id);
 
             return{
                 ...state,
@@ -133,7 +133,7 @@ function reducer(state, action) {
         case "TOGGLE_CONSENT": {
             let {consents} = state;
             const {id} = payload;
-            console.debug("[QUIZ] TOGGLE_CONSENT -> id :",id);
+            // console.debug("[QUIZ] TOGGLE_CONSENT -> id :",id);
 
             consents = consents.map(consent => {
                 if(consent.id === id)
@@ -198,7 +198,7 @@ const Quiz = (props) => {
         init
     );
 
-    console.debug("*** paint quiz : ",quiz.title);
+    console.debug("[DISPLAY] quiz : ",quiz.title);
     const show = currentSlide === quiz.id;
 
     const onClick = () => {
@@ -224,7 +224,7 @@ const Quiz = (props) => {
 
     };
     const handleMktoFormSuccess = (values,targetPageUrl) =>{
-        console.debug("[handleMktoFormSuccess] values : ",values);
+        // console.debug("[handleMktoFormSuccess] values : ",values);
         manageTransition({
             state,
             dispatch,

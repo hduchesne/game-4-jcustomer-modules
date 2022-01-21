@@ -64,7 +64,7 @@ const reducer = (qna, action) => {
         case "DATA_READY": {
             // const {qnaData,quiz_validMark} = payload;
             const {qnaData} = payload;
-            console.debug("[QNA] DATA_READY -> qnaData :",qnaData);
+            console.debug("[STORE QNA] DATA_READY -> qnaData :",qnaData);
 
             return {
                 ...qna,
@@ -73,7 +73,7 @@ const reducer = (qna, action) => {
         }
         case "TOGGLE_ANSWER": {
             const {answer} = payload;//answer id
-            console.debug("[QNA] TOGGLE_ANSWER -> answer :",answer);
+            console.debug("[STORE QNA] TOGGLE_ANSWER -> answer :",answer);
             let {answers} = qna;
             if(qna.inputType === "radio")
                 answers = answers.map( answer =>{ return {...answer,checked:false} });
@@ -96,14 +96,14 @@ const reducer = (qna, action) => {
         }
         case "RESET":{
             const {qnaData} = payload;
-            console.debug("[QNA] RESET -> qnaData :",qnaData);
+            console.debug("[STORE QNA] RESET -> qnaData :",qnaData);
             return{
                 ...initialQNA,
                 ...QnaMapper(qnaData)
             }
         }
         default:
-            throw new Error(`[QNA] action case '${action.case}' is unknown `);
+            throw new Error(`[STORE QNA] action case '${action.case}' is unknown `);
     };
 }
 
@@ -154,7 +154,7 @@ const Qna = (props) => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
-    console.debug("*** paint qna : ",qna.title);
+    console.debug("[DISPLAY] qna : ",qna.title);
 
     const show = currentSlide === props.id;
 

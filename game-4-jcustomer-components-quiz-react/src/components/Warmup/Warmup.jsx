@@ -39,7 +39,7 @@ const Warmup = (props) => {
 
     const variables = Object.assign(gql_variables,{id:props.id})
 
-    const {loading, error, data} = useQuery(GET_WARMUP, {
+    const {loading, error, data} = useQuery(GET_WARMUP({workspace:gql_variables.workspace}), {
         variables:variables,
     });
 
@@ -63,7 +63,7 @@ const Warmup = (props) => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
-    console.debug("*** paint warmup : ",warmup.title);
+    console.debug("[DISPLAY] warmup : ",warmup.title);
 
     const show = currentSlide === props.id;
     const handleCLick = () =>
