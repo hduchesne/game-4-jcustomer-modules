@@ -10,7 +10,7 @@
 <c:set var="quizReleaseDate" value="${currentResource.moduleParams.quizReleaseDate}"/>
 <c:set var="quizScore" value="${currentResource.moduleParams.quizScore}"/>
 
-<div class="col-md-4 mt-2">
+<div class="col-md-6 col-lg-4 mt-3">
     <div class="card text-white card-has-bg click-col" style="background-image:url('${imageURL}');">
         <div class="card-img-overlay d-flex flex-column quiz">
             <div class="card-body">
