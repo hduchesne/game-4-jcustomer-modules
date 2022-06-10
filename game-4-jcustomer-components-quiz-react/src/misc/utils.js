@@ -1,6 +1,6 @@
 
 const _WEAKREFERENCE_ = "WEAKREFERENCE";
-//TODO voir si avec SDL je peux passe l'URL des images!
+
 function getProperties(properties,context){
     if(!properties) return;
     return properties.reduce(function(bundle,property){
