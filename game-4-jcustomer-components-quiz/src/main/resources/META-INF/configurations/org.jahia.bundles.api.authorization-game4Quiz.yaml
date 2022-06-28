@@ -1,3 +1,4 @@
+# default configuration - won't be overridden
 game4Quiz:
   description: "Access Quiz content"
 #  metadata:
