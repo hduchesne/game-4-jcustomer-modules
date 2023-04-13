@@ -5,22 +5,21 @@
 <game4nt = 'http://modules.se.jahia.org/game-4-jcustomer/nt/1.0'>
 <game4 = 'http://modules.se.jahia.org/game-4-jcustomer/1.0'>
 <wemnt = 'http://www.jahia.org/jahia/wem/nt/1.0'>
-<wdenmix = 'http://modules.se.jahia.org/wden/mix/1.0'>
 
-[game4mix:damVideoLink] > jmix:dynamicFieldset mixin
- extends = game4mix:multiMediaReference
- - game4:videoIntPath (weakreference) internationalized < wdenmix:widenAsset
+[game4mix:imageReference] mixin
+ - game4:image (weakreference) indexed=no
 
-[game4mix:internalVideoLink] > jmix:dynamicFieldset mixin
- extends = game4mix:multiMediaReference
- - game4:videoIntPath (weakreference) internationalized < jnt:file
+[game4mix:weakVideoContent] > jmix:dynamicFieldset mixin
+ extends = game4mix:mediaReference
+ - game4:video (weakreference) internationalized < jnt:file
 
-[game4mix:externalVideoLink] > jmix:dynamicFieldset mixin
- extends = game4mix:multiMediaReference
- - game4:videoExtPath (string) = 'https://' internationalized
+[game4mix:videoURL] > jmix:dynamicFieldset mixin
+ extends = game4mix:mediaReference
+ - game4:video (string) = 'https://' internationalized
 
-[game4mix:multiMediaReference] > wdenmix:mediaReference mixin
- - game4:videoLink (string) indexed=no
+[game4mix:mediaReference] > game4mix:imageReference mixin
+ - game4:mediaSource (string) indexed=no
+
 
 [game4mix:mktoForm] > jmix:dynamicFieldset mixin
  extends = game4mix:marketingFormReference
@@ -54,7 +53,7 @@
 
 [game4nt:quizHeading] > jnt:content, game4mix:components, jmix:bindedComponent, jmix:studioOnly
 
-[game4nt:quiz] > jnt:content, jmix:mainResource, game4mix:components, game4mix:showInTree, game4mix:usesConsents, wdenmix:mediaReference,game4mix:marketingFormReference, mix:title, game4mix:quizStaticLabels orderable
+[game4nt:quiz] > jnt:content, jmix:mainResource, game4mix:components, game4mix:showInTree, game4mix:imageReference, game4mix:usesConsents, game4mix:marketingFormReference, mix:title, game4mix:quizStaticLabels orderable
  - game4:quizKey (string) primary mandatory
  - game4:subtitle (string) internationalized
  - game4:description (string, richtext[ckeditor.toolbar='Tinny',ckeditor.customConfig='$context/modules/game-4-jcustomer-components-quiz/javascript/ckeditor/config/small.js']) internationalized
@@ -62,13 +61,13 @@
  - game4:personalizedResultContent (weakreference, choicelist[nodes='$currentSite//*;wemnt:personalizedContent'])
  + * (game4mix:quizChild)
 
-[game4nt:warmup] > jnt:content, game4mix:showInTree, game4mix:quizChild, game4mix:multiMediaReference, mix:title orderable
+[game4nt:warmup] > jnt:content, game4mix:showInTree, game4mix:quizChild, game4mix:mediaReference, mix:title orderable
  - game4:subtitle (string) internationalized
  - game4:content (string, richtext[ckeditor.toolbar='Tinny',ckeditor.customConfig='$context/modules/game-4-jcustomer-components-quiz/javascript/ckeditor/config/small.js']) internationalized
  - game4:qnaDuration (string,choicelist[resourceBundle]) = '5 mins' autocreated indexed=no < '5 mins', '10 mins', '30 mins', '1h' , '> 1h'
  + * (game4nt:qna)
 
-[game4nt:qna] > jnt:content, game4mix:showInTree, game4mix:usesResultAsJExpProperty, game4mix:quizChild, wdenmix:mediaReference, mix:title
+[game4nt:qna] > jnt:content, game4mix:showInTree, game4mix:usesResultAsJExpProperty, game4mix:imageReference, game4mix:quizChild, mix:title
  - game4:question (string) mandatory internationalized
  - game4:help (string) internationalized
  - game4:answers (string) mandatory multiple internationalized

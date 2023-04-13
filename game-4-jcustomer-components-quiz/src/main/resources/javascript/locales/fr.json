@@ -1,0 +1,13 @@
+{
+  "label": {
+    "selectorType": {
+      "qna": {
+        "expectedAnswer": "Bonne réponse",
+        "placeholder": {
+          "cdp": "(optionnel) propriété de profile",
+          "answer": "Réponse"
+        }
+      }
+    }
+  }
+}

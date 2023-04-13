@@ -4,12 +4,9 @@
     {
       "name": "game4:webappTheme",
       "selectorType": "CodeMirror",
-      "selectorOptions":[
-        {
-          "name": "mode",
-          "value" : "javascript"
-        }
-      ]
+      "selectorOptionsMap": {
+        "mode": "javascript"
+      }
     }
   ]
 }

@@ -40,20 +40,10 @@
 <c:set var="title" value="${fn:escapeXml(currentNode.displayableName)}"/>
 <c:set var="description" value="${currentNode.properties['game4:description'].string}"/>
 
-<c:set var="imageNode" value="${currentNode.properties['wden:mediaNode'].node}"/>
-<template:addCacheDependency node="${imageNode}"/>
-<c:choose>
-    <c:when test="${!empty imageNode && jcr:isNodeType(imageNode, 'wdenmix:widenAsset')}">
-        <c:set var="imageURL" value="${imageNode.properties['wden:templatedUrl'].string}"/>
-        <c:set var="imageURL" value="${fn:replace(imageURL, '{scale}', '1')}"/>
-        <c:set var="imageURL" value="${fn:replace(imageURL, '{quality}', '72')}"/>
-        <c:set var="imageURL" value="${fn:replace(imageURL, '{size}', '768')}"/>
-        <c:url var="imageURL" value="${imageURL}"/>
-    </c:when>
-    <c:otherwise>
-        <c:url var="imageURL" value="${imageNode.url}"/>
-    </c:otherwise>
-</c:choose>
+<c:set var="mediaNode" value="${currentNode.properties['game4:image'].node}"/>
+<%@ include file="../../getMediaURL.jspf" %>
+<c:set var="imageURL" value="${mediaURL}"/>
+<template:addCacheDependency node="${mediaNode}"/>
 
 <c:url var="quiz" value="${currentNode.url}"/>
 
@@ -66,7 +56,6 @@
         <p class="mb-5">
             ${description}
         </p>
-        <%-- TODO faire un content template--%>
         <p><a class="btn btn-primary btn-sm px-3 py-2" href="${quiz}"><fmt:message key="label.read_more"/></a></p>
     </div>
 </div>

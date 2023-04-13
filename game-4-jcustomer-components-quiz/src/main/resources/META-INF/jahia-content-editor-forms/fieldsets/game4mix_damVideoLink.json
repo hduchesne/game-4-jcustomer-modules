@@ -1,9 +1,0 @@
-{
-  "name": "game4mix:damVideoLink",
-  "fields": [
-    {
-      "name": "game4:videoIntPath",
-      "selectorType": "WidenPicker"
-    }
-  ]
-}

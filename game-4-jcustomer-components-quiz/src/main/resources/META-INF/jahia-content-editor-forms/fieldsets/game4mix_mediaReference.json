@@ -1,0 +1,40 @@
+{
+  "name": "game4mix:mediaReference",
+  "description": "",
+  "dynamic": false,
+  "fields": [
+    {
+      "name": "game4:mediaSource",
+      "selectorType": "Choicelist",
+      "valueConstraints": [
+        {
+          "value": {
+            "type": "String",
+            "value": "reference"
+          },
+          "displayValue": "Digital asset manager",
+          "propertyList": [
+            {
+              "name": "addMixin",
+              "value": "game4mix:weakVideoContent"
+            }
+          ]
+        },
+        {
+          "value": {
+            "type": "String",
+            "value": "url"
+          },
+          "displayValue": "Fill the video URL",
+          "propertyList": [
+            {
+              "name": "addMixin",
+              "value": "game4mix:videoURL"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

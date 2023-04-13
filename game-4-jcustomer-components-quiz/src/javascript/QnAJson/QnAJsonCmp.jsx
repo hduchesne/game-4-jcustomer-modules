@@ -1,5 +1,6 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import {useTranslation} from 'react-i18next';
 import './QnAJsonCmp.css';
 
 import {Input, Toggle} from '@jahia/design-system-kit';
@@ -56,6 +57,8 @@ const formatValue = value => {
 
 const QnAJsonCmp = ({field, id, value, onChange, classes}) => {
     const maxLength = field.selectorOptions.find(option => option.name === 'maxLength');
+    const {t} = useTranslation('game-4-jcustomer-components-quiz');
+
     // Note do a convert here, because I need a unique format for the app!
     const controlledValue = formatValue(value);
     // ControlledValue.id=id;
@@ -97,7 +100,7 @@ const QnAJsonCmp = ({field, id, value, onChange, classes}) => {
                         //     onChange={handleChangeIsAnswer}
                         // />
                     }
-                    label="Expected Answer"
+                    label={t('label.selectorType.qna.expectedAnswer')}
                     // LabelPlacement="top"
                 />
 
@@ -110,7 +113,7 @@ const QnAJsonCmp = ({field, id, value, onChange, classes}) => {
                     value={controlledValue.cdpValue}
                     readOnly={field.readOnly}
                     type="text"
-                    placeholder="(optional) User profile value"
+                    placeholder={t('label.selectorType.qna.placeholder.cdp')}
                     onChange={handleChangeCdpValue}
                 />
             </Grid>
@@ -127,7 +130,7 @@ const QnAJsonCmp = ({field, id, value, onChange, classes}) => {
                     value={controlledValue.label}
                     readOnly={field.readOnly}
                     type="text"
-                    placeholder="Answer"
+                    placeholder={t('label.selectorType.qna.placeholder.answer')}
                     onChange={handleChangeLabel}
                 />
             </Grid>

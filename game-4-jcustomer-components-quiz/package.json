@@ -39,6 +39,7 @@
         "eslint-plugin-flowtype": "^5.4.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-jsx-a11y": "^6.4.1",
+        "i18next": "^19.7.0",
         "prop-types": "^15.6.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",

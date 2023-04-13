@@ -6,35 +6,24 @@
 <%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
 <%@ taglib prefix="qjexp" uri="http://www.jahia.org/qjexp" %>
 
-<template:addResources type="css" resources="cards.css" />
+<template:addResources type="css" resources="cards.css"/>
 <c:set var="title" value="${fn:escapeXml(currentNode.displayableName)}"/>
 <c:set var="subtitle" value="${fn:escapeXml(currentNode.properties['game4:subtitle'])}"/>
 <c:set var="quizQuestion" value="${title} - ${subtitle}"/>
-
 <c:set var="quizReset" value="${currentNode.properties['game4:reset'].boolean}"/>
 
-<c:set var="imageNode" value="${currentNode.properties['wden:mediaNode'].node}"/>
-<template:addCacheDependency node="${imageNode}"/>
-<c:choose>
-    <c:when test="${!empty imageNode && jcr:isNodeType(imageNode, 'wdenmix:widenAsset')}">
-        <c:set var="imageURL" value="${imageNode.properties['wden:templatedUrl'].string}"/>
-        <c:set var="imageURL" value="${fn:replace(imageURL, '{scale}', '1')}"/>
-        <c:set var="imageURL" value="${fn:replace(imageURL, '{quality}', '72')}"/>
-        <c:set var="imageURL" value="${fn:replace(imageURL, '{size}', '768')}"/>
-        <c:url var="imageURL" value="${imageURL}"/>
-    </c:when>
-    <c:otherwise>
-        <c:url var="imageURL" value="${imageNode.url}"/>
-    </c:otherwise>
-</c:choose>
+<c:set var="mediaNode" value="${currentNode.properties['game4:image'].node}"/>
+<%@ include file="../../getMediaURL.jspf" %>
+<c:set var="imageURL" value="${mediaURL}"/>
+<template:addCacheDependency node="${mediaNode}"/>
 
 <c:url var="quizURL" value="${currentNode.url}"/>
-
 <c:set var="site" value="${renderContext.site.siteKey}"/>
 <c:set var="quizKey" value="${currentNode.properties['game4:quizKey']}"/>
 <c:set var="quizScorePropertyName" value="quiz-score-${quizKey}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
-<c:set var="quizEventProps" value="${qjexp:searchQuizScore(pageContext.request,site,quizKey,quizScorePropertyName,language)}"/>
+<c:set var="quizEventProps"
+       value="${qjexp:searchQuizScore(pageContext.request,site,quizKey,quizScorePropertyName,language)}"/>
 
 <c:set var="persoResultNode" value="${currentNode.properties['game4:personalizedResultContent'].node}"/>
 
