@@ -4,7 +4,7 @@
       "qna": {
         "expectedAnswer": "Bonne réponse",
         "placeholder": {
-          "cdp": "(optionnel) propriété de profile",
+          "cdp": "(optionnel) valeur à stocker dans une propriété de profil",
           "answer": "Réponse"
         }
       }
