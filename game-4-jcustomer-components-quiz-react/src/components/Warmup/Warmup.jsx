@@ -5,7 +5,7 @@ import get from "lodash.get";
 import {useQuery} from "@apollo/react-hooks";
 
 import {StoreContext} from "contexts";
-import {GET_WARMUP} from "./WarmupGraphQL";
+import {GET_WARMUP} from "graphql/WarmupGraphQL";
 import Qna from "components/Qna";
 import WarmupMapper from "components/Warmup/WarmupModel";
 import Media from "components/Media";

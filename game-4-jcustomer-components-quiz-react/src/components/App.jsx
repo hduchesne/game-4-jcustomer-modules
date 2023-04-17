@@ -10,7 +10,7 @@ import {StoreContext} from "contexts";
 
 import 'react-circular-progressbar/dist/styles.css';
 
-import {GET_QUIZ} from "components/Quiz/QuizGraphQL.js";
+import {GET_QUIZ} from "graphql/QuizGraphQL.js";
 
 import Quiz from "components/Quiz"
 import Qna from "components/Qna";

@@ -6,7 +6,7 @@ import get from "lodash.get";
 
 import {StoreContext} from "contexts";
 
-import {GET_QNA} from "./QnaGraphQL";
+import {GET_QNA} from "graphql/QnaGraphQL";
 import Answer from "./Answer";
 
 import QnaMapper from "components/Qna/QnaModel";

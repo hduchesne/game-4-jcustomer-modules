@@ -39,10 +39,10 @@ const context = {
             format:"uri",
             default:process.env.REACT_APP_JCONTENT_GQL_ENDPOINT || "http://localhost:8080/modules/graphql"
         },
-        gql_authorization:{
-            type:"string",
-            // default:process.env.REACT_APP_JCONTENT_GQL_AUTH || "Basic cm9vdDpyb290"
-        },
+        // gql_authorization:{
+        //     type:"string",
+        //     // default:process.env.REACT_APP_JCONTENT_GQL_AUTH || "Basic cm9vdDpyb290"
+        // },
         gql_variables:{
             type:"object",
             properties:{
@@ -63,7 +63,7 @@ const context = {
         "scope",
         "files_endpoint",
         "gql_endpoint",
-        "gql_authorization",
+        // "gql_authorization",
         "gql_variables",
         "cdp_endpoint"
     ],
