@@ -1,10 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 
-// export type CxsType = {
-//     profileId: string,
-//     sessionId: string
-// }
 
 const CxsCtx = React.createContext({});
 

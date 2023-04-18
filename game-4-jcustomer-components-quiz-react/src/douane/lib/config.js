@@ -1,8 +1,8 @@
-const validMark="[*]";
-const score_splitPattern="::";
-
-const workspace = ["default","live"];
-const cnd_type = {
+export const validMark="[*]";
+export const score_splitPattern="::";
+export const workspace = ["default","live"];
+//TODO review this
+export const cnd_type = {
     QNA:"game4nt:qna",
     WARMUP:"game4nt:warmup",
     WIDEN_IMAGE:"wdennt:image",
@@ -11,20 +11,11 @@ const cnd_type = {
     JNT_FILE:'jnt:file',
     IMAGE:'jmix:image'
 }
-const consent_status={
+export const consent_status={
     GRANTED:"GRANTED",
     DENIED:"DENIED",
     REVOKED:"REVOKED"
 };
-const mktgForm={
+export const mktgForm={
     MARKETO:"mkto",
-}
-
-export {
-    workspace,
-    cnd_type,
-    validMark,
-    consent_status,
-    score_splitPattern,
-    mktgForm
 }

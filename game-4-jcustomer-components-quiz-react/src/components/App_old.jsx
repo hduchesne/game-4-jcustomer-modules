@@ -72,7 +72,6 @@ export const App = (props)=> {
         }
     });
 
-    //TODO useMemo ?
     React.useEffect(() => {
         console.debug("[INIT] App Quiz");
         if(loading === false && data){

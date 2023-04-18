@@ -35,6 +35,7 @@ const Warmup = (props) => {
         currentSlide,
         jContent
     } = state;
+    //TODO clean this language_bundle should be a props
     const { gql_variables,cnd_type,language_bundle } =  jContent;
 
     const variables = Object.assign(gql_variables,{id:props.id})

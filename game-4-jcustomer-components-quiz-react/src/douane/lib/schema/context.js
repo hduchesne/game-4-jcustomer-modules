@@ -2,8 +2,9 @@
 // import jContent from "./definitions/jContent";
 // import gql from "./definitions/gql";
 import {workspace} from "douane/lib/config";
+const [,live] = workspace;
 
-const context = {
+export const context = {
     title:"context validation schema ",
     description:"context is an object provided by the page in charge to load the app",
     // definitions: {
@@ -26,9 +27,11 @@ const context = {
         workspace:{
             type:"string",
             enum:workspace,
-            default:process.env.REACT_APP_JCONTENT_WORKSPACE || workspace[1]//"live"
+            default:process.env.REACT_APP_JCONTENT_WORKSPACE || live
         },
         scope:{ type:"string",pattern:"[a-zA-Z0-9-_]+"},//iso
+        locale:{type:"string",pattern:"[a-z]{2}(?:_[A-Z]{2})?"},//"fr" or "fr_FR"
+        quizId:{type:"string"},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
         files_endpoint:{
             type:"string",
             format:"uri",
@@ -43,14 +46,6 @@ const context = {
         //     type:"string",
         //     // default:process.env.REACT_APP_JCONTENT_GQL_AUTH || "Basic cm9vdDpyb290"
         // },
-        gql_variables:{
-            type:"object",
-            properties:{
-                id:{type:"string"},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
-                language:{type:"string",pattern:"[a-z]{2}(?:_[A-Z]{2})?"}//"fr" or "fr_FR"
-            },
-            required: ["id", "language"]
-        },
         cdp_endpoint:{
             type:"string",
             format:"uri",
@@ -61,15 +56,15 @@ const context = {
         "host",
         "workspace",
         "scope",
+        "locale",
+        "quizId",
         "files_endpoint",
         "gql_endpoint",
         // "gql_authorization",
-        "gql_variables",
         "cdp_endpoint"
     ],
     additionalProperties:false
 };
-export default context;
 
 // export default{
 //     context:{

@@ -1,14 +1,14 @@
 import React from "react";
-import {StoreContext} from "contexts";
+import {StoreCtxProvider} from "contexts";
 
 import {getRandomString} from "misc/utils";
 import {syncQuizScore} from "misc/tracker";
 import QuizMapper from "components/Quiz/QuizModel";
 
-const init = jContent => {
+const init = appContext => {
     // console.log("jContent.transition : ",jContent.transition);
     return {
-        jContent,
+        // jContent,
         quiz: null,//{consents:[],childNodes:[]},
         resultSet:[],//array of boolean, order is the same a slideSet
         currentResult:false,//previously result
@@ -28,7 +28,8 @@ const init = jContent => {
         transitionTimeout:1000,
         transitionRow : [...Array(5)],
         browsingIsEnabled:false,
-        scoreIndex:getRandomString(5,"#aA")
+        scoreIndex:getRandomString(5,"#aA"),
+        scoreSplitPattern:jContent.score_splitPattern
     }
 }
 
@@ -260,12 +261,12 @@ const reducer = (state, action) => {
 export const Store = props => {
     const [state, dispatch] = React.useReducer(
         reducer,
-        props.jContent,
+        props.appContext,
         init
     );
     return (
-        <StoreContext.Provider value={{ state, dispatch }}>
+        <StoreCtxProvider value={{ state, dispatch }}>
             {props.children}
-        </StoreContext.Provider>
+        </StoreCtxProvider>
     );
 };
