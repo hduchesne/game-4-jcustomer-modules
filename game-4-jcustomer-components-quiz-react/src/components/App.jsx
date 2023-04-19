@@ -1,4 +1,4 @@
-import React, {useContext } from 'react';
+import React, {useContext, useMemo} from 'react';
 // import PropTypes from "prop-types";
 
 import {Grid,Typography} from '@material-ui/core';
@@ -14,7 +14,7 @@ import Quiz from "components/Quiz"
 import Qna from "components/Qna";
 import Warmup from "components/Warmup";
 import Score from "components/Score";
-import {syncTracker} from "misc/tracker";
+import {syncTracker} from "misc/trackerWem";
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from 'clsx';
 
@@ -32,24 +32,24 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const initLanguageBundle = quizData => {
-    const keys = [
-        "btnStart",
-        "btnSubmit",
-        "btnQuestion",
-        "btnNextQuestion",
-        "btnShowResults",
-        "btnReset",
-        "consentTitle",
-        "correctAnswer",
-        "wrongAnswer"
-    ];
-    return keys.reduce((bundle,key)=>{
+const languageBundleKeys =  [
+    "btnStart",
+    "btnSubmit",
+    "btnQuestion",
+    "btnNextQuestion",
+    "btnShowResults",
+    "btnReset",
+    "consentTitle",
+    "correctAnswer",
+    "wrongAnswer"
+]
+const initLanguageBundle = quizData => 
+    languageBundleKeys.reduce((bundle,key)=>{
         bundle[key] = get(quizData,`${key}.value`);
         // console.debug("bundle: ",bundle);
         return bundle;
-    },{});
-}
+    },{})
+
 
 export const App = (props)=> {
     const classes = useStyles(props);
@@ -58,8 +58,6 @@ export const App = (props)=> {
 
     const { state, dispatch } = React.useContext(StoreCtx);
     const {
-        jContent,
-        quiz,
         showResult,
         showScore
     } = state;
@@ -72,40 +70,55 @@ export const App = (props)=> {
         }
     });
 
-    //TODO useMemo ?
-    React.useEffect(() => {
-        console.debug("[INIT] App Quiz");
-        if(loading === false && data){
-            console.debug("[INIT] App Quiz Data");
 
-            const quizData = get(data, "response.quiz", {});
-            // const quizKey = get(quizData, "key.value");
-
-            jContent.language_bundle = initLanguageBundle(quizData);
-            console.debug("[INIT] jContent.language_bundle: ",jContent.language_bundle);
-
-            dispatch({
-                case:"DATA_READY",
-                payload:{
-                    quizData
-                }
-            });
-
-            //Init unomi tracker
-            if(jContent.gql_variables.workspace === "LIVE")
-                syncTracker({
-                    scope: jContent.scope,
-                    url: jContent.cdp_endpoint,
-                    // sessionId:`qZ-${quizKey}-${Date.now()}`,
-                    dispatch
-                });
+    const {languageBundle} = useMemo(()=>{
+        // if(loading === false && data){
+        if(data){
+            return initLanguageBundle(data.response.quiz);
         }
-    }, [loading,data]);
+    },[data] /*[loading,data]*/);
 
-    if (error) return <p>Error :  {error}</p>;
+    // React.useEffect(() => {
+    //     console.debug("[INIT] App Quiz");
+    //     if(loading === false && data){
+    //         console.debug("[INIT] App Quiz Data");
+    //
+    //         const quizData = get(data, "response.quiz", {});
+    //         // const quizKey = get(quizData, "key.value");
+    //
+    //         jContent.language_bundle = initLanguageBundle(quizData);
+    //         console.debug("[INIT] jContent.language_bundle: ",jContent.language_bundle);
+    //
+    //         dispatch({
+    //             case:"DATA_READY",
+    //             payload:{
+    //                 quizData
+    //             }
+    //         });
+    //
+    //         //Init unomi tracker
+    //         //TODO check window.wem and use it in case of embedded app
+    //         if(jContent.gql_variables.workspace === "LIVE")
+    //             syncTracker({
+    //                 scope: jContent.scope,
+    //                 url: jContent.cdp_endpoint,
+    //                 // sessionId:`qZ-${quizKey}-${Date.now()}`,
+    //                 dispatch
+    //             });
+    //     }
+    // }, [loading,data]);
+
     if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :  {error}</p>;
 
-    if(data?.response?.quiz?.uuid){
+    let quizData = null;
+    const quizJcrProps = data.response.quiz;
+    if(quizJcrProps){
+        quizData
+    }
+    
+    
+    if(data.response?.quiz?.uuid){
         dispatch({
             case:"DATA_READY",
             payload:{

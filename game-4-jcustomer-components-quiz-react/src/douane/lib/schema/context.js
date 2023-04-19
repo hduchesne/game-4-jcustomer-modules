@@ -32,12 +32,12 @@ export const context = {
         scope:{ type:"string",pattern:"[a-zA-Z0-9-_]+"},//iso
         locale:{type:"string",pattern:"[a-z]{2}(?:_[A-Z]{2})?"},//"fr" or "fr_FR"
         quizId:{type:"string"},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
-        files_endpoint:{
+        filesServerUrl:{
             type:"string",
             format:"uri",
             default:process.env.REACT_APP_JCONTENT_FILES_ENDPOINT || "http://localhost:8080/files/live"
         },
-        gql_endpoint:{
+        gqlServerUrl:{
             type:"string",
             format:"uri",
             default:process.env.REACT_APP_JCONTENT_GQL_ENDPOINT || "http://localhost:8080/modules/graphql"
@@ -46,7 +46,7 @@ export const context = {
         //     type:"string",
         //     // default:process.env.REACT_APP_JCONTENT_GQL_AUTH || "Basic cm9vdDpyb290"
         // },
-        cdp_endpoint:{
+        contextServerUrl:{
             type:"string",
             format:"uri",
             default:process.env.REACT_APP_JCUSTOMER_ENDPOINT //could be null in case of edit!

@@ -1,4 +1,4 @@
-export const validMark="[*]";
+export const validMark="[*]";//TODO remove
 export const score_splitPattern="::";
 export const workspace = ["default","live"];
 //TODO review this

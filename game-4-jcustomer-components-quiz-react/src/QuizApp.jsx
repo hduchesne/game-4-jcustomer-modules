@@ -28,16 +28,19 @@ const render=(target,context)=>{
 
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
+        const {workspace,locale = 'en',quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext} = context;
         ReactDOM.render(
             <React.StrictMode>
                 <StylesProvider generateClassName={generateClassName}>
                     <JahiaCtxProvider value={{
-                        workspace: context.workspace,
-                        locale:context.locale || 'en',
-                        quizId:context.quizId
+                        workspace,
+                        locale,
+                        quizId,
+                        filesServerUrl,
+                        contextServerUrl
                     }}>
-                        <Store appContext={context}>
-                            <ApolloProvider client={getClient(context.gqlEndpoint)}>
+                        <Store appContext={appContext}>
+                            <ApolloProvider client={getClient(gqlServerUrl)}>
                                 {/*<ThemeProvider theme={theme(context.theme)}>*/}
                                 <div style={{overflow:'hidden'}}>
                                     <CxsCtxProvider>

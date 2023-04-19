@@ -17,10 +17,12 @@ export const contextValidator = (context) =>{
     }
 
     context.workspace = getGQLWorkspace(context.workspace);
-    context.cnd_type=cnd_type;
-    context.consent_status=consent_status;
-    context.quiz_validMark=validMark;
-    context.score_splitPattern=score_splitPattern;
-    context.mktgForm=mktgForm;
+    context.cndType=cnd_type;
+    context.appContext = {
+        consentStatus:consent_status,
+        scoreSplitPattern:score_splitPattern,
+        mktgForm:mktgForm
+    }
+
     return context;
 }

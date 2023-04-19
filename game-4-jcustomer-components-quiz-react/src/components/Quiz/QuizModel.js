@@ -1,5 +1,3 @@
-import get from "lodash.get";
-
 const getTheme = (theme)=>{
     if(typeof theme === 'string'){
         try{
@@ -24,40 +22,47 @@ const getMktoConfig = (config)=>{
     };
 }
 
+const getTypes = quizJcrProps => {
+    const superTypes = quizJcrProps.primaryNodeType.supertypes?.map(({name}) => name) || [];
+    const mixinTypes = quizJcrProps.mixinTypes.map(({name}) => name) || [];
+    const primaryNodeType = quizJcrProps.primaryNodeType?.name;
+    return [primaryNodeType,...superTypes,...mixinTypes];
+}
 
-const QuizMapper = (quizData) => ({
+//TODO organize following the def content / config / ...
+const formatQuizJcrProps = (quizJcrProps) => ({
     //NOTE be sure string value like "false" or "true" are boolean I use JSON.parse to cast
-    id: get(quizData, "id"),
-    type: get(quizData, "type.value"),
-    key : get(quizData, "key.value", {}),
-    title: get(quizData, "title", ""),
-    subtitle: get(quizData, "subtitle.value", ""),
-    description: get(quizData, "description.value", ""),
-    duration: get(quizData, "duration.value", ""),
-    userTheme: getTheme(get(quizData, "userTheme.value", {})),
-    transitionIsEnabled: JSON.parse(get(quizData, "transition.value", false)),
-    transitionLabel: get(quizData, "transitionLabel.value", ""),
-    resetIsEnabled: JSON.parse(get(quizData, "reset.value", false)),
-    browsingIsEnabled: JSON.parse(get(quizData, "browsing.value", false)),
-    //cover: get(quizData, "cover.node.path", ""),
-    media: get(quizData, "media.node", {}),
-    mktgForm: get(quizData, "mktgForm.value"),
-    mktoConfig: getMktoConfig(get(quizData, "mktoConfig.value")),
-    consents: get(quizData, "consents.nodes", []).map(node =>{
-        return {
-            id:get(node,"id"),
-            actived:JSON.parse(get(node,"actived.value"))
-        }
-    }),
+    id: quizJcrProps.uuid,
+    types: getTypes(quizJcrProps),
+    key : quizJcrProps.key.value,
+    title: quizJcrProps.title,
+    subtitle: quizJcrProps.subtitle?.value || "",
+    description: quizJcrProps.description?.value || "",
+    duration: quizJcrProps.duration?.value ||"",
+    media: quizJcrProps.media?.node || {},
+
+    userTheme: getTheme(quizJcrProps.userTheme?.value || {}),
+    transitionIsEnabled: JSON.parse(quizJcrProps.transition?.value || false),
+    transitionLabel: quizJcrProps.transitionLabel?.value ||"",
+    resetIsEnabled: JSON.parse(quizJcrProps.reset?.value || false),
+    browsingIsEnabled: JSON.parse(quizJcrProps.browsing?.value || false),
+
+    mktgForm: quizJcrProps.mktgForm?.value,
+    mktoConfig: getMktoConfig(quizJcrProps.mktoConfig?.value),
+    consents: quizJcrProps.consents?.nodes.map( node =>({
+            id:node.uuid,
+            actived:JSON.parse(node.actived?.value)
+        })
+    ) || [],
+
     personalizedResult :{
-        id:get(quizData, "personalizedResult.node.id", null),
-        type:get(quizData, "personalizedResult.node.type.value", null)
+        id:quizJcrProps.personalizedResult?.node?.uuid || null,
+        type:quizJcrProps.personalizedResult?.node?.type?.value ||null
     },
-    childNodes : get(quizData,"children.nodes",[]).map(node =>{
-        return {
-            id: get(node, "id"),
-            type: get(node, "type.value")
-        };
-    }),
+    childNodes : quizJcrProps.children?.nodes?.map( node =>({
+            id: node.uuid,
+            type: node.type?.value
+        })
+    ) || []
 })
-export default QuizMapper;
+export default formatQuizJcrProps;

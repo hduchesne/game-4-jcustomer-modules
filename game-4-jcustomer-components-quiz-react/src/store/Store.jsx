@@ -29,7 +29,7 @@ const init = appContext => {
         transitionRow : [...Array(5)],
         browsingIsEnabled:false,
         scoreIndex:getRandomString(5,"#aA"),
-        scoreSplitPattern:jContent.score_splitPattern
+        scoreSplitPattern:appContext.scoreSplitPattern
     }
 }
 
