@@ -58,10 +58,10 @@ export const context = {
         "scope",
         "locale",
         "quizId",
-        "files_endpoint",
-        "gql_endpoint",
+        "filesServerUrl",
+        "gqlServerUrl",
         // "gql_authorization",
-        "cdp_endpoint"
+        "contextServerUrl"
     ],
     additionalProperties:false
 };

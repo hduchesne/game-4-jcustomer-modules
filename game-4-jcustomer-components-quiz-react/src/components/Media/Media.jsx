@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 import Image from './components/Image';
 import Video from './components/Video';
 import WidenImage from './components/widen/WidenImage';
 import WidenVideo from './components/widen/WidenVideo';
 
-const Media = ({id,type,mixins,path,sourceID,alt}) => {
-    const { state } = React.useContext(StoreContext);
+export const Media = ({id,type,mixins,path,sourceID,alt}) => {
+    const { state } = React.useContext(StoreCtx);
     const {cnd_type,files_endpoint} = state.jContent;
 
     // console.log("Media equals: ",type === cnd_type.WIDEN_IMAGE)
@@ -24,7 +24,7 @@ const Media = ({id,type,mixins,path,sourceID,alt}) => {
         case cnd_type.EXT_VIDEO:
             component = <Video url={path} ownerID={sourceID} />
             break;
-            
+
         case cnd_type.JNT_FILE:
             if(mixins.includes(cnd_type.IMAGE)){
                 component = <Image path={path} alt={alt}/>
@@ -32,7 +32,7 @@ const Media = ({id,type,mixins,path,sourceID,alt}) => {
                 component = <Video url={files_endpoint+encodeURI(path)} ownerID={sourceID} />
             }
             break;
-            
+
         default:
             if(path)
                 component = <Image path={path} alt={alt}/>
@@ -50,5 +50,3 @@ Media.propTypes={
     sourceID:PropTypes.string,
     alt:PropTypes.string
 }
-
-export default Media;

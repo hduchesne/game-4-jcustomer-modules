@@ -9,7 +9,7 @@ const init = appContext => {
     // console.log("jContent.transition : ",jContent.transition);
     return {
         // jContent,
-        quiz: null,//{consents:[],childNodes:[]},
+        // quiz: null,//{consents:[],childNodes:[]},
         resultSet:[],//array of boolean, order is the same a slideSet
         currentResult:false,//previously result
         slideSet:[],//previously slideIndex
@@ -66,25 +66,24 @@ const reducer = (state, action) => {
         case "DATA_READY": {
             //prepare slideIds
             const {quizData} = payload;
-            console.debug("[STORE] DATA_READY - quizData: ",quizData);
-            const quiz = QuizMapper(quizData);
+            const {childNodes = []} = quizData.quizContent;
+            const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
 
-            const slideSet = [quiz.id];
-            quiz.childNodes.forEach(node => slideSet.push(node.id));
+            const slideSet = [quizData.id];
+            childNodes.forEach(node => slideSet.push(node.id));
             slideSet.push(state.scoreIndex);
 
             const max = slideSet.length -1;
 
             return {
                 ...state,
-                quiz,
-                currentSlide:quiz.id,
-                transitionIsEnabled:quiz.transitionIsEnabled,
-                transitionLabel:quiz.transitionLabel,
-                resetBtnIsEnabled:quiz.resetIsEnabled,
-                browsingIsEnabled:quiz.browsingIsEnabled,
+                currentSlide:quizData.id,
+                transitionIsEnabled,
+                transitionLabel,
+                resetBtnIsEnabled,
+                browsingIsEnabled,
                 slideSet,
-                showNext:showNext({slideSet,max,slide:quiz.id}),
+                showNext:showNext({slideSet,max,slide:quizData.id}),
                 max
             };
         }

@@ -10,11 +10,12 @@ import {getRandomString} from 'misc/utils';
 
 import {contextValidator} from "douane";
 import {Store} from "store";
-import {JahiaCtxProvider} from "./context";
+import {JahiaCtxProvider} from "./contexts";
 import {CxsCtxProvider} from "./unomi/cxs";
-import {getClient} from "./graphql";
+import {getClient} from "./webappGraphql";
 
 import 'index.css';
+import {syncTracker} from "misc/trackerWem";
 
 const render=(target,context)=>{
     try{
@@ -28,7 +29,12 @@ const render=(target,context)=>{
 
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
-        const {workspace,locale = 'en',quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext} = context;
+        const {workspace,locale = 'en',quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext,cndTypes,scope} = context;
+        // if(workspace === "LIVE" && !window.wem){
+        //     //TODO add callback ?
+        //     syncTracker({scope,contextServerUrl,locale,quizId})
+        // }
+
         ReactDOM.render(
             <React.StrictMode>
                 <StylesProvider generateClassName={generateClassName}>
@@ -37,7 +43,8 @@ const render=(target,context)=>{
                         locale,
                         quizId,
                         filesServerUrl,
-                        contextServerUrl
+                        contextServerUrl,
+                        cndTypes
                     }}>
                         <Store appContext={appContext}>
                             <ApolloProvider client={getClient(gqlServerUrl)}>

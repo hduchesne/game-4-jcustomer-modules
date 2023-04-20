@@ -1,7 +1,7 @@
-import Indicator from "components/Header/Indicator";
+import {Indicator} from "components/Header/Indicator";
 import {Button, Typography} from "@material-ui/core";
 import React from "react";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 import {makeStyles} from "@material-ui/core/styles";
 import {manageTransition} from "misc/utils";
 
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 const Header = (props) => {
     const classes = useStyles(props);
     // const sharedClasses = cssSharedClasses(props);
-    const { state, dispatch } = React.useContext(StoreContext);
+    const { state, dispatch } = React.useContext(StoreCtx);
     const {
         jContent,
         slideSet,

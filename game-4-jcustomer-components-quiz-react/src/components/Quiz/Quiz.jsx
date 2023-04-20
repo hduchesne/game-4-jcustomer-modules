@@ -5,12 +5,12 @@ import {Button,Typography} from "@material-ui/core";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import {makeStyles} from "@material-ui/core/styles";
 
-import {StoreContext} from "contexts";
-import Consent from "components/Consent";
+import {StoreCtx} from "contexts";
+import {Consent} from "components/Consent";
 import get from "lodash.get";
 
 import {syncConsentStatus} from "misc/tracker";
-import Media from '../Media'
+import {Media} from '../Media'
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import DOMPurify from "dompurify";
@@ -166,7 +166,7 @@ const MktoForm = (props) => {
 const Quiz = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
-    const { state, dispatch } = React.useContext(StoreContext);
+    const { state, dispatch } = React.useContext(StoreCtx);
 
     const {
         quiz,

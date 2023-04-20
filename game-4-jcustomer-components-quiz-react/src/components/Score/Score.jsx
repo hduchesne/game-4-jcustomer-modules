@@ -1,7 +1,7 @@
 import React from 'react';
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 
-import Media from "components/Media";
+import {Media} from "components/Media";
 import Personalized from "components/Score/personalized/Personalized";
 import Percentage from "components/Score/percentage/Percentage";
 import cssSharedClasses from "components/cssSharedClasses";
@@ -11,7 +11,7 @@ import Header from "components/Header/Header";
 
 const Score = (props) => {
     const sharedClasses = cssSharedClasses(props);
-    const { state,dispatch } = React.useContext(StoreContext);
+    const { state,dispatch } = React.useContext(StoreCtx);
     const [timer, setTimer] = React.useState(false);
     const {
         quiz,

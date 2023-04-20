@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import {useQuery} from "@apollo/react-hooks";
-import {GET_CONSENT} from "components/Consent/ConsentGraphQL";
+import {useQuery} from "@apollo/client";
+import {GetConsent} from "webappGraphql";
 import get from "lodash.get";
 
 import {syncConsentStatus} from "misc/tracker";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 import {makeStyles} from "@material-ui/core/styles";
 import CheckIcon from '@material-ui/icons/Check';
 import BackspaceIcon from '@material-ui/icons/Backspace';
@@ -34,19 +34,19 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Consent = (props)=> {
+export const Consent = (props)=> {
     const classes = useStyles(props);
 
     const {id, quizState, quizDispatch} = props;
     const [consent={}] = quizState.consents.filter(consent => consent.id === id);
 
-    const { state } = React.useContext(StoreContext);
+    const { state } = React.useContext(StoreCtx);
 
     const {jContent,cxs} = state;
     const {gql_variables,scope,consent_status} =  jContent;
 
     const variables = Object.assign(gql_variables,{id})
-    const {loading, error, data} = useQuery(GET_CONSENT, {
+    const {loading, error, data} = useQuery(GetConsent, {
         variables:variables,
     });
 
@@ -135,5 +135,3 @@ Consent.propTypes={
     quizState:PropTypes.object.isRequired,
     quizDispatch:PropTypes.func.isRequired
 };
-
-export default Consent;

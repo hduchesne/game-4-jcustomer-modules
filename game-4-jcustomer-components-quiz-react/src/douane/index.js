@@ -2,7 +2,7 @@ import * as Ajv from "ajv";
 import {context as contextSchema} from "douane/lib/schema/context";
 import {getGQLWorkspace} from "misc/utils";
 import {ContextException} from 'exceptions/ContextException';
-import {cnd_type,validMark,consent_status,score_splitPattern,mktgForm} from "douane/lib/config";
+import {cndTypes,consentStatus,scoreSplitPattern,mktgForm} from "douane/lib/config";
 
 const ajv = new Ajv({useDefaults:true});
 //TODO le try catch doit etre fait ici et un component react doit etre retourne
@@ -17,11 +17,11 @@ export const contextValidator = (context) =>{
     }
 
     context.workspace = getGQLWorkspace(context.workspace);
-    context.cndType=cnd_type;
+    context.cndTypes=cndTypes;
     context.appContext = {
-        consentStatus:consent_status,
-        scoreSplitPattern:score_splitPattern,
-        mktgForm:mktgForm
+        consentStatus,
+        scoreSplitPattern,
+        mktgForm
     }
 
     return context;

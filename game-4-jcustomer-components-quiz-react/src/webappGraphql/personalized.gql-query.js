@@ -1,12 +1,14 @@
-import {gql} from 'apollo-boost';
+import {gql} from "@apollo/client";
+import {CORE_NODE_FIELDS} from "./fragments"
 
-export const GET_PERSONALIZED_RESULT = gql`
+export const GetPersonalizedResult = gql`
+    ${CORE_NODE_FIELDS}
     query getPersonalizedResultContent($workspace: Workspace!, $id: String!, $language: String!,$profileId: String,$sessionId: String) {
         response: jcr(workspace: $workspace) {
             result: nodeById(uuid: $id) {
                 jExperience: jExperience(profileId: $profileId, sessionId: $sessionId) {
                     variant:personalizedVariant{
-                        id: uuid
+                        ...CoreNodeFields
                         title:displayName(language:$language)
                         text:property(language:$language,name:"text"){
                             value
@@ -15,7 +17,6 @@ export const GET_PERSONALIZED_RESULT = gql`
                 }
             }
         }
-    }
-`
+    }`
 
 

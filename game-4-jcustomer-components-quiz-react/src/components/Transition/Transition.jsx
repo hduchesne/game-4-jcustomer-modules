@@ -1,7 +1,7 @@
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from "clsx";
 import React from "react";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 import {Typography} from "@material-ui/core";
 // import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
@@ -22,7 +22,7 @@ const childTiles = (transitionRow) =>{
 const Transition = (props) => {
 
 
-    const { state } = React.useContext(StoreContext);
+    const { state } = React.useContext(StoreCtx);
     const {
         transitionActive,
         transitionRow,

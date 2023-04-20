@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {StoreContext} from "contexts";
-import {useQuery} from "@apollo/react-hooks";
-import {GET_PERSONALIZED_RESULT} from "./PersonalizedGraphQL";
+import {StoreCtx} from "contexts";
+import {useQuery} from "@apollo/client";
+import {GetPersonalizedResult} from "webappGraphql";
 import get from "lodash.get";
 import DOMPurify from "dompurify";
 import {Typography} from "@material-ui/core";
@@ -20,12 +20,12 @@ const Personalized = (props) => {
     const {id,cxs}=props;
     const sharedClasses = cssSharedClasses(props);
     const classes = useStyles(props);
-    const { state } = React.useContext(StoreContext);
+    const { state } = React.useContext(StoreCtx);
     const { jContent } = state;
 
     const [result, setResult] = React.useState({});
 
-    const {loading, error, data} = useQuery(GET_PERSONALIZED_RESULT, {
+    const {loading, error, data} = useQuery(GetPersonalizedResult, {
         variables:Object.assign(jContent.gql_variables,{
             profileId:cxs.profileId,
             sessionId:cxs.sessionId,

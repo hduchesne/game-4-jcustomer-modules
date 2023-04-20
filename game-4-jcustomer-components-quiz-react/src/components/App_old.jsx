@@ -8,7 +8,7 @@ import {JahiaCtx, StoreCtx} from "../contexts";
 
 
 
-import {GetQuiz} from "../graphql/quiz.gql-query.js";
+import {GetQuiz} from "../webappGraphql/quiz.gql-query.js";
 
 import Quiz from "components/Quiz"
 import Qna from "components/Qna";

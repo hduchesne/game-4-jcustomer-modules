@@ -1,8 +1,8 @@
-import {useTracker} from "apache-unomi-tracker";
+import {useTracker as tracker} from "apache-unomi-tracker";
 
 
-export const syncTracker = ({scope,contextServerUrl,locale,quizKey}) => {
-    const unomiWebTracker = useTracker;
+export const syncTracker = ({scope,contextServerUrl,locale,quizId}) => {
+    const unomiWebTracker = tracker();
     const config = {
         scope,
         site: {
@@ -12,7 +12,7 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizKey}) => {
         },
         page: {
             pageInfo: {
-                pageID: `WebApp Quiz : ${quizKey}`,
+                pageID: `WebApp Quiz : ${quizId}`,
                 pageName: document.title,
                 pagePath: document.location.pathname,
                 destinationURL: document.location.origin + document.location.pathname,

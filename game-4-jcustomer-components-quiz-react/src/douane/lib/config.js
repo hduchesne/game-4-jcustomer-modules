@@ -1,8 +1,8 @@
 export const validMark="[*]";//TODO remove
-export const score_splitPattern="::";
+export const scoreSplitPattern="::";
 export const workspace = ["default","live"];
 //TODO review this
-export const cnd_type = {
+export const cndTypes = {
     QNA:"game4nt:qna",
     WARMUP:"game4nt:warmup",
     WIDEN_IMAGE:"wdennt:image",
@@ -11,7 +11,7 @@ export const cnd_type = {
     JNT_FILE:'jnt:file',
     IMAGE:'jmix:image'
 }
-export const consent_status={
+export const consentStatus={
     GRANTED:"GRANTED",
     DENIED:"DENIED",
     REVOKED:"REVOKED"

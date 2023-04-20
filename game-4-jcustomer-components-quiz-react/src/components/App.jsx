@@ -8,7 +8,7 @@ import {JahiaCtx, StoreCtx} from "../contexts";
 
 
 
-import {GetQuiz} from "../graphql/quiz.gql-query.js";
+import {GetQuiz} from "../webappGraphql/quiz.gql-query.js";
 
 import Quiz from "components/Quiz"
 import Qna from "components/Qna";
@@ -22,6 +22,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from 'components/theme';
 import Transition from "components/Transition";
 import 'react-circular-progressbar/dist/styles.css';
+import {formatQuizJcrProps} from "components/Quiz/QuizModel";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -32,29 +33,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const languageBundleKeys =  [
-    "btnStart",
-    "btnSubmit",
-    "btnQuestion",
-    "btnNextQuestion",
-    "btnShowResults",
-    "btnReset",
-    "consentTitle",
-    "correctAnswer",
-    "wrongAnswer"
-]
-const initLanguageBundle = quizData => 
-    languageBundleKeys.reduce((bundle,key)=>{
-        bundle[key] = get(quizData,`${key}.value`);
-        // console.debug("bundle: ",bundle);
-        return bundle;
-    },{})
+
 
 
 export const App = (props)=> {
     const classes = useStyles(props);
     const cxs = useContext(CxsCtx);
-    const { workspace,locale, quizId } = useContext(JahiaCtx);
+    const { workspace,locale, quizId, cndTypes } = useContext(JahiaCtx);
 
     const { state, dispatch } = React.useContext(StoreCtx);
     const {
@@ -71,12 +56,19 @@ export const App = (props)=> {
     });
 
 
-    const {languageBundle} = useMemo(()=>{
-        // if(loading === false && data){
-        if(data){
-            return initLanguageBundle(data.response.quiz);
-        }
-    },[data] /*[loading,data]*/);
+    // const {id = null, types: quizTypes = null, quizContent = null, quizConfig = null, languageBundle = null} = useMemo(() => {
+    //     // if(loading === false && data){
+    //     if(data){
+    //         const quizData = formatQuizJcrProps(data.response.quiz);
+    //         dispatch({
+    //             case:"DATA_READY",
+    //             payload:{
+    //                 quizData
+    //             }
+    //         });
+    //         return quizData
+    //     }
+    // },[data] /*[loading,data]*/);
 
     // React.useEffect(() => {
     //     console.debug("[INIT] App Quiz");
@@ -111,22 +103,21 @@ export const App = (props)=> {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :  {error}</p>;
 
-    let quizData = null;
-    const quizJcrProps = data.response.quiz;
-    if(quizJcrProps){
-        quizData
-    }
-    
-    
-    if(data.response?.quiz?.uuid){
-        dispatch({
-            case:"DATA_READY",
-            payload:{
-                data.response.quiz
-            }
-        });
-    }
+    const quizData = formatQuizJcrProps(data.response.quiz);
+    const {
+        id = null,
+        types: quizTypes = null,
+        quizContent = null,
+        quizConfig = null,
+        languageBundle = null
+    } = quizData
 
+    dispatch({
+        case:"DATA_READY",
+        payload:{
+            quizData
+        }
+    });
 
     const displayScore=()=>{
         if(showScore)
@@ -134,7 +125,7 @@ export const App = (props)=> {
     }
 
     return (
-        <ThemeProvider theme={theme(quiz?quiz.userTheme:{})}>
+        <ThemeProvider theme={theme(quizConfig?.userTheme)}>
         <Grid container spacing={3}>
             <Grid item xs style={{margin:'auto'}}>
 
@@ -143,34 +134,35 @@ export const App = (props)=> {
                     (showResult?'showResult':'')
                 )}>
                     <Transition/>
-                    {quiz &&
-                        <>
-                        <Quiz
-                            key={quiz.id}
-                        />
-                        {quiz.childNodes.map( (node,i) => {
-                            if(node.type === jContent.cnd_type.QNA)
-                                return <Qna
-                                    key={node.id}
-                                    id={node.id}
-                                />
+                    Hello world
+                    {/*{quizContent &&*/}
+                    {/*    <>*/}
+                    {/*        <Quiz*/}
+                    {/*            key={quizContent.id}*/}
+                    {/*            data={quizContent}*/}
+                    {/*        />*/}
+                    {/*        {quizContent.childNodes.map( node => {*/}
+                    {/*            if(node.types.include(cndTypes.QNA))*/}
+                    {/*                return <Qna*/}
+                    {/*                    key={node.id}*/}
+                    {/*                    id={node.id}*/}
+                    {/*                />*/}
 
-                            if(node.type === jContent.cnd_type.WARMUP)
-                                return <Warmup
-                                    key={node.id}
-                                    id={node.id}
-                                />
-                            return <Typography color="error"
-                                               component="p">
-                                node type {node.type} is not supported
-                            </Typography>
+                    {/*            if(node.types.include(cndTypes.WARMUP))*/}
+                    {/*                return <Warmup*/}
+                    {/*                    key={node.id}*/}
+                    {/*                    id={node.id}*/}
+                    {/*                />*/}
+                    {/*            return <Typography color="error"*/}
+                    {/*                               component="p">*/}
+                    {/*                node type {node.types} is not supported*/}
+                    {/*            </Typography>*/}
 
-                        })
-                        }
-                        {displayScore()}
-
-                        </>
-                    }
+                    {/*        })*/}
+                    {/*        }*/}
+                    {/*        {displayScore()}*/}
+                    {/*    </>*/}
+                    {/*}*/}
                 </div>
             </Grid>
         </Grid>

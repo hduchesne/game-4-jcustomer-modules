@@ -1,7 +1,7 @@
 import React from "react";
-import {StoreContext} from "contexts";
-import {useQuery} from "@apollo/react-hooks";
-import {GET_WIDEN_MEDIA} from "./WidenMediaGraphQL";
+import {StoreCtx} from "contexts";
+import {useQuery} from "@apollo/client";
+import {GetWidenMedia} from "webappGraphql";
 import get from "lodash.get";
 import MediaMapper from './WidenMediaModel';
 import PropTypes from "prop-types";
@@ -10,11 +10,11 @@ import VideoPlayer from "components/VideoPlayer";
 
 const WidenVideo = ({uuid, ownerID}) => {
 
-    const { state } = React.useContext(StoreContext);
+    const { state } = React.useContext(StoreCtx);
     const { gql_variables} =  state.jContent;
 
     const variables = Object.assign(gql_variables,{id:uuid})
-    const {loading, error, data} = useQuery(GET_WIDEN_MEDIA, {
+    const {loading, error, data} = useQuery(GetWidenMedia, {
         variables: variables,
     });
 

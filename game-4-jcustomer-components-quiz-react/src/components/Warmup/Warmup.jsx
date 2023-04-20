@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import get from "lodash.get";
-import {useQuery} from "@apollo/react-hooks";
+import {useQuery} from "@apollo/client";
 
-import {StoreContext} from "contexts";
-import {GET_WARMUP} from "graphql/WarmupGraphQL";
+import {StoreCtx} from "contexts";
+import {GetWarmup} from "webappGraphql";
 import Qna from "components/Qna";
 import WarmupMapper from "components/Warmup/WarmupModel";
-import Media from "components/Media";
+import {Media} from "components/Media";
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import {makeStyles} from "@material-ui/core/styles";
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 const Warmup = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
-    const { state, dispatch } = React.useContext(StoreContext);
+    const { state, dispatch } = React.useContext(StoreCtx);
     const {
         currentSlide,
         jContent
@@ -40,7 +40,7 @@ const Warmup = (props) => {
 
     const variables = Object.assign(gql_variables,{id:props.id})
 
-    const {loading, error, data} = useQuery(GET_WARMUP({workspace:gql_variables.workspace}), {
+    const {loading, error, data} = useQuery(GetWarmup({workspace:gql_variables.workspace}), {
         variables:variables,
     });
 

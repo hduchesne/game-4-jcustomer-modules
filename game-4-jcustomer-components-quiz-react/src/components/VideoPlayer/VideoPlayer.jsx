@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import PropTypes from "prop-types";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 import ReactPlayer from "react-player";
 import {syncVideoStatus} from "misc/tracker";
 import {makeStyles} from "@material-ui/core/styles";
@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 const VideoPlayer = (props)=>{
     const classes = useStyles(props);
     const {ownerID,videoURL} = props;
-    const { state } = React.useContext(StoreContext);
+    const { state } = React.useContext(StoreCtx);
     const {quiz} = state;
 
     const player = useRef(null);

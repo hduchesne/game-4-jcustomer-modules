@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import {useQuery} from "@apollo/react-hooks";
+import {useQuery} from "@apollo/client";
 import get from "lodash.get";
 
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 
-import {GET_QNA} from "graphql/QnaGraphQL";
+import {GetQnA} from "webappGraphql";
 import Answer from "./Answer";
 
 import QnaMapper from "components/Qna/QnaModel";
 import {syncVisitorData} from "misc/tracker";
-import Media from "components/Media";
+import {Media} from "components/Media";
 import cssSharedClasses from "components/cssSharedClasses";
 import classnames from "clsx";
 import {FormGroup, Typography,Button} from "@material-ui/core";
@@ -110,7 +110,7 @@ const reducer = (qna, action) => {
 const Qna = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
-    const { state, dispatch } = React.useContext(StoreContext);
+    const { state, dispatch } = React.useContext(StoreCtx);
     const {
         currentSlide,
         jContent,
@@ -119,7 +119,7 @@ const Qna = (props) => {
     const { gql_variables,language_bundle } =  jContent;
 
     const variables = Object.assign(gql_variables,{id:props.id})
-    const {loading, error, data} = useQuery(GET_QNA, {
+    const {loading, error, data} = useQuery(GetQnA, {
         variables:variables,
     });
 

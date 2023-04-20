@@ -1,29 +1,30 @@
-import uTracker from "unomi-analytics";
-
-const syncTracker = ({scope,url,sessionId,dispatch}) => {
-    uTracker.initialize({
-        "Apache Unomi": {
-            scope,
-            url,
-            // sessionId
-        }
-    });
-
-    uTracker.ready( () =>
-        dispatch({
-            case:"ADD_CXS",
-            payload:{
-                cxs:window.cxs
-            }
-        })
-    );
-};
-
+// import uTracker from "unomi-analytics";
+//
+// const syncTracker = ({scope,url,sessionId,dispatch}) => {
+//     uTracker.initialize({
+//         "Apache Unomi": {
+//             scope,
+//             url,
+//             // sessionId
+//         }
+//     });
+//
+//     uTracker.ready( () =>
+//         dispatch({
+//             case:"ADD_CXS",
+//             payload:{
+//                 cxs:window.cxs
+//             }
+//         })
+//     );
+// };
+let uTracker;
 const syncConsentStatus= ({typeIdentifier,scope,status}) => {
     const statusDate = new Date();
     const revokeDate = new Date(statusDate);
     revokeDate.setFullYear(revokeDate.getFullYear() + 2);
     console.debug("syncConsentStatus status :", status);
+
 
     uTracker.track("modifyConsent", {
         consent: {
@@ -76,7 +77,7 @@ const syncVisitorData = ({propertyName,propertyValue}) =>
     });
 
 export {
-    syncTracker,
+    // syncTracker,
     syncConsentStatus,
     syncQuizScore,
     syncVideoStatus,

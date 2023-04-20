@@ -1,8 +1,8 @@
 import React from "react";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 
 const Image = ({path,alt}) =>{
-    const { state} = React.useContext(StoreContext);
+    const { state} = React.useContext(StoreCtx);
     const {files_endpoint} = state.jContent;
     return(
         <img className="d-block w-100"

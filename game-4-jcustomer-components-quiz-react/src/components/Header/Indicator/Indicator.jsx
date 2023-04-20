@@ -1,5 +1,5 @@
 import React from "react";
-import {StoreContext} from "contexts";
+import {StoreCtx} from "contexts";
 import PropTypes from "prop-types";
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from 'clsx';
@@ -36,10 +36,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Indicator = (props) =>{
+export const Indicator = (props) =>{
     const classes = useStyles(props);
 
-    const { state, dispatch } = React.useContext(StoreContext);
+    const { state, dispatch } = React.useContext(StoreCtx);
     const {currentSlide} = state;
     const {id,enabled} = props;
 
@@ -69,5 +69,3 @@ Indicator.propTypes={
     id:PropTypes.string.isRequired,
     enabled:PropTypes.bool.isRequired
 }
-
-export default Indicator;
