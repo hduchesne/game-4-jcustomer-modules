@@ -6,6 +6,7 @@ export const GetWarmup = gql`
     ${MEDIA_PROPERTY}
     query getWarmup($workspace: Workspace!, $id: String!, $language: String!) {
         response: jcr(workspace: $workspace) {
+            workspace
             warmup: nodeById(uuid: $id) {
                 ...CoreNodeFields
                 title:displayName(language:$language)

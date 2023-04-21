@@ -29,5 +29,5 @@ export const ErrorHandler = ({item,errors})=> {
 
 ErrorHandler.propTypes={
     item:PropTypes.string.isRequired,
-    errors:PropTypes.array.isRequired
+    errors:PropTypes.array
 };

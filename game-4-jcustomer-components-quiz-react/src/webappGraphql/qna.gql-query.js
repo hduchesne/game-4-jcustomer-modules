@@ -6,6 +6,7 @@ export const GetQnA = gql`
     ${MEDIA_PROPERTY}
     query getQna($workspace: Workspace!, $id: String!, $language: String!) {
         response: jcr(workspace: $workspace) {
+            workspace
             qna: nodeById(uuid: $id) {
                 ...CoreNodeFields
                 title: displayName(language:$language)

@@ -1,7 +1,7 @@
 import {Indicator} from "components/Header/Indicator";
 import {Button, Typography} from "@material-ui/core";
 import React from "react";
-import {StoreCtx} from "contexts";
+import {AppCtx, StoreCtx} from "contexts";
 import {makeStyles} from "@material-ui/core/styles";
 import {manageTransition} from "misc/utils";
 
@@ -66,15 +66,13 @@ const Header = (props) => {
     const classes = useStyles(props);
     // const sharedClasses = cssSharedClasses(props);
     const { state, dispatch } = React.useContext(StoreCtx);
+    const { browsingIsEnabled, languageBundle } = React.useContext(AppCtx);
+
     const {
-        jContent,
         slideSet,
         currentResult,
         showNext,
-        showScore,
-        // transitionTimeout,
-        // transitionIsEnabled,
-        browsingIsEnabled
+        showScore
     } = state;
 
     const handleNextSlide = () =>
@@ -130,19 +128,19 @@ const Header = (props) => {
 
     const getHeaderResultLabel=()=>{
         if(currentResult)
-            return jContent.language_bundle.correctAnswer;
-        return jContent.language_bundle.wrongAnswer;
+            return languageBundle.correctAnswer;
+        return languageBundle.wrongAnswer;
     }
 
     const getHeaderBtnNext=()=>{
         if(showScore)
             return  <Button onClick={handleShowScore}
                             disabled={!showNext}>
-                {jContent.language_bundle.btnShowResults}
+                {languageBundle.btnShowResults}
             </Button>
         return  <Button onClick={handleNextSlide}
                         disabled={!showNext}>
-            {jContent.language_bundle.btnNextQuestion}
+            {languageBundle.btnNextQuestion}
         </Button>
     }
 
@@ -157,7 +155,7 @@ const Header = (props) => {
                     />
                 )}
             </ol>
-            {jContent.language_bundle &&
+            {languageBundle &&
             <div className={classes.headerResult}>
                 <Typography className={classes.headerText}
                             variant="h4">

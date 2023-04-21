@@ -7,6 +7,7 @@ export const GetQuiz = gql`
     ${QUIZ_STATIC_LABELS}
     query getQuiz($workspace: Workspace!, $id: String!, $language: String!) {
         response: jcr(workspace: $workspace) {
+            workspace
             quiz: nodeById(uuid: $id) {
                 ...CoreNodeFields
                 key: property(name:"game4:quizKey"){ value }

@@ -5,6 +5,7 @@ export const GetWidenMedia = gql`
     ${CORE_NODE_FIELDS}
     query getWidenMedia($workspace: Workspace!, $id: String!, $language: String!) {
         response: jcr(workspace: $workspace) {
+            workspace
             media: nodeById(uuid: $id) {
                 ...CoreNodeFields
                 title:displayName(language:$language)

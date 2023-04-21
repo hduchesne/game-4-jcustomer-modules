@@ -5,6 +5,7 @@ export const GetConsent = gql`
     ${CORE_NODE_FIELDS}
     query getConsent($workspace: Workspace!, $id: String!, $language: String!) {
         response: jcr(workspace: $workspace) {
+            workspace
             consent: nodeById(uuid: $id) {
                 ...CoreNodeFields
                 identifier:name

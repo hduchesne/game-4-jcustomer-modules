@@ -10,14 +10,28 @@ import {getRandomString} from 'misc/utils';
 
 import {contextValidator} from "douane";
 import {Store} from "store";
-import {JahiaCtxProvider} from "./contexts";
+import {JahiaCtxProvider,AppCtxProvider} from "./contexts";
 import {CxsCtxProvider} from "./unomi/cxs";
-import {getClient} from "./webappGraphql";
+import {getClient, GetQuiz} from "./webappGraphql";
 
 import 'index.css';
 import {syncTracker} from "misc/trackerWem";
+import {formatQuizJcrProps} from "components/Quiz/QuizModel";
 
-const render=(target,context)=>{
+async function getQuizData ({client,workspace,locale,quizId}){
+    const {data} = await client.query({
+        query: GetQuiz,
+        variables:{
+            workspace,
+            language:locale,
+            id:quizId
+        },
+        // skip:!quizId
+    });
+    return formatQuizJcrProps(data.response.quiz);
+}
+
+const render= async (target,context)=>{
     try{
         // console.log("context : ",JSON.stringify(context));
         context = contextValidator(context);
@@ -29,11 +43,24 @@ const render=(target,context)=>{
 
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
-        const {workspace,locale = 'en',quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext,cndTypes,scope} = context;
-        // if(workspace === "LIVE" && !window.wem){
-        //     //TODO add callback ?
-        //     syncTracker({scope,contextServerUrl,locale,quizId})
-        // }
+        const {workspace,locale = 'en',quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope} = context;
+
+        const client = getClient(gqlServerUrl)
+        const quizData = await getQuizData({client,workspace,locale,quizId});
+        const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
+
+        //TODO not working !
+        if(workspace === "LIVE" && !window.wem){
+            //TODO add callback ?
+            window.wem = syncTracker({
+                scope,
+                contextServerUrl,
+                locale,
+                quizKey:quizData.quizContent.key,
+                quizPath:quizData.path
+            });
+            window.cxs = window.wem.getLoadedContext();
+        }
 
         ReactDOM.render(
             <React.StrictMode>
@@ -46,12 +73,22 @@ const render=(target,context)=>{
                         contextServerUrl,
                         cndTypes
                     }}>
-                        <Store appContext={appContext}>
-                            <ApolloProvider client={getClient(gqlServerUrl)}>
+                        <Store quizData={quizData}>
+                            <ApolloProvider client={client}>
                                 {/*<ThemeProvider theme={theme(context.theme)}>*/}
                                 <div style={{overflow:'hidden'}}>
                                     <CxsCtxProvider>
-                                        <App />
+                                        <AppCtxProvider value={{
+                                            languageBundle:quizData.languageBundle,
+                                            ...appContext,
+                                            transitionIsEnabled,
+                                            transitionLabel,
+                                            resetBtnIsEnabled,
+                                            browsingIsEnabled,
+                                            scope
+                                        }}>
+                                            <App quizData={quizData}/>
+                                        </AppCtxProvider>
                                     </CxsCtxProvider>
                                 </div>
 

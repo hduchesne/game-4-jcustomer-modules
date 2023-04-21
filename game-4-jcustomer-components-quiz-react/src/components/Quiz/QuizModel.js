@@ -23,6 +23,9 @@ const getMktoConfig = (config)=>{
 }
 
 const getTypes = jcrProps => {
+    if(!jcrProps)
+        return [];
+
     const superTypes = jcrProps.primaryNodeType.supertypes?.map(({name}) => name) || [];
     const mixinTypes = jcrProps.mixinTypes.map(({name}) => name) || [];
     const primaryNodeType = jcrProps.primaryNodeType?.name;
@@ -51,6 +54,7 @@ const initLanguageBundle = quizJcrProps =>
 export const formatQuizJcrProps = (quizJcrProps) => ({
     //NOTE be sure string value like "false" or "true" are boolean I use JSON.parse to cast
     id: quizJcrProps.uuid,
+    path: quizJcrProps.path,
     types: getTypes(quizJcrProps),
     quizContent: {
         key: quizJcrProps.key.value,
@@ -67,14 +71,7 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
                 id: node.uuid,
                 types: getTypes(node)
             })
-        ) || []
-    },
-    quizConfig: {
-        userTheme: getTheme(quizJcrProps.userTheme?.value || {}),
-        transitionIsEnabled: JSON.parse(quizJcrProps.transition?.value || false),
-        transitionLabel: quizJcrProps.transitionLabel?.value || "",
-        resetIsEnabled: JSON.parse(quizJcrProps.reset?.value || false),
-        browsingIsEnabled: JSON.parse(quizJcrProps.browsing?.value || false),
+        ) || [],
         mktgForm: quizJcrProps.mktgForm?.value,
         mktoConfig: getMktoConfig(quizJcrProps.mktoConfig?.value),
         consents: quizJcrProps.consents?.nodes.map(node => ({
@@ -82,6 +79,13 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
                 actived: JSON.parse(node.actived?.value)
             })
         ) || [],
+    },
+    quizConfig: {
+        userTheme: getTheme(quizJcrProps.userTheme?.value || {}),
+        transitionIsEnabled: JSON.parse(quizJcrProps.transition?.value || false),
+        transitionLabel: quizJcrProps.transitionLabel?.value || "",
+        resetIsEnabled: JSON.parse(quizJcrProps.reset?.value || false),
+        browsingIsEnabled: JSON.parse(quizJcrProps.browsing?.value || false),
     },
     languageBundle: initLanguageBundle(quizJcrProps)
 });

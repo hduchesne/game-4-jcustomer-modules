@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import _merge from "lodash.merge";
 
 const defaultTheme = () =>({
@@ -147,7 +147,7 @@ const defaultTheme = () =>({
 
 const getTheme = (userTheme) =>{
     const targetTheme = defaultTheme();
-    const theme = createMuiTheme( _merge(targetTheme,userTheme));
+    const theme = createTheme( _merge(targetTheme,userTheme));
     return theme;
 }
 

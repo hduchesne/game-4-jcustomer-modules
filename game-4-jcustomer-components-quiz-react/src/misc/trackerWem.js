@@ -1,7 +1,10 @@
 import {useTracker as tracker} from "apache-unomi-tracker";
 
 
-export const syncTracker = ({scope,contextServerUrl,locale,quizId}) => {
+export const syncTracker = ({scope,contextServerUrl,locale,quizKey,quizPath}) => {
+    //needed for isCrawler
+    window.Buffer = window.Buffer || require("buffer").Buffer;
+
     const unomiWebTracker = tracker();
     const config = {
         scope,
@@ -12,7 +15,7 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizId}) => {
         },
         page: {
             pageInfo: {
-                pageID: `WebApp Quiz : ${quizId}`,
+                pageID: `WebApp Quiz`,
                 pageName: document.title,
                 pagePath: document.location.pathname,
                 destinationURL: document.location.origin + document.location.pathname,
@@ -20,7 +23,10 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizId}) => {
                 categories: [],
                 tags: []
             },
-            attributes: {},
+            attributes: {
+                quizPath,
+                quizKey
+            },
             consentTypes: []
         },
         events: [],
@@ -44,5 +50,6 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizId}) => {
         console.log("Unomi tracker successfully loaded context", unomiWebTracker.getLoadedContext());
     }, 'Unomi tracker loaded');
 
-    unomiWebTracker.startTracker()
+    unomiWebTracker.startTracker();
+    return unomiWebTracker;
 };

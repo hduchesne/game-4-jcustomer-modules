@@ -11,11 +11,11 @@ export const cndTypes = {
     JNT_FILE:'jnt:file',
     IMAGE:'jmix:image'
 }
-export const consentStatus={
+export const consentStatusEnum={
     GRANTED:"GRANTED",
     DENIED:"DENIED",
     REVOKED:"REVOKED"
 };
-export const mktgForm={
+export const mktgFormEnum={
     MARKETO:"mkto",
 }

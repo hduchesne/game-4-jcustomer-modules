@@ -4,32 +4,45 @@ import {StoreCtxProvider} from "contexts";
 import {getRandomString} from "misc/utils";
 import {syncQuizScore} from "misc/tracker";
 import QuizMapper from "components/Quiz/QuizModel";
+import {consentStatus, mktgForm} from "douane/lib/config";
 
-const init = appContext => {
+const init = ({quizData}) => {
     // console.log("jContent.transition : ",jContent.transition);
+    const scoreIndex = getRandomString(5,"#aA");
+    const {childNodes = []} = quizData.quizContent;
+    const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
+
+    const slideSet = [quizData.id];
+    childNodes.forEach(node => slideSet.push(node.id));
+    slideSet.push(scoreIndex);
+
+    const max = slideSet.length -1;
+
     return {
         // jContent,
         // quiz: null,//{consents:[],childNodes:[]},
         resultSet:[],//array of boolean, order is the same a slideSet
         currentResult:false,//previously result
-        slideSet:[],//previously slideIndex
+        slideSet,//[],//previously slideIndex
         currentSlide:null,//previously index
         showResult:false,
         showNext:false,
         showScore:false,
-        max:-1,
+        max,
         score:0,
-        cxs:null,
+        cxs:null,//TODO remove
         reset:false,
-        resetBtnIsEnabled:false,//jContent.reset,
+        // resetBtnIsEnabled,//:false,//jContent.reset,
         transitionActive:false,
-        transitionIsEnabled:false,//jContent.transition,
-        transitionLabel:"jahia",
+        // transitionIsEnabled,//:false,//jContent.transition,
+        // transitionLabel,//:"jahia",
         transitionTimeout:1000,
         transitionRow : [...Array(5)],
-        browsingIsEnabled:false,
-        scoreIndex:getRandomString(5,"#aA"),
-        scoreSplitPattern:appContext.scoreSplitPattern
+        // browsingIsEnabled,//:false,
+        scoreIndex,
+        // scoreSplitPattern,
+        // consentStatus,
+        // mktgForm
     }
 }
 
@@ -63,38 +76,38 @@ const reducer = (state, action) => {
     }
 
     switch (action.case) {
-        case "DATA_READY": {
-            //prepare slideIds
-            const {quizData} = payload;
-            const {childNodes = []} = quizData.quizContent;
-            const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
-
-            const slideSet = [quizData.id];
-            childNodes.forEach(node => slideSet.push(node.id));
-            slideSet.push(state.scoreIndex);
-
-            const max = slideSet.length -1;
-
-            return {
-                ...state,
-                currentSlide:quizData.id,
-                transitionIsEnabled,
-                transitionLabel,
-                resetBtnIsEnabled,
-                browsingIsEnabled,
-                slideSet,
-                showNext:showNext({slideSet,max,slide:quizData.id}),
-                max
-            };
-        }
-        case "ADD_CXS": {
-            const cxs = payload.cxs;
-            console.debug("[STORE] ADD_CXS - cxs: ",cxs);
-            return {
-                ...state,
-                cxs
-            };
-        }
+        // case "DATA_READY": {
+        //     //prepare slideIds
+        //     const {quizData} = payload;
+        //     const {childNodes = []} = quizData.quizContent;
+        //     const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
+        //
+        //     const slideSet = [quizData.id];
+        //     childNodes.forEach(node => slideSet.push(node.id));
+        //     slideSet.push(state.scoreIndex);
+        //
+        //     const max = slideSet.length -1;
+        //
+        //     return {
+        //         ...state,
+        //         currentSlide:quizData.id,
+        //         transitionIsEnabled,
+        //         transitionLabel,
+        //         resetBtnIsEnabled,
+        //         browsingIsEnabled,
+        //         slideSet,
+        //         showNext:showNext({slideSet,max,slide:quizData.id}),
+        //         max
+        //     };
+        // }
+        // case "ADD_CXS": {
+        //     const cxs = payload.cxs;
+        //     console.debug("[STORE] ADD_CXS - cxs: ",cxs);
+        //     return {
+        //         ...state,
+        //         cxs
+        //     };
+        // }
         case "ADD_SLIDES": {
             const slides = payload.slides;
             const parentSlide = payload.parentSlide;
@@ -258,9 +271,10 @@ const reducer = (state, action) => {
 }
 
 export const Store = props => {
+    const {quizData} = props;
     const [state, dispatch] = React.useReducer(
         reducer,
-        props.appContext,
+        {quizData},
         init
     );
     return (

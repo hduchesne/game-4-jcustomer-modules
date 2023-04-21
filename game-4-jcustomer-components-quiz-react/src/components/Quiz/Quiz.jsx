@@ -5,7 +5,7 @@ import {Button,Typography} from "@material-ui/core";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import {makeStyles} from "@material-ui/core/styles";
 
-import {StoreCtx} from "contexts";
+import {JahiaCtx, StoreCtx, AppCtx} from "contexts";
 import {Consent} from "components/Consent";
 import get from "lodash.get";
 
@@ -17,6 +17,8 @@ import DOMPurify from "dompurify";
 import Header from "components/Header/Header";
 import {manageTransition} from "misc/utils";
 import useMarketo from "components/Marketo/LoadScript";
+import {CxsCtx} from "unomi/cxs";
+import {consentStatus, consentStatusEnum, mktgFormEnum} from "douane/lib/config";
 // import {mktgForm} from "douane/lib/config";
 
 const useStyles = makeStyles(theme => ({
@@ -84,7 +86,7 @@ function reducer(state, action) {
     switch (action.case) {
         case "DATA_READY_CONSENT":{
             let {consents} = state;
-            const {consentData,scope,cxs,consent_status} = payload;
+            const {consentData,scope,cxs,consentStatus} = payload;
             console.debug("[QUIZ] DATA_READY_CONSENT -> consentData :",consentData);
 
             const identifier = get(consentData, "identifier");
@@ -93,7 +95,7 @@ function reducer(state, action) {
             const consentPath = `consents["${scope}/${identifier}"]`;
             const cxsConsentStatus = get(cxs,`${consentPath}.status`);
             const cxsConsentRevokeDate = get(cxs,`${consentPath}.revokeDate`);
-            const granted = consent_status.GRANTED === cxsConsentStatus
+            const granted = consentStatus.GRANTED === cxsConsentStatus
                 && Date.now() < Date.parse(cxsConsentRevokeDate)
 
             consents = [...consents,{
@@ -166,40 +168,35 @@ const MktoForm = (props) => {
 const Quiz = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
+    const cxs = React.useContext(CxsCtx);
+    const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
+    const { scope, consentStatusEnum, mktgFormEnum, languageBundle } = React.useContext(AppCtx);
+
+    const {id, title, subtitle, duration, description, media, consents, mktgForm, mktoConfig} = props;
+
     const { state, dispatch } = React.useContext(StoreCtx);
 
     const {
-        quiz,
         showNext,
         currentSlide,
-        jContent,
-        cxs
     } = state;
-
-    const {
-        consent_status,
-        scope,
-        gql_variables,
-        language_bundle,
-        mktgForm
-    } = jContent;
 
     const enableStartBtn = showNext &&
         // !quiz.mktoForm &&
-        quiz.consents.length > 0? gql_variables.workspace !== "LIVE" : true;
+        consents.length > 0? workspace !== "LIVE" : true;
 
     const [quizState, quizDispatch] = React.useReducer(
         reducer,
         {
             enableStartBtn,//: showNext && gql_variables.workspace !== "LIVE",
-            workspace:gql_variables.workspace,
+            workspace,
             showNext,
         },
         init
     );
 
-    console.debug("[DISPLAY] quiz : ",quiz.title);
-    const show = currentSlide === quiz.id;
+    console.debug("[DISPLAY] quiz : ",title);
+    const show = currentSlide === id;
 
     const onClick = () => {
         quizState.consents.forEach(consent=>{
@@ -210,7 +207,7 @@ const Quiz = (props) => {
             syncConsentStatus({
                 scope,
                 typeIdentifier:consent.identifier,
-                status:consent_status.GRANTED
+                status:consentStatusEnum.GRANTED
             });
         })
 
@@ -235,7 +232,7 @@ const Quiz = (props) => {
         return false;
     }
 
-    const handleMktoForm = (form,_cxs) =>{
+    const handleMktoForm = (form,cxs) =>{
         form.addHiddenFields({
             'pageURL' : document.location.href,
             'cxsProfileId' : cxs?cxs.profileId:'',
@@ -246,6 +243,7 @@ const Quiz = (props) => {
     const getStartComponent = () => {
 
         const _cxs = window.cxs || false;
+
         if(!state.cxs &&
             _cxs.constructor === Object &&
             Object.keys(_cxs).length === 0)
@@ -254,33 +252,33 @@ const Quiz = (props) => {
                 Internal jExperience connection issue
             </Typography>
 
-        if(!quiz.mktgForm)
+        if(!mktgForm)
             return <Button onClick={onClick}
                            disabled={!quizState.enableStartBtn}>
-                {language_bundle && language_bundle.btnStart}
+                {languageBundle && languageBundle.btnStart}
             </Button>
 
-        if(quiz.mktgForm === mktgForm.MARKETO && quiz.mktoConfig && cxs)
+        if(mktgForm === mktgFormEnum.MARKETO && mktoConfig && cxs)
             return <MktoForm
-                baseUrl={quiz.mktoConfig.baseUrl}
-                munchkinId={quiz.mktoConfig.munchkinId}
-                formId={quiz.mktoConfig.formId}
+                baseUrl={mktoConfig.baseUrl}
+                munchkinId={mktoConfig.munchkinId}
+                formId={mktoConfig.formId}
                 whenReadyCallback={handleMktoForm}
             />
     }
 
     const getConsent = () =>{
-        if(quiz.mktgForm)
+        if(mktgForm)
             return;
-        if(quiz.consents.length > 0 && cxs)
+        if(consents.length > 0 && cxs)
             return <div className={classes.consent}>
                         <Typography className={classes.consentTitle}
                                     variant="h5">
-                            {language_bundle && language_bundle.consentTitle}
+                            {languageBundle && languageBundle.consentTitle}
                         </Typography>
                         <ul>
                             {
-                                quiz.consents.map( consent =>{
+                                consents.map( consent =>{
                                     if(consent.actived)
                                         return <Consent
                                             key={consent.id}
@@ -302,14 +300,13 @@ const Quiz = (props) => {
             (show ? 'active':'')
         )}>
             <Header/>
-            {quiz.media &&
-            <Media id={quiz.media.id}
-                   type={quiz.media.type?quiz.media.type.value:null}
-                   mixins={quiz.media.mixins?quiz.media.mixins.map(mixin=>mixin.value):[]}
-                   path={quiz.media.path}
-                   alt={quiz.title}
-            />
-            }
+            {/*{media &&*/}
+            {/*<Media id={media.id}*/}
+            {/*       types={media.types}*/}
+            {/*       path={media.path}*/}
+            {/*       alt={title}*/}
+            {/*/>*/}
+            {/*}*/}
 
 
             <div className={classnames(
@@ -318,23 +315,23 @@ const Quiz = (props) => {
             )}>
                 <Typography className={sharedClasses.textUppercase}
                             variant="h3">
-                    {quiz.title}
+                    {title}
                 </Typography>
                 <Typography className={sharedClasses.subtitle}
                             color="primary"
                             variant="h4">
-                    {quiz.subtitle}
+                    {subtitle}
                 </Typography>
 
                 <Typography component="div"
                             className={classes.duration}>
                     <AccessTimeIcon />
-                    {quiz.duration}
+                    {duration}
                 </Typography>
 
                 <Typography component="div"
                             className={classes.description}
-                            dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(quiz.description, { ADD_ATTR: ['target'] })}}/>
+                            dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(description, { ADD_ATTR: ['target'] })}}/>
 
                 {getStartComponent()}
             </div>
