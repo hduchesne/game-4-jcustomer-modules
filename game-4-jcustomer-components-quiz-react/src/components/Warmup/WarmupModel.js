@@ -1,35 +1,26 @@
-import get from "lodash.get";
+import {getTypes} from 'misc/utils'
 
-const WarmupMapper = (warmupData,cnd_type) => {
-    let video = null;
-    const videoLink = get(warmupData, "videoLink.value", "");
-    const videoIntPath = get(warmupData, "videoIntPath.node");
-
-    if(videoLink)
-        video= videoIntPath ?
-            videoIntPath:{
-                id:null,
-                type:{
-                    value:cnd_type.EXT_VIDEO
-                },
-                path:get(warmupData, "videoExtPath.value")
-            }
-
+export const formatWarmupJcrProps = (warmupJcrProps) => {
     return{
-        id: get(warmupData, "id", ""),
-        title: get(warmupData, "title", ""),
-        subtitle: get(warmupData, "subtitle.value", ""),
-        content: get(warmupData, "content.value", ""),
-        duration: get(warmupData, "duration.value", ""),
-        media: get(warmupData, "media.node", {}),
-        childNodes: get(warmupData,"children.nodes",[])
-            .map(node => {
-                return{
-                    id: get(node, "id"),
-                    type: get(node, "type.value")
-                }
-            }),
-        video
+        id: warmupJcrProps.id,
+        title: warmupJcrProps.title,
+        subtitle: warmupJcrProps.subtitle?.value || "",
+        content: warmupJcrProps.content?.value || "",
+        duration: warmupJcrProps.duration?.value || "",
+        media: {
+            id: warmupJcrProps.media?.node?.uuid || null,
+            types: getTypes(warmupJcrProps.media?.node),
+            path: warmupJcrProps.media?.node?.path || null,
+        },
+        video: {
+            id: warmupJcrProps.video?.node?.uuid || null,
+            types: getTypes(warmupJcrProps.video?.node),
+            path: warmupJcrProps.video?.value || warmupJcrProps.video?.node?.path || null,
+        },
+        childNodes: warmupJcrProps.children?.nodes?.map(node => ({
+                id: node.uuid,
+                types: getTypes(node)
+            })
+        ) || []
     }
 }
-export default WarmupMapper;

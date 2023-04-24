@@ -68,7 +68,8 @@ const render= async (target,context)=>{
                     <JahiaCtxProvider value={{
                         workspace,
                         locale,
-                        quizId,
+                        quizId:quizData.id,
+                        quizPath:quizData.path,
                         filesServerUrl,
                         contextServerUrl,
                         cndTypes

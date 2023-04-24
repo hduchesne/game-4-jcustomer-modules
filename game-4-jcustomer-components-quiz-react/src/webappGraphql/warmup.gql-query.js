@@ -18,6 +18,7 @@ export const GetWarmup = gql`
                     node: refNode {...CoreNodeFields }
                 }
                 children { nodes { ...CoreNodeFields } }
+                ...MediaProperty
             }
         }
     }

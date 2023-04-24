@@ -1,51 +1,26 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {StoreCtx} from "contexts";
-import Image from './components/Image';
-import Video from './components/Video';
-import WidenImage from './components/widen/WidenImage';
-import WidenVideo from './components/widen/WidenVideo';
+import {JahiaCtx} from "contexts";
+import {WidenAsset} from "components/Media/components/widen";
+import {JahiaAsset} from "components/Media/components/jahia";
+import {CloudinaryAsset} from "components/Media/components/cloudinary";
 
-export const Media = ({id,type,mixins,path,sourceID,alt}) => {
-    const { state } = React.useContext(StoreCtx);
-    const {cnd_type,files_endpoint} = state.jContent;
+export const Media = ({id,types,path,sourceID,alt}) => {
+    const { cndTypes } = React.useContext(JahiaCtx);
 
-    // console.log("Media equals: ",type === cnd_type.WIDEN_IMAGE)
-    let component = <></>;
-    switch(type){
-        case cnd_type.WIDEN_IMAGE :
-            component = <WidenImage uuid={id} />
-            break;
-
-        case cnd_type.WIDEN_VIDEO :
-            component = <WidenVideo uuid={id} ownerID={sourceID} />
-            break;
-
-        case cnd_type.EXT_VIDEO:
-            component = <Video url={path} ownerID={sourceID} />
-            break;
-
-        case cnd_type.JNT_FILE:
-            if(mixins.includes(cnd_type.IMAGE)){
-                component = <Image path={path} alt={alt}/>
-            }else{
-                component = <Video url={files_endpoint+encodeURI(path)} ownerID={sourceID} />
-            }
-            break;
-
-        default:
-            if(path)
-                component = <Image path={path} alt={alt}/>
-            break;
+    switch(true){
+        case types.includes(cndTypes.WIDEN) :
+            return <WidenAsset types={types} id={id} sourceID={sourceID} />
+        case types.includes(cndTypes.CLOUDINARY) :
+            return <CloudinaryAsset types={types} id={id} sourceID={sourceID} />
+        default :
+            return <JahiaAsset types={types} path={path} sourceID={sourceID} alt={alt}/>
     }
-    // console.log("Media component: ",component)
-    return(component)
 }
 
 Media.propTypes={
     id:PropTypes.string,
-    type:PropTypes.string,
-    mixins:PropTypes.array,
+    types:PropTypes.string,
     path:PropTypes.string,
     sourceID:PropTypes.string,
     alt:PropTypes.string

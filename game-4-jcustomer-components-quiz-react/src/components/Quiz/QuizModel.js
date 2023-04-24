@@ -1,3 +1,5 @@
+import {getTypes} from 'misc/utils'
+
 const getTheme = (theme)=>{
     if(typeof theme === 'string'){
         try{
@@ -20,16 +22,6 @@ const getMktoConfig = (config)=>{
             console.error("the marketo config => \n"+config+"\n => is not a json object : ",e);
         }
     };
-}
-
-const getTypes = jcrProps => {
-    if(!jcrProps)
-        return [];
-
-    const superTypes = jcrProps.primaryNodeType.supertypes?.map(({name}) => name) || [];
-    const mixinTypes = jcrProps.mixinTypes.map(({name}) => name) || [];
-    const primaryNodeType = jcrProps.primaryNodeType?.name;
-    return [primaryNodeType,...superTypes,...mixinTypes];
 }
 
 const languageBundleKeys =  [
@@ -62,7 +54,11 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
         subtitle: quizJcrProps.subtitle?.value || "",
         description: quizJcrProps.description?.value || "",
         duration: quizJcrProps.duration?.value || "",
-        media: quizJcrProps.media?.node || {},
+        media: {
+            id: quizJcrProps.media?.node?.uuid || null,
+            types: getTypes(quizJcrProps.media?.node),
+            path: quizJcrProps.media?.node?.path || null,
+        },
         personalizedResult: {
             id: quizJcrProps.personalizedResult?.node?.uuid || null,
             types: getTypes(quizJcrProps.personalizedResult?.node)

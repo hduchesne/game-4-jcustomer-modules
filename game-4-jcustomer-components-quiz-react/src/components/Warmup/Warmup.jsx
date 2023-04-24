@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import get from "lodash.get";
 import {useQuery} from "@apollo/client";
 
-import {StoreCtx} from "contexts";
+import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 import {GetWarmup} from "webappGraphql";
 import Qna from "components/Qna";
-import WarmupMapper from "components/Warmup/WarmupModel";
+import {formatWarmupJcrProps} from "components/Warmup/WarmupModel";
 import {Media} from "components/Media";
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
@@ -30,43 +30,44 @@ const useStyles = makeStyles(theme => ({
 const Warmup = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
+    const { id : warmupId } = props;
+    const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
+    const { languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {
         currentSlide,
-        jContent
     } = state;
-    //TODO clean this language_bundle should be a props
-    const { gql_variables,cnd_type,language_bundle } =  jContent;
 
-    const variables = Object.assign(gql_variables,{id:props.id})
 
-    const {loading, error, data} = useQuery(GetWarmup({workspace:gql_variables.workspace}), {
-        variables:variables,
+    const {loading, error, data} = useQuery(GetWarmup, {
+        variables:{
+            workspace,
+            language:locale,
+            id:warmupId
+        },
+        skip:!warmupId
     });
 
-    const [warmup, setWarmup] = React.useState({childNodes:[]});
+    // const [warmup, setWarmup] = React.useState({childNodes:[]});
 
     React.useEffect(() => {
-
-        if(loading === false && data){
-            const warmup = WarmupMapper(get(data, "response.warmup", {}),cnd_type)
+        if(loading === false && data) {
             dispatch({
                 case:"ADD_SLIDES",
                 payload:{
-                    slides:warmup.childNodes.map(node=>node.id),
-                    parentSlide:warmup.id
+                    slides: data.response.warmup.children?.nodes?.map(node=>node.uuid),
+                    parentSlide:data.response.warmup.uuid
                 }
             });
-            // console.debug("warmup.id : ",warmup.id,"; warmup.video : ",warmup.video);
-            setWarmup(warmup);
         }
     },[loading,data]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
-    console.debug("[DISPLAY] warmup : ",warmup.title);
 
-    const show = currentSlide === props.id;
+    const {id, media, title, subtitle, video, content, childNodes} = formatWarmupJcrProps(data.response.warmup);
+    const show = currentSlide === warmupId;
+
     const handleCLick = () =>
         manageTransition({
             state,
@@ -84,12 +85,11 @@ const Warmup = (props) => {
                 (show ? 'active':'')
             )}>
                 <Header/>
-                {warmup.media &&
-                    <Media id={warmup.media.id}
-                           type={warmup.media.type?warmup.media.type.value:null}
-                           mixins={warmup.media.mixins?warmup.media.mixins.map(mixin=>mixin.value):[]}
-                           path={warmup.media.path}
-                           alt={warmup.title}
+                {media &&
+                    <Media id={media.id}
+                           types={media.types}
+                           path={media.path}
+                           alt={title}
                     />
                 }
 
@@ -99,42 +99,41 @@ const Warmup = (props) => {
                 )}>
                     <Typography className={sharedClasses.textUppercase}
                                 variant="h3">
-                        {warmup.title}
+                        {title}
                     </Typography>
                     <Typography className={sharedClasses.subtitle}
                                 color="primary"
                                 variant="h4">
-                        {warmup.subtitle}
+                        {subtitle}
                     </Typography>
 
                     <div className={classes.contentGroup}>
                         <Typography component="div"
                                     className={classes.content}
-                                    dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(warmup.content, { ADD_ATTR: ['target'] })}}/>
+                                    dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(content, { ADD_ATTR: ['target'] })}}/>
 
-                        { warmup.video != null &&
+                        {video &&
                         <div>
-                            <Media id={warmup.video.id || null}
-                                   type={warmup.video.type.value}
-                                   mixins={[]}
-                                   path={warmup.video.path}
-                                   sourceID={warmup.id}
+                            <Media id={video.id}
+                                   types={video.types}
+                                   path={video.path}
+                                   sourceID={id}
                             />
                         </div>
                         }
                     </div>
 
                     <Button onClick={ handleCLick }>
-                        {language_bundle && language_bundle.btnQuestion}
+                        {languageBundle && languageBundle.btnQuestion}
                     </Button>
                 </div>
             </div>
-            {warmup.childNodes.map( node =>
-                <Qna
-                    key={node.id}
-                    id={node.id}
-                />
-            )}
+            {/*{childNodes.map( node =>*/}
+            {/*    <Qna*/}
+            {/*        key={node.id}*/}
+            {/*        id={node.id}*/}
+            {/*    />*/}
+            {/*)}*/}
         </>
     );
 }

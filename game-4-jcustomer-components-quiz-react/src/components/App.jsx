@@ -39,13 +39,13 @@ export const App = (props)=> {
     const cxs = React.useContext(CxsCtx);
     const { cndTypes } = React.useContext(JahiaCtx);
 
-    const { state, dispatch } = React.useContext(StoreCtx);
+    const { state } = React.useContext(StoreCtx);
     const {
         showResult,
         showScore
     } = state;
 
-    const {quizData : {id, quizContent, quizConfig}, scope} = props;
+    const {quizData : {id, quizContent, quizConfig}} = props;
 
     const displayScore=()=>{
         if(showScore)
@@ -66,26 +66,26 @@ export const App = (props)=> {
                         <>
                             <Quiz id={id} {...quizContent} />
 
-                            {/*{quizContent.childNodes.map( node => {*/}
-                            {/*    if(node.types.includes(cndTypes.QNA))*/}
-                            {/*        return <Qna*/}
-                            {/*            key={node.id}*/}
-                            {/*            id={node.id}*/}
-                            {/*        />*/}
+                            {quizContent.childNodes.map( node => {
+                                if(node.types.includes(cndTypes.QNA))
+                                    return <Qna
+                                        key={node.id}
+                                        id={node.id}
+                                    />
 
-                            {/*    if(node.types.includes(cndTypes.WARMUP))*/}
-                            {/*        return <Warmup*/}
-                            {/*            key={node.id}*/}
-                            {/*            id={node.id}*/}
-                            {/*        />*/}
-                            {/*    return <Typography color="error"*/}
-                            {/*                       component="p">*/}
-                            {/*        node type {node.types} is not supported*/}
-                            {/*    </Typography>*/}
+                                if(node.types.includes(cndTypes.WARMUP))
+                                    return <Warmup
+                                        key={node.id}
+                                        id={node.id}
+                                    />
+                                return <Typography color="error"
+                                                   component="p">
+                                    node type {node.types} is not supported
+                                </Typography>
 
-                            {/*})}*/}
+                            })}
 
-                            {/*{displayScore()}*/}
+                            {displayScore()}
                         </>
                     }
                 </div>

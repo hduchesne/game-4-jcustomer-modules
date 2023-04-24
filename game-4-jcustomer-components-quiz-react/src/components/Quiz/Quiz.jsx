@@ -300,13 +300,13 @@ const Quiz = (props) => {
             (show ? 'active':'')
         )}>
             <Header/>
-            {/*{media &&*/}
-            {/*<Media id={media.id}*/}
-            {/*       types={media.types}*/}
-            {/*       path={media.path}*/}
-            {/*       alt={title}*/}
-            {/*/>*/}
-            {/*}*/}
+            {media &&
+            <Media id={media.id}
+                   types={media.types}
+                   path={media.path}
+                   alt={title}
+            />
+            }
 
 
             <div className={classnames(

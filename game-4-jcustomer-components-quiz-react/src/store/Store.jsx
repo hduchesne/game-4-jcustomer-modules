@@ -24,7 +24,7 @@ const init = ({quizData}) => {
         resultSet:[],//array of boolean, order is the same a slideSet
         currentResult:false,//previously result
         slideSet,//[],//previously slideIndex
-        currentSlide:null,//previously index
+        currentSlide:quizData.id,//null,//previously index
         showResult:false,
         showNext:false,
         showScore:false,

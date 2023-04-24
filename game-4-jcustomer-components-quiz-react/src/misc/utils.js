@@ -1,7 +1,17 @@
 
 const _WEAKREFERENCE_ = "WEAKREFERENCE";
 
-function getProperties(properties,context){
+export const getTypes = jcrProps => {
+    if(!jcrProps)
+        return [];
+
+    const superTypes = jcrProps.primaryNodeType.supertypes?.map(({name}) => name) || [];
+    const mixinTypes = jcrProps.mixinTypes.map(({name}) => name) || [];
+    const primaryNodeType = jcrProps.primaryNodeType?.name;
+    return [primaryNodeType,...superTypes,...mixinTypes];
+}
+
+export function getProperties(properties,context){
     if(!properties) return;
     return properties.reduce(function(bundle,property){
         const key = property.name.split(":").pop();
@@ -25,7 +35,7 @@ function getProperties(properties,context){
 //     return `${filesEndpoint}${encodeURI(nodePath)}`;///encodeURIComponent()
 // };
 
-function getRandomString (length, format){
+export function getRandomString (length, format){
     let mask = "";
     if (format.indexOf("a") > -1) mask += "abcdefghijklmnopqrstuvwxyz";
     if (format.indexOf("A") > -1) mask += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -36,13 +46,13 @@ function getRandomString (length, format){
     return result;
 };
 
-function getGQLWorkspace(workspace){
+export function getGQLWorkspace(workspace){
     return workspace==="default"?
         "EDIT":
         workspace.toUpperCase()
 }
 
-function manageTransition({state,dispatch,payload}){
+export function manageTransition({state,dispatch,payload}){
     const {
         transitionIsEnabled,
         transitionTimeout
@@ -59,11 +69,4 @@ function manageTransition({state,dispatch,payload}){
     }else{
         dispatch(payload)
     }
-}
-
-export {
-    getProperties,
-    getRandomString,
-    getGQLWorkspace,
-    manageTransition
 }

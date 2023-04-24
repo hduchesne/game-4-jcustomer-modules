@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import PropTypes from "prop-types";
-import {StoreCtx} from "contexts";
+import {JahiaCtx} from "contexts";
 import ReactPlayer from "react-player";
 import {syncVideoStatus} from "misc/tracker";
 import {makeStyles} from "@material-ui/core/styles";
@@ -9,24 +9,23 @@ const useStyles = makeStyles(theme => ({
     playerWrapper:{}
 }));
 
-const VideoPlayer = (props)=>{
+export const VideoPlayer = (props)=>{
     const classes = useStyles(props);
     const {ownerID,videoURL} = props;
-    const { state } = React.useContext(StoreCtx);
-    const {quiz} = state;
+    const { quizId,quizPath } = React.useContext(JahiaCtx);
 
     const player = useRef(null);
 
     const handleVideoStatus = ({status}) => {
-        syncVideoStatus({
-            content:{
-                id:quiz.id,
-                type:quiz.type
-            },
-            parent:ownerID,
-            player,
-            status
-        })
+        // syncVideoStatus({
+        //     content:{
+        //         id:quizId,
+        //         path:quizPath
+        //     },
+        //     parent:ownerID,
+        //     player,
+        //     status
+        // })
     }
 
     // const onReadyHandler = () => {
@@ -66,5 +65,3 @@ VideoPlayer.propTypes={
     videoURL:PropTypes.string.isRequired,
     ownerID:PropTypes.string.isRequired
 }
-
-export default VideoPlayer;
