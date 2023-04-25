@@ -6,7 +6,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import {makeStyles} from "@material-ui/core/styles";
 
 import {JahiaCtx, StoreCtx, AppCtx} from "contexts";
-import {Consent} from "components/Consent";
+import {Header,Consent, useMarketo} from "components";
 import get from "lodash.get";
 
 import {syncConsentStatus} from "misc/tracker";
@@ -14,12 +14,8 @@ import {Media} from '../Media'
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import DOMPurify from "dompurify";
-import Header from "components/Header/Header";
 import {manageTransition} from "misc/utils";
-import useMarketo from "components/Marketo/LoadScript";
 import {CxsCtx} from "unomi/cxs";
-import {consentStatus, consentStatusEnum, mktgFormEnum} from "douane/lib/config";
-// import {mktgForm} from "douane/lib/config";
 
 const useStyles = makeStyles(theme => ({
     duration:{
@@ -87,7 +83,6 @@ function reducer(state, action) {
         case "DATA_READY_CONSENT":{
             let {consents} = state;
             const {consentData,scope,cxs,consentStatus} = payload;
-            console.debug("[QUIZ] DATA_READY_CONSENT -> consentData :",consentData);
 
             const identifier = get(consentData, "identifier");
 
@@ -165,12 +160,12 @@ const MktoForm = (props) => {
     return <form id={`mktoForm_${formId}`} />;
 }
 
-const Quiz = (props) => {
+export const Quiz = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
     const cxs = React.useContext(CxsCtx);
     const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
-    const { scope, consentStatusEnum, mktgFormEnum, languageBundle } = React.useContext(AppCtx);
+    const { transitionIsEnabled, transitionTimeout, scope, consentStatusEnum, mktgFormEnum, languageBundle } = React.useContext(AppCtx);
 
     const {id, title, subtitle, duration, description, media, consents, mktgForm, mktoConfig} = props;
 
@@ -195,7 +190,6 @@ const Quiz = (props) => {
         init
     );
 
-    console.debug("[DISPLAY] quiz : ",title);
     const show = currentSlide === id;
 
     const onClick = () => {
@@ -212,7 +206,8 @@ const Quiz = (props) => {
         })
 
         manageTransition({
-            state,
+            transitionIsEnabled,
+            transitionTimeout,
             dispatch,
             payload:{
                 case:"NEXT_SLIDE"
@@ -223,7 +218,8 @@ const Quiz = (props) => {
     const handleMktoFormSuccess = (values,targetPageUrl) =>{
         // console.debug("[handleMktoFormSuccess] values : ",values);
         manageTransition({
-            state,
+            transitionIsEnabled,
+            transitionTimeout,
             dispatch,
             payload:{
                 case:"NEXT_SLIDE"
@@ -299,7 +295,7 @@ const Quiz = (props) => {
             sharedClasses.showOverlay,
             (show ? 'active':'')
         )}>
-            <Header/>
+            {/*<Header/>*/}
             {media &&
             <Media id={media.id}
                    types={media.types}
@@ -339,7 +335,3 @@ const Quiz = (props) => {
         </div>
     );
 }
-
-// Quiz.propTypes={}
-
-export default Quiz;

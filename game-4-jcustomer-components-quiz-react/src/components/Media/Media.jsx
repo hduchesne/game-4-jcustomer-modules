@@ -7,20 +7,23 @@ import {CloudinaryAsset} from "components/Media/components/cloudinary";
 
 export const Media = ({id,types,path,sourceID,alt}) => {
     const { cndTypes } = React.useContext(JahiaCtx);
+    const width="1024"; //Default background image size used by cloudy and widen
 
     switch(true){
         case types.includes(cndTypes.WIDEN) :
-            return <WidenAsset types={types} id={id} sourceID={sourceID} />
+            return <WidenAsset types={types} id={id} width={width} sourceID={sourceID} />
+
         case types.includes(cndTypes.CLOUDINARY) :
-            return <CloudinaryAsset types={types} id={id} sourceID={sourceID} />
+            return <CloudinaryAsset types={types} id={id} width={width} sourceID={sourceID} />
+
         default :
-            return <JahiaAsset types={types} path={path} sourceID={sourceID} alt={alt}/>
+            return <JahiaAsset types={types} path={path} sourceID={sourceID} alt={alt} />
     }
 }
 
 Media.propTypes={
     id:PropTypes.string,
-    types:PropTypes.string,
+    types:PropTypes.array,
     path:PropTypes.string,
     sourceID:PropTypes.string,
     alt:PropTypes.string

@@ -1,62 +1,70 @@
 import React from 'react';
-import {StoreCtx} from "contexts";
+import {AppCtx, StoreCtx} from "contexts";
 
-import {Media} from "components/Media";
+import {Header, Media} from "components";
 import Personalized from "components/Score/personalized/Personalized";
 import Percentage from "components/Score/percentage/Percentage";
 import cssSharedClasses from "components/cssSharedClasses";
 import classnames from "clsx";
 import {Typography,Button} from "@material-ui/core";
-import Header from "components/Header/Header";
+import {CxsCtx} from "unomi/cxs";
+import {manageTransition} from "misc/utils";
 
-const Score = (props) => {
+export const Score = (props) => {
+    const {media, title, subtitle, personalizedResult} = props;
     const sharedClasses = cssSharedClasses(props);
+    const cxs = React.useContext(CxsCtx);
+    const { transitionIsEnabled, transitionTimeout, resetBtnIsEnabled, languageBundle } = React.useContext(AppCtx);
+
     const { state,dispatch } = React.useContext(StoreCtx);
     const [timer, setTimer] = React.useState(false);
     const {
-        quiz,
         currentSlide,
         score,
-        scoreIndex,
-        jContent,
-        cxs,
-        transitionIsEnabled,
-        transitionTimeout,
-        resetBtnIsEnabled
+        scoreIndex
     } = state;
-    const { language_bundle } =  jContent;
 
     const show = currentSlide === scoreIndex;
 //wait 1s before to call jExp in order to have time to synch user profile with answer
     React.useEffect(() => {
-        if(quiz.personalizedResult.id)
+        if(personalizedResult.id)
             setTimeout(
                 () => setTimer(true),
                 1000
             );
     },[])
 
+    //TODO review this
     const onClick = () => {
-        if(transitionIsEnabled){
-            dispatch({
-                case:"TOGGLE_TRANSITION"
-            });
-            setTimeout(()=>dispatch({
-                case:"TOGGLE_TRANSITION"
-            }),transitionTimeout);
-            setTimeout(()=>dispatch({
+        manageTransition({
+            transitionIsEnabled,
+            transitionTimeout,
+            dispatch,
+            payload:{
                 case:"RESET"
-            }),transitionTimeout);
-        }else{
-            dispatch({
-                case:"RESET"
-            })
-        }
+            }
+        });
+
+        // if(transitionIsEnabled){
+        //     dispatch({
+        //         case:"TOGGLE_TRANSITION"
+        //     });
+        //     setTimeout(()=>dispatch({
+        //         case:"TOGGLE_TRANSITION"
+        //     }),transitionTimeout);
+        //     setTimeout(()=>dispatch({
+        //         case:"RESET"
+        //     }),transitionTimeout);
+        // }else{
+        //     dispatch({
+        //         case:"RESET"
+        //     })
+        // }
     }
     const displayResult = () => {
-        if(quiz.personalizedResult.id){
+        if(personalizedResult.id){
             if(cxs && timer)
-                return <Personalized id={quiz.personalizedResult.id} cxs={cxs}/>
+                return <Personalized id={personalizedResult.id} cxs={cxs}/>
             return <Typography className={classnames(
                         sharedClasses.wait,
                         sharedClasses.textUppercase)}
@@ -72,7 +80,7 @@ const Score = (props) => {
             return;
 
         return <Button onClick={onClick}>
-            {language_bundle && language_bundle.btnReset}
+            {languageBundle && languageBundle.btnReset}
         </Button>
     }
 
@@ -83,12 +91,11 @@ const Score = (props) => {
             (show ? 'active':'')
         )}>
             <Header/>
-            {quiz.media &&
-            <Media id={quiz.media.id}
-                   type={quiz.media.type?quiz.media.type.value:null}
-                   mixins={quiz.media.mixins?quiz.media.mixins.map(mixin=>mixin.value):[]}
-                   path={quiz.media.path}
-                   alt={quiz.title}
+            {media &&
+            <Media id={media.id}
+                   types={media.types}
+                   path={media.path}
+                   alt={title}
             />
             }
             <div className={classnames(
@@ -97,12 +104,12 @@ const Score = (props) => {
             )}>
                 <Typography className={sharedClasses.textUppercase}
                             variant="h3">
-                    {quiz.title}
+                    {title}
                 </Typography>
                 <Typography className={sharedClasses.subtitle}
                             color="primary"
                             variant="h4">
-                    {quiz.subtitle}
+                    {subtitle}
                 </Typography>
 
                 {displayResult()}

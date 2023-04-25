@@ -1,1 +1,1 @@
-export * from 'WidenAsset';
+export * from './WidenAsset';

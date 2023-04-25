@@ -9,7 +9,7 @@ const appendScript = (baseUrl, setScriptLoaded) => {
     document.body.appendChild(script);
 }
 
-const useMarketo = ({ baseUrl, munchkinId, formId, callback, whenReadyCallback,handleSuccess }) => {
+export const useMarketo = ({ baseUrl, munchkinId, formId, callback, whenReadyCallback,handleSuccess }) => {
     const [scriptLoaded, setScriptLoaded] = useState(false);
 
     useEffect(() => {
@@ -25,5 +25,3 @@ const useMarketo = ({ baseUrl, munchkinId, formId, callback, whenReadyCallback,h
         appendScript(baseUrl, setScriptLoaded);
     }, [scriptLoaded, baseUrl, munchkinId, formId, callback,handleSuccess]);
 }
-
-export default useMarketo;

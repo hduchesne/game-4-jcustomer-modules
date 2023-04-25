@@ -1,9 +1,9 @@
-import get from "lodash.get";
-import {getRandomString} from "misc/utils";
+import {getRandomString, getTypes} from "misc/utils";
 
-const QnAMapper = (qnaData) => {
-    const randomSelection=JSON.parse(get(qnaData, "randomSelection.value", false));
-    const answers= get(qnaData, "answers.values", []).map(answer=>{
+export const formatQnaJcrProps = qnaJcrProps => {
+
+    const randomSelection=JSON.parse(qnaJcrProps.randomSelection?.value || false);
+    const answers= qnaJcrProps.answers?.values?.map(answer=>{
         const controlledAnswer = JSON.parse(answer);
         return {
             ...controlledAnswer,
@@ -18,17 +18,19 @@ const QnAMapper = (qnaData) => {
     const inputType = answers.filter(answer => answer.isAnswer).length > 1 ?"checkbox":"radio"
 
     return {
-        id: get(qnaData, "id"),
-        title: get(qnaData, "title"),
-        question: get(qnaData, "question.value", ""),
-        help: get(qnaData, "help.value", ""),
-        notUsedForScore: JSON.parse(get(qnaData, "notUsedForScore.value", false)),
-        // cover: get(qnaData, "cover.node.path", ""),
-        media: get(qnaData, "media.node", {}),
-        jExpField2Map: get(qnaData, "jExpField2Map.value", ""),
+        id:qnaJcrProps.id,
+        title: qnaJcrProps.title,
+        question: qnaJcrProps.question?.value || "",
+        help: qnaJcrProps.help?.value || "",
+        notUsedForScore: JSON.parse(qnaJcrProps.notUsedForScore?.value || false),
+        media: {
+            id: qnaJcrProps.media?.node?.uuid || null,
+            types: getTypes(qnaJcrProps.media?.node),
+            path: qnaJcrProps.media?.node?.path || null,
+        },
+        jExpField2Map: qnaJcrProps.jExpField2Map?.value || null,
         randomSelection,
         answers,
         inputType
     }
 }
-export default QnAMapper;

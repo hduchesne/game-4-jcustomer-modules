@@ -1,31 +1,27 @@
 import React from "react";
 import {JahiaCtx} from "contexts";
-import Image from "components/Media/components/jahia/Image";
-import Video from "components/Media/components/jahia/Video";
+import {Image} from "components/Media/components/jahia/Image";
+import {Video} from "components/Media/components/jahia/Video";
 import PropTypes from "prop-types";
 
 export const JahiaAsset = ({types,path,alt,sourceID}) => {
     const { cndTypes,filesServerUrl } = React.useContext(JahiaCtx);
-    let Component = <></>;
+
     switch (true){
         case Array.isArray(types) && types.length === 0 :
-            Component = <Video url={path} ownerID={sourceID} />
-            break;
+            return <Video url={path} ownerID={sourceID} />
 
         case types.includes(cndTypes.JNT_FILE) && types.includes(cndTypes.IMAGE):
-            Component = <Image path={path} alt={alt}/>
-            break;
+            return <Image path={path} alt={alt}/>
 
         case types.includes(cndTypes.JNT_FILE):
-            Component = <Video url={filesServerUrl+encodeURI(path)} ownerID={sourceID} />
-            break;
+            return <Video url={filesServerUrl+encodeURI(path)} ownerID={sourceID} />
 
         default:
             if(path)
-                Component = <Image path={path} alt={alt}/>
-            break;
+                return <Image path={path} alt={alt}/>
     }
-    return <Component/>
+    return <></>
 }
 
 JahiaAsset.propTypes={

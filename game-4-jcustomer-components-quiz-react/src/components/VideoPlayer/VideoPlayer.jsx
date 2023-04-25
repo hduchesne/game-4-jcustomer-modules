@@ -17,6 +17,7 @@ export const VideoPlayer = (props)=>{
     const player = useRef(null);
 
     const handleVideoStatus = ({status}) => {
+        //TODO
         // syncVideoStatus({
         //     content:{
         //         id:quizId,

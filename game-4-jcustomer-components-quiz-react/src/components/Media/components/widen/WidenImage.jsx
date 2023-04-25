@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const WidenImage = ({imageURL,title}) => {
+export const WidenImage = ({imageURL,title,width}) => {
     const _SIZE_ = '{size}';
     const _SCALE_ = '{scale}';
     const _QUALITY_ = '{quality}';
-    const width = '1024';
     const scale = '1';
     const quality = '72';
 
@@ -20,5 +19,3 @@ WidenImage.propTypes={
     imageURL:PropTypes.string.isRequired,
     title:PropTypes.string.isRequired
 }
-
-export default WidenImage;

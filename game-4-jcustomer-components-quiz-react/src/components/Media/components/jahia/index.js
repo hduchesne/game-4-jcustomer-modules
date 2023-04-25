@@ -1,1 +1,1 @@
-export * from 'JahiaAsset';
+export * from './JahiaAsset';

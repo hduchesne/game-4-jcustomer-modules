@@ -1,7 +1,6 @@
 export const validMark="[*]";//TODO remove
-export const scoreSplitPattern="::";
 export const workspace = ["default","live"];
-//TODO review this
+
 export const cndTypes = {
     QNA:"game4nt:qna",
     WARMUP:"game4nt:warmup",

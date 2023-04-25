@@ -2,7 +2,7 @@ import {getTypes} from 'misc/utils'
 
 export const formatWarmupJcrProps = (warmupJcrProps) => {
     return{
-        id: warmupJcrProps.id,
+        id: warmupJcrProps.uuid,
         title: warmupJcrProps.title,
         subtitle: warmupJcrProps.subtitle?.value || "",
         content: warmupJcrProps.content?.value || "",
@@ -15,7 +15,7 @@ export const formatWarmupJcrProps = (warmupJcrProps) => {
         video: {
             id: warmupJcrProps.video?.node?.uuid || null,
             types: getTypes(warmupJcrProps.video?.node),
-            path: warmupJcrProps.video?.value || warmupJcrProps.video?.node?.path || null,
+            path: warmupJcrProps.video?.node?.path || warmupJcrProps.video?.value ||  null,
         },
         childNodes: warmupJcrProps.children?.nodes?.map(node => ({
                 id: node.uuid,

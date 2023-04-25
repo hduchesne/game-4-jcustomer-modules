@@ -4,9 +4,13 @@ import _merge from "lodash.merge";
 const defaultTheme = () =>({
     geometry:{
         header:{
-          result:{
+            heights:{
+                min:71,
+                max:108
+            },
+            result:{
               height:"45px",
-          }
+            }
         },
         item:{
             minHeight:"700px",
@@ -80,6 +84,7 @@ const defaultTheme = () =>({
     //     borderRadius:3
     // }
     transitions:{
+        row:5,
         easing:{
             ease:"cubic-bezier(0.25, 0.1, 0.25, 1)",
             header:"cubic-bezier(.23,1,.32,1)"

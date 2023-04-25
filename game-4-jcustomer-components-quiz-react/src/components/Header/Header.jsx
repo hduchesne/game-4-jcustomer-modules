@@ -7,6 +7,7 @@ import {manageTransition} from "misc/utils";
 
 const useStyles = makeStyles(theme => ({
     header:{
+        position:"absolute",
         zIndex: 2,
         display: 'flex',
         flexDirection:'column',
@@ -62,11 +63,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Header = (props) => {
+export const Header = (props) => {
     const classes = useStyles(props);
     // const sharedClasses = cssSharedClasses(props);
     const { state, dispatch } = React.useContext(StoreCtx);
-    const { browsingIsEnabled, languageBundle } = React.useContext(AppCtx);
+    const {transitionIsEnabled, transitionTimeout, browsingIsEnabled, languageBundle } = React.useContext(AppCtx);
 
     const {
         slideSet,
@@ -77,54 +78,23 @@ const Header = (props) => {
 
     const handleNextSlide = () =>
         manageTransition({
-            state,
+            transitionIsEnabled,
+            transitionTimeout,
             dispatch,
             payload:{
                 case:"NEXT_SLIDE"
             }
         });
-    // {
-    //     if(transitionIsEnabled){
-    //         dispatch({
-    //             case:"TOGGLE_TRANSITION"
-    //         });
-    //         setTimeout(()=>dispatch({
-    //             case:"TOGGLE_TRANSITION"
-    //         }),transitionTimeout);
-    //         setTimeout(()=>dispatch({
-    //             case:"NEXT_SLIDE"
-    //         }),transitionTimeout);
-    //     }else{
-    //         dispatch({
-    //             case:"NEXT_SLIDE"
-    //         })
-    //     }
-    // }
 
     const handleShowScore = () =>
         manageTransition({
-            state,
+            transitionIsEnabled,
+            transitionTimeout,
             dispatch,
             payload:{
                 case:"SHOW_SCORE"
             }
         });
-        // if(transitionIsEnabled){
-        //     dispatch({
-        //         case:"TOGGLE_TRANSITION"
-        //     });
-        //     setTimeout(()=>dispatch({
-        //         case:"TOGGLE_TRANSITION"
-        //     }),transitionTimeout);
-        //     setTimeout(()=>dispatch({
-        //         case:"SHOW_SCORE"
-        //     }),transitionTimeout);
-        // }else{
-        //     dispatch({
-        //         case:"SHOW_SCORE"
-        //     })
-        // }
-
 
     const getHeaderResultLabel=()=>{
         if(currentResult)
@@ -168,4 +138,3 @@ const Header = (props) => {
         </div>
     )
 };
-export default Header;

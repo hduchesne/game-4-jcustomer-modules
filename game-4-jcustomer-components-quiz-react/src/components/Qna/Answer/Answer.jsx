@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Answer = (props) =>{
+export const Answer = (props) =>{
     const classes = useStyles(props);
     const {qna, qnaDispatch,id} = props;
     const [answer] = qna.answers.filter(answer => answer.id === id);
@@ -132,5 +132,3 @@ Answer.propTypes={
     qnaDispatch:PropTypes.func.isRequired,
     id:PropTypes.string.isRequired,
 }
-
-export default Answer;

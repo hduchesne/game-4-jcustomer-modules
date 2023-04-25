@@ -10,23 +10,26 @@ import {JahiaCtx, StoreCtx} from "../contexts";
 
 import {GetQuiz} from "../webappGraphql/quiz.gql-query.js";
 
-import Quiz from "components/Quiz"
-import Qna from "components/Qna";
-import Warmup from "components/Warmup";
-import Score from "components/Score";
+import {Quiz, Warmup, Transition, Qna, Score, Header} from "components"
+
 import {syncTracker} from "misc/trackerWem";
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from 'clsx';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from 'components/theme';
-import Transition from "components/Transition";
 import 'react-circular-progressbar/dist/styles.css';
+
 const useStyles = makeStyles(theme => ({
     main: {
+        paddingTop:`108px`,//${theme.geometry.header.heights.min}
         position: "relative",
         "& *, &::after, &::before":{
             boxSizing:"border-box",
+        },
+        //needed ?
+        ".showResult &"  :{
+            paddingTop:`108px`//${theme.geometry.header.heights.max}
         }
     },
 }));
@@ -49,17 +52,17 @@ export const App = (props)=> {
 
     const displayScore=()=>{
         if(showScore)
-            return <Score/>
+            return <Score {...quizContent} />
     }
 
     return (
         <ThemeProvider theme={theme(quizConfig?.userTheme)}>
         <Grid container spacing={3}>
-            <Grid item xs style={{margin:'auto'}}>
-
+            <Grid item xs style={{margin:'auto', position:'relative'}} className={classnames((showResult?'showResult':''))}>
+                <Header/>
                 <div className={classnames(
                     classes.main,
-                    (showResult?'showResult':'')
+                    //(showResult?'showResult':'')
                 )}>
                     <Transition/>
                     {quizContent &&

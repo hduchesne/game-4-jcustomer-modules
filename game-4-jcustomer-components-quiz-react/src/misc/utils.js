@@ -52,12 +52,7 @@ export function getGQLWorkspace(workspace){
         workspace.toUpperCase()
 }
 
-export function manageTransition({state,dispatch,payload}){
-    const {
-        transitionIsEnabled,
-        transitionTimeout
-    }=state;
-
+export function manageTransition({transitionIsEnabled, transitionTimeout,dispatch,payload}){
     if(transitionIsEnabled){
         dispatch({
             case:"TOGGLE_TRANSITION"

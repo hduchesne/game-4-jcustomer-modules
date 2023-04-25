@@ -63,7 +63,7 @@ const render= async (target,context)=>{
         }
 
         ReactDOM.render(
-            <React.StrictMode>
+            // <React.StrictMode>
                 <StylesProvider generateClassName={generateClassName}>
                     <JahiaCtxProvider value={{
                         workspace,
@@ -84,6 +84,7 @@ const render= async (target,context)=>{
                                             ...appContext,
                                             transitionIsEnabled,
                                             transitionLabel,
+                                            transitionTimeout:1000,
                                             resetBtnIsEnabled,
                                             browsingIsEnabled,
                                             scope
@@ -97,8 +98,8 @@ const render= async (target,context)=>{
                             </ApolloProvider>
                         </Store>
                     </JahiaCtxProvider>
-                </StylesProvider>
-            </React.StrictMode>,
+                </StylesProvider>,
+            // </React.StrictMode>,
 
         document.getElementById(target)
         );

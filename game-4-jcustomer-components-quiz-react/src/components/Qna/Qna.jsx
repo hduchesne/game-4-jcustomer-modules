@@ -2,21 +2,20 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import {useQuery} from "@apollo/client";
-import get from "lodash.get";
 
-import {StoreCtx} from "contexts";
+import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 
 import {GetQnA} from "webappGraphql";
-import Answer from "./Answer";
+import {Answer} from "./Answer";
 
-import QnaMapper from "components/Qna/QnaModel";
+import {formatQnaJcrProps} from "components/Qna/QnaModel";
 import {syncVisitorData} from "misc/tracker";
 import {Media} from "components/Media";
 import cssSharedClasses from "components/cssSharedClasses";
 import classnames from "clsx";
 import {FormGroup, Typography,Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import Header from "components/Header/Header";
+import {Header} from "components";
 import {manageTransition} from "misc/utils";
 
 
@@ -63,12 +62,10 @@ const reducer = (qna, action) => {
     switch (action.case) {
         case "DATA_READY": {
             // const {qnaData,quiz_validMark} = payload;
-            const {qnaData} = payload;
-            console.debug("[STORE QNA] DATA_READY -> qnaData :",qnaData);
-
+            const {qnaJcrProps} = payload;
             return {
                 ...qna,
-                ...QnaMapper(qnaData)
+                ...formatQnaJcrProps(qnaJcrProps)
             }
         }
         case "TOGGLE_ANSWER": {
@@ -95,11 +92,10 @@ const reducer = (qna, action) => {
             }
         }
         case "RESET":{
-            const {qnaData} = payload;
-            console.debug("[STORE QNA] RESET -> qnaData :",qnaData);
+            const {qnaJcrProps} = payload;
             return{
                 ...initialQNA,
-                ...QnaMapper(qnaData)
+                ...formatQnaJcrProps(qnaJcrProps)
             }
         }
         default:
@@ -107,20 +103,26 @@ const reducer = (qna, action) => {
     };
 }
 
-const Qna = (props) => {
+export const Qna = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
+    const { id : qnaId } = props;
+    const { workspace, locale } = React.useContext(JahiaCtx);
+    const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
+
     const {
         currentSlide,
-        jContent,
         reset
     } = state;
-    const { gql_variables,language_bundle } =  jContent;
 
-    const variables = Object.assign(gql_variables,{id:props.id})
     const {loading, error, data} = useQuery(GetQnA, {
-        variables:variables,
+        variables:{
+            workspace,
+            language:locale,
+            id:qnaId
+        },
+        skip:!qnaId
     });
 
     const [qna, qnaDispatch] = React.useReducer(
@@ -130,11 +132,11 @@ const Qna = (props) => {
 
     React.useEffect(() => {
         if(loading === false && data){
-            const qnaData = get(data, "response.qna", {});
+            const qnaJcrProps = data?.response?.qna || {};
             qnaDispatch({
                 case:"DATA_READY",
                 payload:{
-                    qnaData
+                    qnaJcrProps
                 }
             });
         }
@@ -142,11 +144,11 @@ const Qna = (props) => {
 
     React.useEffect(() => {
         if(reset && data){
-            const qnaData = get(data, "response.qna", {});
+            const qnaJcrProps = data?.response?.qna || {};
             qnaDispatch({
                 case:"RESET",
                 payload:{
-                    qnaData
+                    qnaJcrProps
                 }
             });
         }
@@ -154,9 +156,8 @@ const Qna = (props) => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
-    console.debug("[DISPLAY] qna : ",qna.title);
 
-    const show = currentSlide === props.id;
+    const show = currentSlide === qnaId;
 
     const handleSubmit = () => {
 
@@ -181,11 +182,12 @@ const Qna = (props) => {
                 );
             // console.debug("[handleSubmit] update : ",qna.jExpField2Map," with values : ",values);
 
+            //TODO
             //if tracker is not initialized the track event is not send
-            syncVisitorData({
-                propertyName:`properties.${qna.jExpField2Map}`,
-                propertyValue:values
-            })
+            // syncVisitorData({
+            //     propertyName:`properties.${qna.jExpField2Map}`,
+            //     propertyValue:values
+            // })
         }
 
         const payload = {
@@ -200,7 +202,8 @@ const Qna = (props) => {
 
         if(qna.notUsedForScore){
             manageTransition({
-                state,
+                transitionIsEnabled,
+                transitionTimeout,
                 dispatch,
                 payload
             });
@@ -226,12 +229,11 @@ const Qna = (props) => {
             sharedClasses.showOverlay,
             (show ? 'active':'')
         )}>
-            <Header/>
+            {/*<Header/>*/}
 
             {qna.media &&
                 <Media id={qna.media.id}
-                       type={qna.media.type?qna.media.type.value:null}
-                       mixins={qna.media.mixins?qna.media.mixins.map(mixin=>mixin.value):[]}
+                       types={qna.media.types}
                        path={qna.media.path}
                        alt={qna.title}
                 />
@@ -255,7 +257,7 @@ const Qna = (props) => {
 
                 <Button onClick={handleSubmit}
                         disabled={!qna.enableSubmit}>
-                    {language_bundle && language_bundle.btnSubmit}
+                    {languageBundle && languageBundle.btnSubmit}
                 </Button>
             </div>
         </div>
@@ -265,5 +267,3 @@ const Qna = (props) => {
 Qna.propTypes={
     id:PropTypes.string.isRequired
 }
-
-export default Qna;

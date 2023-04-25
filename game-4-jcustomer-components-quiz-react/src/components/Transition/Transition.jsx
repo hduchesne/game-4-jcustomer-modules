@@ -1,17 +1,18 @@
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from "clsx";
 import React from "react";
-import {StoreCtx} from "contexts";
+import {AppCtx, StoreCtx} from "contexts";
 import {Typography} from "@material-ui/core";
 // import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { useTheme } from '@material-ui/core/styles';
 
-const childTiles = (transitionRow) =>{
-    const nb = transitionRow.length;
+const childTiles = (nbRow) =>{
+    const transitionRow= [...Array(nbRow)]
     const reducer =transitionRow.reduce((obj,item,i) =>{
         const index = i+1;
         const key = `&:nth-child(${index})`;
         obj[key]={
-            top: `calc(${(index-1)} * ${100/nb}%)`,
+            top: `calc(${(index-1)} * ${100/nbRow}%)`,
             transitionDelay: `${(index-1)*0.1}s`
         }
         return obj;
@@ -19,65 +20,62 @@ const childTiles = (transitionRow) =>{
     return reducer;
 };
 
-const Transition = (props) => {
-
-
-    const { state } = React.useContext(StoreCtx);
-    const {
-        transitionActive,
-        transitionRow,
-        transitionLabel
-    } = state;
-
-    const useStyles = makeStyles(theme => ({
-        loader: {
-            position: 'absolute',
-            zIndex: 5,//'999',
-            top: 0,
-            left: 0,
-            bottom:0,
-            width: 0,
-            transition: 'width 0s 1.4s ease',
-            "&.active":{
-                width: '100%',
-                transitionDelay: '0s',
-            }
-        },
-        icon: {
-            position: 'absolute',
-            zIndex: 1,
-            top: '50%',
-            left: '50%',
-            transform: 'translateX(-50%) translateY(-50%)',
-            opacity: 0,
-            transition: 'opacity .5s ease',
-
-            "& svg":{
-                transformOrigin: '0 0',
-            },
-
-            ".active &":{
-                opacity: 1,
-                // transition: 'opacity .5s 1.4s ease',
-            },
-        },
-        text:{
-            textTransform:'uppercase'
-        },
-        tile: {
-            position: 'absolute',
-            left: 0,
-            width: 0,
-            height: `${100/transitionRow.length}%`,
-            backgroundColor: theme.palette.primary.main,
-            transition: 'width .3s ease',
-            ...childTiles(transitionRow),
-
-            ".active &":{
-                width: '100%',
-            }
+const useStyles = makeStyles(theme => ({
+    loader: {
+        position: 'absolute',
+        zIndex: 5,//'999',
+        top: 0,
+        left: 0,
+        bottom:0,
+        width: 0,
+        transition: 'width 0s 1.4s ease',
+        "&.active":{
+            width: '100%',
+            transitionDelay: '0s',
         }
-    }));
+    },
+    icon: {
+        position: 'absolute',
+        zIndex: 1,
+        top: '50%',
+        left: '50%',
+        transform: 'translateX(-50%) translateY(-50%)',
+        opacity: 0,
+        transition: 'opacity .5s ease',
+
+        "& svg":{
+            transformOrigin: '0 0',
+        },
+
+        ".active &":{
+            opacity: 1,
+            // transition: 'opacity .5s 1.4s ease',
+        },
+    },
+    text:{
+        textTransform:'uppercase'
+    },
+    tile: {
+        position: 'absolute',
+        left: 0,
+        width: 0,
+        height: `${100/theme.transitions.row}%`,
+        backgroundColor: theme.palette.primary.main,
+        transition: 'width .3s ease',
+        ...childTiles(theme.transitions.row),
+
+        ".active &":{
+            width: '100%',
+        }
+    }
+}));
+
+export const Transition = (props) => {
+    const theme = useTheme();
+    const { transitionLabel } = React.useContext(AppCtx);
+    const { state : {transitionActive}} = React.useContext(StoreCtx);
+
+    const transitionRow= [...Array(theme.transitions.row)];
     const classes = useStyles(props);
 
     return (
@@ -105,4 +103,3 @@ const Transition = (props) => {
         </div>
     )
 };
-export default Transition;

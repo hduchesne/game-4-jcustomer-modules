@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import get from "lodash.get";
 import {useQuery} from "@apollo/client";
 
 import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 import {GetWarmup} from "webappGraphql";
-import Qna from "components/Qna";
 import {formatWarmupJcrProps} from "components/Warmup/WarmupModel";
-import {Media} from "components/Media";
+import {Qna,Media,Header} from "components";
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, Button} from "@material-ui/core";
 import DOMPurify from "dompurify";
-import Header from "components/Header/Header";
 import {manageTransition} from "misc/utils";
 
 const useStyles = makeStyles(theme => ({
@@ -27,12 +24,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Warmup = (props) => {
+export const Warmup = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
     const { id : warmupId } = props;
     const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
-    const { languageBundle } = React.useContext(AppCtx);
+    const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {
         currentSlide,
@@ -70,7 +67,8 @@ const Warmup = (props) => {
 
     const handleCLick = () =>
         manageTransition({
-            state,
+            transitionIsEnabled,
+            transitionTimeout,
             dispatch,
             payload:{
                 case:"NEXT_SLIDE"
@@ -84,7 +82,7 @@ const Warmup = (props) => {
                 sharedClasses.showOverlay,
                 (show ? 'active':'')
             )}>
-                <Header/>
+                {/*<Header/>*/}
                 {media &&
                     <Media id={media.id}
                            types={media.types}
@@ -128,12 +126,12 @@ const Warmup = (props) => {
                     </Button>
                 </div>
             </div>
-            {/*{childNodes.map( node =>*/}
-            {/*    <Qna*/}
-            {/*        key={node.id}*/}
-            {/*        id={node.id}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {childNodes.map( node =>
+                <Qna
+                    key={node.id}
+                    id={node.id}
+                />
+            )}
         </>
     );
 }
@@ -141,5 +139,3 @@ const Warmup = (props) => {
 Warmup.propTypes={
     id:PropTypes.string.isRequired
 }
-
-export default Warmup;
