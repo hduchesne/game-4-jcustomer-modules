@@ -8,7 +8,7 @@
 <%--<template:addResources type="css" resources="webapp/2.6c0f60ba.chunk.css" />--%>
 <template:addResources type="css" resources="webapp/main.e4fe0e78.css" media="screen"/>
 <%--<template:addResources type="javascript" resources="webapp/2.b90ff848.chunk.js" />--%>
-<template:addResources type="javascript" resources="webapp/main.eb613e85.js" />
+<template:addResources type="javascript" resources="webapp/main.e57bac2a.js" />
 
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
@@ -17,7 +17,7 @@
 <c:set var="site" value="${renderContext.site.siteKey}"/>
 <c:set var="host" value="${url.server}"/>
 
-<c:set var="token" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJodHRwOi8vamFoaWEuY29tIiwic3ViIjoiYXBpIHZlcmlmaWNhdGlvbiIsImlzcyI6ImR4Iiwic2NvcGVzIjpbImdhbWU0UXVpeiJdLCJpYXQiOjE2MjAwMzY2MjIsImp0aSI6IjAxZjA4ODU4LTI0ODgtNDIzMy1iYWM2LTI3ZWQ0MzBhYjFjMCJ9.kgQy5hZwnDqOrGwn8afRHxlf3nMPpKUrOJZurSbc0dk"/>
+<%--<c:set var="token" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJodHRwOi8vamFoaWEuY29tIiwic3ViIjoiYXBpIHZlcmlmaWNhdGlvbiIsImlzcyI6ImR4Iiwic2NvcGVzIjpbImdhbWU0UXVpeiJdLCJpYXQiOjE2MjAwMzY2MjIsImp0aSI6IjAxZjA4ODU4LTI0ODgtNDIzMy1iYWM2LTI3ZWQ0MzBhYjFjMCJ9.kgQy5hZwnDqOrGwn8afRHxlf3nMPpKUrOJZurSbc0dk"/>--%>
 <c:set var="targetId" value="REACT_Quiz_${fn:replace(random.nextInt(),'-','_')}"/>
 
 <div id="${targetId}"></div>
@@ -27,14 +27,11 @@
         host:"${host}",
         workspace:"${workspace}",
         scope:"${site}",//site key
-        files_endpoint:"${host}/files/${workspace}",
-        gql_endpoint:"${host}/modules/graphql",
-        gql_authorization:"Bearer ${token}",
-        gql_variables:{
-            id:"${_uuid_}",
-            language: "${language}",
-        },
-        cdp_endpoint:window.digitalData?window.digitalData.contextServerPublicUrl:undefined,//digitalData is set in live mode only
+        locale:"${language}",
+        quizId:"${_uuid_}",
+        filesServerUrl:"${host}/files/${workspace}",
+        gqlServerUrl:"${host}/modules/graphql",
+        contextServerUrl:window.digitalData?window.digitalData.contextServerPublicUrl:undefined,//digitalData is set in live mode only
     };
 
     window.addEventListener("DOMContentLoaded", (event) => {
