@@ -6,7 +6,7 @@ import {useQuery} from "@apollo/client";
 import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 import {GetWarmup} from "webappGraphql";
 import {formatWarmupJcrProps} from "components/Warmup/WarmupModel";
-import {Qna,Media,Header} from "components";
+import {Media, Qna} from "components";
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import {makeStyles} from "@material-ui/core/styles";
@@ -82,7 +82,6 @@ export const Warmup = (props) => {
                 sharedClasses.showOverlay,
                 (show ? 'active':'')
             )}>
-                {/*<Header/>*/}
                 {media &&
                     <Media id={media.id}
                            types={media.types}

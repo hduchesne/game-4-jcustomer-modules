@@ -48,7 +48,7 @@ export const VideoPlayer = (props)=>{
                 url={videoURL}
                 controls
                 width='100%'
-                height='100%'
+                // height='100%'
                 // onReady={onReadyHandler}
                 onStart={onStartHandler}
                 // onProgress={(object)=> console.log("onProgress : ",object)}

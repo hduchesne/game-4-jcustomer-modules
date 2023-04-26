@@ -6,10 +6,10 @@ import {syncQuizScore} from "misc/tracker";
 import QuizMapper from "components/Quiz/QuizModel";
 import {consentStatus, mktgForm} from "douane/lib/config";
 
-const init = ({quizData}) => {
+const init = ({quizData,focusId}) => {
     // console.log("jContent.transition : ",jContent.transition);
     const scoreIndex = getRandomString(5,"#aA");
-    const {childNodes = [],key : quizKey} = quizData.quizContent;
+    const {childNodes = [],quizKey} = quizData.quizContent;
 
     const slideSet = [quizData.id];
     childNodes.forEach(node => slideSet.push(node.id));
@@ -22,7 +22,7 @@ const init = ({quizData}) => {
         resultSet:[],//array of boolean, order is the same a slideSet
         currentResult:false,//previously result
         slideSet,//[],//previously slideIndex
-        currentSlide:quizData.id,//null,//previously index
+        currentSlide:focusId,//quizData.id,//null,//previously index
         showResult:false,
         showNext:false,
         showScore:false,
@@ -206,10 +206,10 @@ const reducer = (state, action) => {
 }
 
 export const Store = props => {
-    const {quizData} = props;
+    const {quizData,focusId} = props;
     const [state, dispatch] = React.useReducer(
         reducer,
-        {quizData},
+        {quizData,focusId},
         init
     );
     return (

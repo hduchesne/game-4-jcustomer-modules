@@ -91,17 +91,19 @@ export const Answer = (props) =>{
             }
         });
 
-    const getResultIcon = () =>{
-        if(isValid)
-            return <CheckIcon />
-        return <ClearIcon />
-    };
+    const Icon = isValid ? CheckIcon : ClearIcon;
+    // const getResultIcon = () =>{
+    //     if(isValid)
+    //         return <CheckIcon />
+    //     return <ClearIcon />
+    // };
 
-    const getControl = () =>{
-        if("checkbox"===qna.inputType)
-            return <Checkbox id={answer.id} />
-        return <Radio id={answer.id}/>
-    };
+    const Control = "checkbox"===qna.inputType ? Checkbox : Radio
+    // const getControl = () =>{
+    //     if("checkbox"===qna.inputType)
+    //         return <Checkbox id={answer.id} />
+    //     return <Radio id={answer.id}/>
+    // };
 
     return(
         <div className={classnames(
@@ -112,12 +114,14 @@ export const Answer = (props) =>{
                 classes.checkGroup,
                 (isValid?"valid":"")
             )}>
-                {getResultIcon()}
+                {/*{getResultIcon()}*/}
+                <Icon />
             </div>
             <FormControlLabel
                 className={classes.labelGroup}
                 // value={answer.checked}
-                control={getControl()}
+                // control={getControl()}
+                control={<Control id={answer.id}/>}
                 label={answer.label}
                 labelPlacement="end"
                 onChange={handleChange}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppCtx, StoreCtx} from "contexts";
 
-import {Header, Media} from "components";
+import {Media} from "components";
 import Personalized from "components/Score/personalized/Personalized";
 import Percentage from "components/Score/percentage/Percentage";
 import cssSharedClasses from "components/cssSharedClasses";
@@ -90,7 +90,6 @@ export const Score = (props) => {
             sharedClasses.showOverlay,
             (show ? 'active':'')
         )}>
-            <Header/>
             {media &&
             <Media id={media.id}
                    types={media.types}

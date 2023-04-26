@@ -6,11 +6,7 @@ import {useQuery} from "@apollo/client";
 import {CxsCtx} from "../unomi/cxs";
 import {JahiaCtx, StoreCtx} from "../contexts";
 
-
-
-import {GetQuiz} from "../webappGraphql/quiz.gql-query.js";
-
-import {Quiz, Warmup, Transition, Qna, Score, Header} from "components"
+import {Quiz, Warmup, Transition, Score, Header, Qna} from "components"
 
 import {syncTracker} from "misc/trackerWem";
 import {makeStyles} from "@material-ui/core/styles";
@@ -22,15 +18,16 @@ import 'react-circular-progressbar/dist/styles.css';
 
 const useStyles = makeStyles(theme => ({
     main: {
-        paddingTop:`108px`,//${theme.geometry.header.heights.min}
+        paddingTop:"108px",//${theme.geometry.header.heights.min}
+        marginTop:"-108px",
         position: "relative",
         "& *, &::after, &::before":{
             boxSizing:"border-box",
         },
-        //needed ?
-        ".showResult &"  :{
-            paddingTop:`108px`//${theme.geometry.header.heights.max}
-        }
+
+        // ".showResult &"  :{
+        //     paddingTop:`108px`//${theme.geometry.header.heights.max}
+        // }
     },
 }));
 
@@ -58,7 +55,8 @@ export const App = (props)=> {
     return (
         <ThemeProvider theme={theme(quizConfig?.userTheme)}>
         <Grid container spacing={3}>
-            <Grid item xs style={{margin:'auto', position:'relative'}} className={classnames((showResult?'showResult':''))}>
+            <Grid item xs style={{margin:'auto', position:'relative'}}
+                  className={classnames((showResult?'showResult':''))}>
                 <Header/>
                 <div className={classnames(
                     classes.main,

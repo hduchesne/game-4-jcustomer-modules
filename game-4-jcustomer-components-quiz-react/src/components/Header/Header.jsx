@@ -1,18 +1,18 @@
 import {Indicator} from "components/Header/Indicator";
 import {Button, Typography} from "@material-ui/core";
 import React from "react";
-import {AppCtx, StoreCtx} from "contexts";
+import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 import {makeStyles} from "@material-ui/core/styles";
 import {manageTransition} from "misc/utils";
 
 const useStyles = makeStyles(theme => ({
     header:{
-        position:"absolute",
         zIndex: 2,
+        position:'relative',
         display: 'flex',
         flexDirection:'column',
         justifyContent: 'center',
-        width:'100%',
+        // width:'100%',
         padding: `${theme.spacing(2)}px ${theme.geometry.caption.padding.lg}`,
         [theme.breakpoints.between('xs', 'sm')]: {
             padding: `${theme.spacing(2)}px ${theme.geometry.caption.padding.main}`,
@@ -65,7 +65,8 @@ const useStyles = makeStyles(theme => ({
 
 export const Header = (props) => {
     const classes = useStyles(props);
-    // const sharedClasses = cssSharedClasses(props);
+
+    const { previewCm } = React.useContext(JahiaCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {transitionIsEnabled, transitionTimeout, browsingIsEnabled, languageBundle } = React.useContext(AppCtx);
 
@@ -121,7 +122,7 @@ export const Header = (props) => {
                     <Indicator
                         key={itemId}
                         id={itemId}
-                        enabled={browsingIsEnabled}
+                        enabled={browsingIsEnabled && !previewCm}
                     />
                 )}
             </ol>

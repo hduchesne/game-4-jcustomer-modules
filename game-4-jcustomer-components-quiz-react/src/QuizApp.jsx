@@ -43,12 +43,12 @@ const render= async (target,context)=>{
 
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
-        const {workspace,locale = 'en',quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope} = context;
+        const {workspace,locale,quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,targetId} = context;
 
         const client = getClient(gqlServerUrl)
         const quizData = await getQuizData({client,workspace,locale,quizId});
         const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
-
+        const focusId = previewCm && !!targetId ? targetId : quizData.id;
         //TODO not working !
         if(workspace === "LIVE" && !window.wem){
             //TODO add callback ?
@@ -56,7 +56,7 @@ const render= async (target,context)=>{
                 scope,
                 contextServerUrl,
                 locale,
-                quizKey:quizData.quizContent.key,
+                quizKey:quizData.quizContent.quizKey,
                 quizPath:quizData.path
             });
             window.cxs = window.wem.getLoadedContext();
@@ -72,9 +72,10 @@ const render= async (target,context)=>{
                         quizPath:quizData.path,
                         filesServerUrl,
                         contextServerUrl,
-                        cndTypes
+                        cndTypes,
+                        previewCm
                     }}>
-                        <Store quizData={quizData}>
+                        <Store quizData={quizData} focusId={focusId} >
                             <ApolloProvider client={client}>
                                 {/*<ThemeProvider theme={theme(context.theme)}>*/}
                                 <div style={{overflow:'hidden'}}>

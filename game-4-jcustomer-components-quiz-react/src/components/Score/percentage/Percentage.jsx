@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 const Percentage = (props) => {
     const {score} = props
     const classes = useStyles(props);
-    console.debug("*** paint percentage result : ",score);
+    // console.debug("*** paint percentage result : ",score);
     return(
             <div className={classes.result}>
                 <CircularProgressbar value={score} text={`${score}%`}/>

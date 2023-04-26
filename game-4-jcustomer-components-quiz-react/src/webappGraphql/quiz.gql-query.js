@@ -10,7 +10,7 @@ export const GetQuiz = gql`
             workspace
             quiz: nodeById(uuid: $id) {
                 ...CoreNodeFields
-                key: property(name:"game4:quizKey"){ value }
+                quizKey: property(name:"game4:quizKey"){ value }
                 title: displayName(language:$language)
                 subtitle: property(language:$language, name:"game4:subtitle"){ value }
                 description: property(language:$language,name:"game4:description"){ value }

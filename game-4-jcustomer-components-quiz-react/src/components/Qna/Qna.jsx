@@ -15,7 +15,6 @@ import cssSharedClasses from "components/cssSharedClasses";
 import classnames from "clsx";
 import {FormGroup, Typography,Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {Header} from "components";
 import {manageTransition} from "misc/utils";
 
 
@@ -70,10 +69,10 @@ const reducer = (qna, action) => {
         }
         case "TOGGLE_ANSWER": {
             const {answer} = payload;//answer id
-            console.debug("[STORE QNA] TOGGLE_ANSWER -> answer :",answer);
+            // console.debug("[STORE QNA] TOGGLE_ANSWER -> answer :",answer);
             let {answers} = qna;
             if(qna.inputType === "radio")
-                answers = answers.map( answer =>{ return {...answer,checked:false} });
+                answers = answers.map( answer =>({...answer,checked:false}) );
 
             answers = answers.map(_answer => {
                 if(_answer.id === answer.id)
@@ -229,8 +228,6 @@ export const Qna = (props) => {
             sharedClasses.showOverlay,
             (show ? 'active':'')
         )}>
-            {/*<Header/>*/}
-
             {qna.media &&
                 <Media id={qna.media.id}
                        types={qna.media.types}

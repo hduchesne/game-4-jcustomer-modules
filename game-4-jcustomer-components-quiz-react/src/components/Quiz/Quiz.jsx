@@ -295,7 +295,6 @@ export const Quiz = (props) => {
             sharedClasses.showOverlay,
             (show ? 'active':'')
         )}>
-            {/*<Header/>*/}
             {media &&
             <Media id={media.id}
                    types={media.types}

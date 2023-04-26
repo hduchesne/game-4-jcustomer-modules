@@ -49,7 +49,7 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
     path: quizJcrProps.path,
     types: getTypes(quizJcrProps),
     quizContent: {
-        key: quizJcrProps.key.value,
+        quizKey: quizJcrProps.quizKey.value,
         title: quizJcrProps.title,
         subtitle: quizJcrProps.subtitle?.value || "",
         description: quizJcrProps.description?.value || "",
