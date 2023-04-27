@@ -18,7 +18,8 @@ export const formatQnaJcrProps = qnaJcrProps => {
     const inputType = answers.filter(answer => answer.isAnswer).length > 1 ?"checkbox":"radio"
 
     return {
-        id:qnaJcrProps.id,
+        id:qnaJcrProps.uuid,
+        type: qnaJcrProps.primaryNodeType?.name,
         title: qnaJcrProps.title,
         question: qnaJcrProps.question?.value || "",
         help: qnaJcrProps.help?.value || "",

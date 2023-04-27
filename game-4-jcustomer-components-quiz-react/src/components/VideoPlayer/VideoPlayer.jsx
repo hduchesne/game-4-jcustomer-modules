@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import PropTypes from "prop-types";
 import {JahiaCtx} from "contexts";
 import ReactPlayer from "react-player";
-import {syncVideoStatus} from "misc/tracker";
+import {syncVideoStatus} from "misc/trackerWem";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -11,22 +11,26 @@ const useStyles = makeStyles(theme => ({
 
 export const VideoPlayer = (props)=>{
     const classes = useStyles(props);
-    const {ownerID,videoURL} = props;
-    const { quizId,quizPath } = React.useContext(JahiaCtx);
+    const {ownerID,videoURL,videoId} = props;
+    const { quizId,quizPath,quizType } = React.useContext(JahiaCtx);
 
     const player = useRef(null);
 
     const handleVideoStatus = ({status}) => {
-        //TODO
-        // syncVideoStatus({
-        //     content:{
-        //         id:quizId,
-        //         path:quizPath
-        //     },
-        //     parent:ownerID,
-        //     player,
-        //     status
-        // })
+        syncVideoStatus({
+            quiz:{
+                id:quizId,
+                path:quizPath,
+                type:quizType
+            },
+            parentId:ownerID,
+            player,
+            status,
+            video:{
+                id:videoId,
+                url:videoURL
+            }
+        })
     }
 
     // const onReadyHandler = () => {

@@ -17,7 +17,7 @@ export const Media = ({id,types,path,sourceID,alt}) => {
             return <CloudinaryAsset types={types} id={id} width={width} sourceID={sourceID} />
 
         default :
-            return <JahiaAsset types={types} path={path} sourceID={sourceID} alt={alt} />
+            return <JahiaAsset id={id} types={types} path={path} sourceID={sourceID} alt={alt} />
     }
 }
 

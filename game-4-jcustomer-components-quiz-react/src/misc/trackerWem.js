@@ -4,8 +4,8 @@ import {useTracker as tracker} from "apache-unomi-tracker";
 export const syncTracker = ({scope,contextServerUrl,locale,quizKey,quizPath}) => {
     //needed for isCrawler
     window.Buffer = window.Buffer || require("buffer").Buffer;
-
     const unomiWebTracker = tracker();
+
     const config = {
         scope,
         site: {
@@ -35,8 +35,8 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizKey,quizPath}) =>
             timeoutInMilliseconds: "1500",
             contextServerCookieName: "context-profile-id",
             activateWem: true,
-            trackerSessionIdCookieName: "unomi-tracker-session-id",
-            trackerProfileIdCookieName: "unomi-tracker-profile-id"
+            trackerSessionIdCookieName: "context-session-id",//"unomi-tracker-session-id",
+            trackerProfileIdCookieName: "context-profile-id"//"unomi-tracker-profile-id"
         }
     };
 
@@ -45,11 +45,62 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizKey,quizPath}) =>
     if (unomiWebTracker.getCookie(config.wemInitConfig.trackerSessionIdCookieName) == null) {
         unomiWebTracker.setCookie(config.wemInitConfig.trackerSessionIdCookieName, unomiWebTracker.generateGuid(), 1);
     }
+    if (unomiWebTracker.getCookie(config.wemInitConfig.trackerProfileIdCookieName) == null) {
+        unomiWebTracker.setCookie(config.wemInitConfig.trackerProfileIdCookieName, unomiWebTracker.generateGuid(), 1);
+    }
 
     unomiWebTracker._registerCallback(() => {
-        console.log("Unomi tracker successfully loaded context", unomiWebTracker.getLoadedContext());
-    }, 'Unomi tracker loaded');
+        // console.log("Unomi tracker successfully loaded context", unomiWebTracker.getLoadedContext());
+        window.cxs = unomiWebTracker.getLoadedContext();
+    }, 'Unomi tracker context loaded');
 
     unomiWebTracker.startTracker();
+
+    const viewEvent = unomiWebTracker.buildEvent(
+        'view',
+        unomiWebTracker.buildTargetPage(),
+        unomiWebTracker.buildSource(config.site.siteInfo.siteID, 'site')
+    );
+    unomiWebTracker._registerEvent(viewEvent, true);
+
+    unomiWebTracker.loadContext();
+
     return unomiWebTracker;
 };
+
+
+export const syncVideoStatus = ({quiz,parentId,status,player,video}) =>{
+    const  event = window.wem.buildEvent("click",
+        window.wem.buildTarget(video.id,"react-video-player",{
+            video:{
+                ...video,
+                duration: player.current.getDuration(),
+                currentTime: player.current.getCurrentTime(),
+                status: status
+            }
+        }),
+        window.wem.buildSource(quiz.id,quiz.type,{
+            quiz,
+            warmup:{
+                id:parentId
+            },
+
+        }));
+
+    window.wem.collectEvent(event);
+}
+
+export const syncVisitorData = ({qna,propertyName,propertyValue}) =>{
+    const  event = window.wem.buildEvent("updateQuizVisitorData",
+        window.wem.buildTarget(propertyName,"user-property"),
+        window.wem.buildSource(qna.id,qna.type,{
+            qna
+        }));
+
+    event.properties = {
+        update : {
+            [propertyName]:propertyValue
+        }
+    }
+    window.wem.collectEvent(event);
+}

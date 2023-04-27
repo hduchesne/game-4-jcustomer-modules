@@ -14,6 +14,7 @@ export const formatWarmupJcrProps = (warmupJcrProps) => {
         },
         video: {
             id: warmupJcrProps.video?.node?.uuid || null,
+            type: warmupJcrProps.video?.node?.primaryNodeType?.name,
             types: getTypes(warmupJcrProps.video?.node),
             path: warmupJcrProps.video?.node?.path || warmupJcrProps.video?.value ||  null,
         },

@@ -9,7 +9,7 @@ import {GetQnA} from "webappGraphql";
 import {Answer} from "./Answer";
 
 import {formatQnaJcrProps} from "components/Qna/QnaModel";
-import {syncVisitorData} from "misc/tracker";
+import {syncVisitorData} from "misc/trackerWem";
 import {Media} from "components/Media";
 import cssSharedClasses from "components/cssSharedClasses";
 import classnames from "clsx";
@@ -181,12 +181,16 @@ export const Qna = (props) => {
                 );
             // console.debug("[handleSubmit] update : ",qna.jExpField2Map," with values : ",values);
 
-            //TODO
             //if tracker is not initialized the track event is not send
-            // syncVisitorData({
-            //     propertyName:`properties.${qna.jExpField2Map}`,
-            //     propertyValue:values
-            // })
+            syncVisitorData({
+                qna:{
+                    id:qna.id,
+                    type:qna.type,
+                    title:qna.title
+                },
+                propertyName:`properties.${qna.jExpField2Map}`,
+                propertyValue:values
+            })
         }
 
         const payload = {

@@ -51,23 +51,23 @@ const syncQuizScore = ({quizKey,split,quizScore}) =>
     });
 
 
-const syncVideoStatus = ({content,parent,status,player}) =>
-    uTracker.track("video",{
-        id:content.id,
-        type:content.type,
-        game4Quiz:{
-            id:content.id,
-            type:content.type
-        },
-        game4Warmup:{
-            id:parent
-        },
-        game4Video:{
-            duration: player.current.getDuration(),
-            currentTime: player.current.getCurrentTime(),
-            status: status
-        }
-    });
+// const syncVideoStatus = ({content,parent,status,player}) =>
+//     uTracker.track("video",{
+//         id:content.id,
+//         type:content.type,
+//         game4Quiz:{
+//             id:content.id,
+//             type:content.type
+//         },
+//         game4Warmup:{
+//             id:parent
+//         },
+//         game4Video:{
+//             duration: player.current.getDuration(),
+//             currentTime: player.current.getCurrentTime(),
+//             status: status
+//         }
+//     });
 
 const syncVisitorData = ({propertyName,propertyValue}) =>
     uTracker.track("updateQuizVisitorData",{
@@ -80,6 +80,6 @@ export {
     // syncTracker,
     syncConsentStatus,
     syncQuizScore,
-    syncVideoStatus,
+    // syncVideoStatus,
     syncVisitorData
 }

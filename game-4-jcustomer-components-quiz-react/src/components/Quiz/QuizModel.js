@@ -48,6 +48,7 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
     id: quizJcrProps.uuid,
     path: quizJcrProps.path,
     types: getTypes(quizJcrProps),
+    type: quizJcrProps.primaryNodeType?.name,
     quizContent: {
         quizKey: quizJcrProps.quizKey.value,
         title: quizJcrProps.title,

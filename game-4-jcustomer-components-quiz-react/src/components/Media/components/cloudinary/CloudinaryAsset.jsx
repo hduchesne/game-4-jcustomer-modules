@@ -28,7 +28,7 @@ export const CloudinaryAsset = ({types,id,width,sourceID}) => {
             return <CloudinaryImage title={title} baseUrl={baseUrl} endUrl={endUrl} width={width}/>
 
         case types.includes(cndTypes.CLOUDINARY_VIDEO) :
-            return <CloudinaryVideo videoURL={url} ownerID={sourceID} />
+            return <CloudinaryVideo videoId={id} videoURL={url} ownerID={sourceID} />
     }
     return <></>
 }

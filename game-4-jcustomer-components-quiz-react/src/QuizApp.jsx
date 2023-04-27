@@ -57,9 +57,9 @@ const render= async (target,context)=>{
                 contextServerUrl,
                 locale,
                 quizKey:quizData.quizContent.quizKey,
-                quizPath:quizData.path
+                quizPath:quizData.path,
             });
-            window.cxs = window.wem.getLoadedContext();
+
         }
 
         ReactDOM.render(
@@ -70,6 +70,7 @@ const render= async (target,context)=>{
                         locale,
                         quizId:quizData.id,
                         quizPath:quizData.path,
+                        quizType:quizData.type,
                         filesServerUrl,
                         contextServerUrl,
                         cndTypes,
