@@ -53,7 +53,7 @@
 
 [game4nt:quizHeading] > jnt:content, game4mix:components, jmix:bindedComponent, jmix:studioOnly
 
-[game4nt:quiz] > jnt:content, jmix:mainResource, game4mix:components, game4mix:showInTree, game4mix:imageReference, game4mix:usesConsents, game4mix:marketingFormReference, mix:title, game4mix:quizStaticLabels orderable
+[game4nt:quiz] > jnt:content, jmix:mainResource, game4mix:components, game4mix:showInTree, game4mix:imageReference, game4mix:marketingFormReference, mix:title, game4mix:quizStaticLabels orderable
  - game4:quizKey (string) primary mandatory
  - game4:subtitle (string) internationalized
  - game4:description (string, richtext[ckeditor.toolbar='Tinny',ckeditor.customConfig='$context/modules/game-4-jcustomer-components-quiz/javascript/ckeditor/config/small.js']) internationalized
