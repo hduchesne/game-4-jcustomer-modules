@@ -1,56 +1,23 @@
 import {useTracker as tracker} from "apache-unomi-tracker";
 
 
-export const syncTracker = ({scope,contextServerUrl,locale,quizKey,quizPath}) => {
+export const syncTracker = () => {
     //needed for isCrawler
     window.Buffer = window.Buffer || require("buffer").Buffer;
     const unomiWebTracker = tracker();
 
-    const config = {
-        scope,
-        site: {
-            siteInfo: {
-                siteID: scope
-            }
-        },
-        page: {
-            pageInfo: {
-                pageID: `WebApp Quiz`,
-                pageName: document.title,
-                pagePath: document.location.pathname,
-                destinationURL: document.location.origin + document.location.pathname,
-                language: locale,
-                categories: [],
-                tags: []
-            },
-            attributes: {
-                quizPath,
-                quizKey
-            },
-            consentTypes: []
-        },
-        events: [],
-        wemInitConfig: {
-            contextServerUrl,
-            timeoutInMilliseconds: "1500",
-            contextServerCookieName: "context-profile-id",
-            activateWem: true,
-            trackerSessionIdCookieName: "context-session-id",//"unomi-tracker-session-id",
-            trackerProfileIdCookieName: "context-profile-id"//"unomi-tracker-profile-id"
-        }
-    };
+    unomiWebTracker.initTracker(window.digitalData);
 
-    unomiWebTracker.initTracker(config);
-
-    if (unomiWebTracker.getCookie(config.wemInitConfig.trackerSessionIdCookieName) == null) {
-        unomiWebTracker.setCookie(config.wemInitConfig.trackerSessionIdCookieName, unomiWebTracker.generateGuid(), 1);
+    if (window.digitalData.wemInitConfig.trackerSessionIdCookieName &&
+        unomiWebTracker.getCookie(window.digitalData.wemInitConfig.trackerSessionIdCookieName) == null) {
+        unomiWebTracker.setCookie(window.digitalData.wemInitConfig.trackerSessionIdCookieName, unomiWebTracker.generateGuid(), 1);
     }
-    if (unomiWebTracker.getCookie(config.wemInitConfig.trackerProfileIdCookieName) == null) {
-        unomiWebTracker.setCookie(config.wemInitConfig.trackerProfileIdCookieName, unomiWebTracker.generateGuid(), 1);
+    if (window.digitalData.wemInitConfig.trackerProfileIdCookieName &&
+        unomiWebTracker.getCookie(window.digitalData.wemInitConfig.trackerProfileIdCookieName) == null) {
+        unomiWebTracker.setCookie(window.digitalData.wemInitConfig.trackerProfileIdCookieName, unomiWebTracker.generateGuid(), 1);
     }
 
     unomiWebTracker._registerCallback(() => {
-        // console.log("Unomi tracker successfully loaded context", unomiWebTracker.getLoadedContext());
         window.cxs = unomiWebTracker.getLoadedContext();
     }, 'Unomi tracker context loaded');
 
@@ -59,7 +26,7 @@ export const syncTracker = ({scope,contextServerUrl,locale,quizKey,quizPath}) =>
     const viewEvent = unomiWebTracker.buildEvent(
         'view',
         unomiWebTracker.buildTargetPage(),
-        unomiWebTracker.buildSource(config.site.siteInfo.siteID, 'site')
+        unomiWebTracker.buildSource(window.digitalData.site.siteInfo.siteID, 'site')
     );
     unomiWebTracker._registerEvent(viewEvent, true);
 
@@ -100,6 +67,28 @@ export const syncVisitorData = ({qna,propertyName,propertyValue}) =>{
     event.properties = {
         update : {
             [propertyName]:propertyValue
+        }
+    }
+    window.wem.collectEvent(event);
+}
+
+export const syncQuizScore = ({quiz,score}) => {
+    const propertyName = `properties.quiz-score-${quiz.quizKey}`;
+    const {quizKey:key, title, subtitle} = quiz;
+
+    const  event = window.wem.buildEvent("setQuizScore",
+        window.wem.buildTarget(propertyName,"user-property"),
+        window.wem.buildSource(quiz.id,quiz.type,{
+            quiz:{
+                title,
+                subtitle,
+                key
+            }
+        }));
+
+    event.properties = {
+        update : {
+            [propertyName]:score
         }
     }
     window.wem.collectEvent(event);

@@ -2,14 +2,38 @@ import React from "react";
 import {StoreCtxProvider} from "contexts";
 
 import {getRandomString} from "misc/utils";
-import {syncQuizScore} from "misc/tracker";
-import QuizMapper from "components/Quiz/QuizModel";
-import {consentStatus, mktgForm} from "douane/lib/config";
+import {syncQuizScore} from "misc/trackerWem";
+
+
+const showNext = ({slideSet,max,slide}) =>
+    slideSet.indexOf(slide) < max;
+
+const getScore = ({resultSet,quiz}) =>{
+
+    let score = 100;
+    if( resultSet.length>0){
+        const goodAnswers = resultSet.filter(result => result).length;
+        const answers = resultSet.length;
+        score = Math.floor((goodAnswers/answers)*100);
+    }
+
+    //wait 500ms before to call jExp in order to have time to synch user profile with answer
+    setTimeout(
+        () => syncQuizScore({
+            quiz,
+            score
+        }),
+        500
+    );
+
+    return score;
+}
 
 const init = ({quizData,focusId}) => {
     // console.log("jContent.transition : ",jContent.transition);
     const scoreIndex = getRandomString(5,"#aA");
-    const {childNodes = [],quizKey} = quizData.quizContent;
+    const quiz = {id:quizData.id,type:quizData.type, ...quizData.quizContent}
+    const {childNodes = []} = quiz;
 
     const slideSet = [quizData.id];
     childNodes.forEach(node => slideSet.push(node.id));
@@ -18,7 +42,7 @@ const init = ({quizData,focusId}) => {
     const max = slideSet.length -1;
 
     return {
-        quizKey,
+        quiz,
         resultSet:[],//array of boolean, order is the same a slideSet
         currentResult:false,//previously result
         slideSet,//[],//previously slideIndex
@@ -31,39 +55,12 @@ const init = ({quizData,focusId}) => {
         reset:false,
         transitionActive:false,
         scoreIndex,
-        scoreSplitPattern:"::"
+        // scoreSplitPattern:"::"
     }
 }
 
 const reducer = (state, action) => {
     const { payload } = action;
-
-    const showNext = ({slideSet,max,slide}) =>
-        slideSet.indexOf(slide) < max;
-
-    const getScore = ({resultSet,quizKey,split}) =>{
-
-        let score = 100;
-        if( resultSet.length>0){
-            const goodAnswers = resultSet.filter(result => result).length;
-            const answers = resultSet.length;
-            score = Math.floor((goodAnswers/answers)*100);
-        }
-
-        //TODO
-        //wait 500ms before to call jExp in order to have time to synch user profile with answer
-        // setTimeout(
-        //     () => syncQuizScore({
-        //         quizKey,
-        //         split,
-        //         quizScore:score
-        //     }),
-        //     500
-        // );
-
-
-        return score;
-    }
 
     switch (action.case) {
         case "ADD_SLIDES": {
@@ -119,8 +116,7 @@ const reducer = (state, action) => {
             // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
                 score = getScore({
                     resultSet:state.resultSet,
-                    quizKey:state.quizKey,
-                    split:state.scoreSplitPattern
+                    quiz:state.quiz,
                 });
 
             return {
@@ -156,9 +152,8 @@ const reducer = (state, action) => {
                 if(showScore){
                     // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
                             score = getScore({
-                            resultSet: resultSet,
-                            quizKey: state.quizKey,
-                            split: state.scoreSplitPattern
+                                resultSet: resultSet,
+                                quiz: state.quiz,
                         });
                     [nextSlide] = state.slideSet.slice(-1);
                 }else{

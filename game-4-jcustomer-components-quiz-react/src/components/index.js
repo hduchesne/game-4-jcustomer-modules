@@ -6,6 +6,5 @@ export * from './Transition';
 export * from './Qna';
 export * from './Media';
 export * from './Header';
-export * from './Consent';
 export * from './Marketo';
 export * from './Score';

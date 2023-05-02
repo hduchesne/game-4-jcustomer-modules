@@ -42,13 +42,13 @@ const syncConsentStatus= ({typeIdentifier,scope,status}) => {
 //         score:`${quizKey}${split}${quizScore}`
 //     });
 
-const syncQuizScore = ({quizKey,split,quizScore}) =>
-    uTracker.track("setQuizScore",{
-        update : {
-            [`properties.quiz-score-${quizKey}`]:quizScore
-        },
-        quizKey:quizKey
-    });
+// const syncQuizScore = ({quizKey,split,quizScore}) =>
+//     uTracker.track("setQuizScore",{
+//         update : {
+//             [`properties.quiz-score-${quizKey}`]:quizScore
+//         },
+//         quizKey:quizKey
+//     });
 
 
 // const syncVideoStatus = ({content,parent,status,player}) =>
@@ -69,17 +69,17 @@ const syncQuizScore = ({quizKey,split,quizScore}) =>
 //         }
 //     });
 
-const syncVisitorData = ({propertyName,propertyValue}) =>
-    uTracker.track("updateQuizVisitorData",{
-        update : {
-            [propertyName]:propertyValue
-        }
-    });
+// const syncVisitorData = ({propertyName,propertyValue}) =>
+//     uTracker.track("updateQuizVisitorData",{
+//         update : {
+//             [propertyName]:propertyValue
+//         }
+//     });
 
 export {
     // syncTracker,
     syncConsentStatus,
-    syncQuizScore,
+    // syncQuizScore,
     // syncVideoStatus,
-    syncVisitorData
+    // syncVisitorData
 }

@@ -49,17 +49,49 @@ const render= async (target,context)=>{
         const quizData = await getQuizData({client,workspace,locale,quizId});
         const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
         const focusId = previewCm && !!targetId ? targetId : quizData.id;
-        //TODO not working !
-        if(workspace === "LIVE" && !window.wem){
-            //TODO add callback ?
-            window.wem = syncTracker({
-                scope,
-                contextServerUrl,
-                locale,
-                quizKey:quizData.quizContent.quizKey,
-                quizPath:quizData.path,
-            });
 
+        if(workspace === "LIVE" && !window.wem){
+            if(!window.digitalData)
+                window.digitalData= {
+                    scope,
+                    site: {
+                        siteInfo: {
+                            siteID: scope
+                        }
+                    },
+                    page: {
+                        pageInfo: {
+                            pageID: `WebApp Quiz`,
+                            pageName: document.title,
+                            pagePath: document.location.pathname,
+                            destinationURL: document.location.origin + document.location.pathname,
+                            language: locale,
+                            categories: [],
+                            tags: []
+                        },
+                        attributes: {
+                            quizKey:quizData.quizContent.quizKey,
+                            quizPath:quizData.path
+                        },
+                        consentTypes: []
+                    },
+                    events: [],
+                    // loadCallbacks:[
+                    //     () => {
+                    //     console.log("Unomi tracker context loaded");
+                    //         window.cxs = window.wem.getLoadedContext();
+                    //     }
+                    // ],
+                    wemInitConfig: {
+                        contextServerUrl,
+                        timeoutInMilliseconds: "1500",
+                        contextServerCookieName: "context-profile-id",
+                        activateWem: true,
+                        trackerSessionIdCookieName: "context-session-id",//"unomi-tracker-session-id",
+                        trackerProfileIdCookieName: "context-profile-id"//"unomi-tracker-profile-id"
+                    }
+                }
+            window.wem = syncTracker();
         }
 
         ReactDOM.render(

@@ -71,11 +71,6 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
         ) || [],
         mktgForm: quizJcrProps.mktgForm?.value,
         mktoConfig: getMktoConfig(quizJcrProps.mktoConfig?.value),
-        consents: quizJcrProps.consents?.nodes.map(node => ({
-                id: node.uuid,
-                actived: JSON.parse(node.actived?.value)
-            })
-        ) || [],
     },
     quizConfig: {
         userTheme: getTheme(quizJcrProps.userTheme?.value || {}),

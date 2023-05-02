@@ -24,12 +24,6 @@ export const GetQuiz = gql`
                 mktoConfig: property(language:$language,name:"game4:mktoConfig"){ value }
                 personalizedResult: property(name:"game4:personalizedResultContent"){ node: refNode { ...CoreNodeFields } }
                 children { nodes { ...CoreNodeFields } }
-                consents: property(name:"game4:consentType"){
-                    nodes: refNodes {
-                        ...CoreNodeFields
-                        actived: property(language:$language,name:"wem:activated"){value}
-                    }
-                }
                 ...MediaProperty
                 ...QuizStaticLabels
             }
