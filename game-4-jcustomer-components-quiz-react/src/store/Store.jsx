@@ -8,7 +8,7 @@ import {syncQuizScore} from "misc/trackerWem";
 const showNext = ({slideSet,max,slide}) =>
     slideSet.indexOf(slide) < max;
 
-const getScore = ({resultSet,quiz}) =>{
+const getScore = ({resultSet,quiz,isPreview}) =>{
 
     let score = 100;
     if( resultSet.length>0){
@@ -18,13 +18,14 @@ const getScore = ({resultSet,quiz}) =>{
     }
 
     //wait 500ms before to call jExp in order to have time to synch user profile with answer
-    setTimeout(
-        () => syncQuizScore({
-            quiz,
-            score
-        }),
-        500
-    );
+    if(!isPreview)
+        setTimeout(
+            () => syncQuizScore({
+                quiz,
+                score
+            }),
+            500
+        );
 
     return score;
 }
@@ -109,6 +110,7 @@ const reducer = (state, action) => {
         }
         case "SHOW_SCORE": {
             // console.debug("[STORE] SHOW_SCORE");
+            const {isPreview} = payload;
             const [slide] = state.slideSet.slice(-1);
             // const {quiz} = state;
             let {score} = state;
@@ -117,6 +119,7 @@ const reducer = (state, action) => {
                 score = getScore({
                     resultSet:state.resultSet,
                     quiz:state.quiz,
+                    isPreview
                 });
 
             return {
@@ -137,7 +140,7 @@ const reducer = (state, action) => {
             };
         }
         case "SHOW_RESULT": {
-            const {result:currentResult,skipScore} = payload;
+            const {result:currentResult,skipScore,isPreview} = payload;
             const currentIndex = state.slideSet.indexOf(state.currentSlide);
             const nextIndex = currentIndex+1;
             const showScore = nextIndex === state.max;
@@ -154,6 +157,7 @@ const reducer = (state, action) => {
                             score = getScore({
                                 resultSet: resultSet,
                                 quiz: state.quiz,
+                                isPreview
                         });
                     [nextSlide] = state.slideSet.slice(-1);
                 }else{
@@ -181,6 +185,7 @@ const reducer = (state, action) => {
 
             return {
                 ...state,
+                showNext: showNext({...state,slide:currentSlide}),
                 currentSlide,
                 resultSet:[],
                 showScore:false,

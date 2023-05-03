@@ -17,12 +17,16 @@ const CxsCtxProvider = ({children}) => {
             setCxs(window.cxs);
         } else if (window.digitalData) {
             window.digitalData.loadCallbacks = window.digitalData.loadCallbacks || [];
-            window.digitalData.loadCallbacks.push(callBack.current);
+            window.digitalData.loadCallbacks.push({
+                priority:5,
+                name:"Set cxs to CxsCtx",
+                execute: callBack.current
+            });
         }
 
         return () => {
             if (typeof window !== 'undefined' && window.digitalData) {
-                const index = window.digitalData.loadCallbacks.indexOf(callBack);
+                const index = window.digitalData.loadCallbacks.findIndex( ({execute}) =>  execute === callBack);
                 if (index !== -1) {
                     window.digitalData.loadCallbacks.splice(index, 1);
                 }

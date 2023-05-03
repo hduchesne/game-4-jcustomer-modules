@@ -106,7 +106,7 @@ export const Qna = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
     const { id : qnaId } = props;
-    const { workspace, locale } = React.useContext(JahiaCtx);
+    const { workspace, locale, isPreview } = React.useContext(JahiaCtx);
     const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
 
@@ -182,20 +182,22 @@ export const Qna = (props) => {
             // console.debug("[handleSubmit] update : ",qna.jExpField2Map," with values : ",values);
 
             //if tracker is not initialized the track event is not send
-            syncVisitorData({
-                qna:{
-                    id:qna.id,
-                    type:qna.type,
-                    title:qna.title
-                },
-                propertyName:`properties.${qna.jExpField2Map}`,
-                propertyValue:values
-            })
+            if(!isPreview)
+                syncVisitorData({
+                    qna:{
+                        id:qna.id,
+                        type:qna.type,
+                        title:qna.title
+                    },
+                    propertyName:`properties.${qna.jExpField2Map}`,
+                    propertyValue:values
+                })
         }
 
         const payload = {
             case:"SHOW_RESULT",
             payload:{
+                isPreview,
                 skipScore:qna.notUsedForScore,
                 result: qna.notUsedForScore ? null : qna.answers
                     .filter(answer => answer.isAnswer)

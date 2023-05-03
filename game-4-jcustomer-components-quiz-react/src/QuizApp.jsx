@@ -45,6 +45,7 @@ const render= async (target,context)=>{
         // console.log("typeof context.theme : ",typeof context.theme);
         const {workspace,locale,quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,targetId} = context;
 
+        const isPreview = workspace !== "LIVE";
         const client = getClient(gqlServerUrl)
         const quizData = await getQuizData({client,workspace,locale,quizId});
         const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
@@ -76,23 +77,25 @@ const render= async (target,context)=>{
                         consentTypes: []
                     },
                     events: [],
-                    // loadCallbacks:[
-                    //     () => {
-                    //     console.log("Unomi tracker context loaded");
-                    //         window.cxs = window.wem.getLoadedContext();
-                    //     }
-                    // ],
+                    loadCallbacks:[{
+                        priority:5,
+                        name:'Unomi tracker context loaded',
+                        execute: () => {
+                            window.cxs = window.wem.getLoadedContext();
+                        }
+                    }],
                     wemInitConfig: {
                         contextServerUrl,
                         timeoutInMilliseconds: "1500",
-                        contextServerCookieName: "context-profile-id",
+                        // contextServerCookieName: "context-profile-id",
                         activateWem: true,
-                        trackerSessionIdCookieName: "context-session-id",//"unomi-tracker-session-id",
-                        trackerProfileIdCookieName: "context-profile-id"//"unomi-tracker-profile-id"
+                        // trackerProfileIdCookieName: "wem-profile-id",
+                        trackerSessionIdCookieName: "wem-session-id"
                     }
                 }
             window.wem = syncTracker();
         }
+
 
         ReactDOM.render(
             // <React.StrictMode>
@@ -106,9 +109,10 @@ const render= async (target,context)=>{
                         filesServerUrl,
                         contextServerUrl,
                         cndTypes,
-                        previewCm
+                        previewCm,
+                        isPreview
                     }}>
-                        <Store quizData={quizData} focusId={focusId} >
+                        <Store quizData={quizData} focusId={focusId}>
                             <ApolloProvider client={client}>
                                 {/*<ThemeProvider theme={theme(context.theme)}>*/}
                                 <div style={{overflow:'hidden'}}>

@@ -12,25 +12,26 @@ const useStyles = makeStyles(theme => ({
 export const VideoPlayer = (props)=>{
     const classes = useStyles(props);
     const {ownerID,videoURL,videoId} = props;
-    const { quizId,quizPath,quizType } = React.useContext(JahiaCtx);
+    const { quizId,quizPath,quizType, isPreview } = React.useContext(JahiaCtx);
 
     const player = useRef(null);
 
     const handleVideoStatus = ({status}) => {
-        syncVideoStatus({
-            quiz:{
-                id:quizId,
-                path:quizPath,
-                type:quizType
-            },
-            parentId:ownerID,
-            player,
-            status,
-            video:{
-                id:videoId,
-                url:videoURL
-            }
-        })
+        if(!isPreview)
+            syncVideoStatus({
+                quiz:{
+                    id:quizId,
+                    path:quizPath,
+                    type:quizType
+                },
+                parentId:ownerID,
+                player,
+                status,
+                video:{
+                    id:videoId,
+                    url:videoURL
+                }
+            })
     }
 
     // const onReadyHandler = () => {
