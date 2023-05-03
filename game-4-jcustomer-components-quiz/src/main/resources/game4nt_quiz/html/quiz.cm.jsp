@@ -6,7 +6,7 @@
 
 <%--Add files used by the webapp--%>
 <template:addResources type="css" resources="webapp/main.e4fe0e78.css" media="screen"/>
-<script type="application/javascript" src="/modules/game-4-jcustomer-components-quiz/javascript/webapp/main.e57bac2a.js"></script>
+<script type="application/javascript" src="/modules/game-4-jcustomer-components-quiz/javascript/webapp/main.dfbbb74d.js"></script>
 
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
