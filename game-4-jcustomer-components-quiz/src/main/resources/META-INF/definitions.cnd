@@ -74,5 +74,12 @@
  - game4:randomSelection (boolean) = false autocreated indexed=no
  - game4:notUsedForScore (boolean) indexed=no
 
+[game4nt:quizPerso] > jnt:content, jmix:list, game4mix:quizChild
++ * (game4mix:quizChild)
+
+[game4nt:resultPerso] > jnt:content, jmix:list, game4mix:quizChild
++ * (jnt:bigText)
+
+
 [game4nt:quizReference] > jnt:content,jmix:nodeReference, game4mix:components
  - j:node (weakreference) < 'game4nt:quiz'
