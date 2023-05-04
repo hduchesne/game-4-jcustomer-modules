@@ -1,4 +1,3 @@
-export const validMark="[*]";//TODO remove
 export const workspace = ["default","live"];
 
 export const cndTypes = {
@@ -11,13 +10,11 @@ export const cndTypes = {
     CLOUDINARY_IMAGE:"cloudynt:image",
     CLOUDINARY_VIDEO:"cloudynt:video",
     JNT_FILE:'jnt:file',
-    IMAGE:'jmix:image'
+    IMAGE:'jmix:image',
+    PERSO_RESULT:"game4nt:resultPerso",
+    PERSO_CONTENT:"game4nt:quizPerso",
 }
-export const consentStatusEnum={
-    GRANTED:"GRANTED",
-    DENIED:"DENIED",
-    REVOKED:"REVOKED"
-};
+
 export const mktgFormEnum={
     MARKETO:"mkto",
 }

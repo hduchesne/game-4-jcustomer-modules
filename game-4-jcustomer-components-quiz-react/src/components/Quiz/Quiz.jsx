@@ -5,10 +5,9 @@ import {Button,Typography} from "@material-ui/core";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import {makeStyles} from "@material-ui/core/styles";
 
-import {JahiaCtx, StoreCtx, AppCtx} from "contexts";
+import {StoreCtx, AppCtx} from "contexts";
 import {useMarketo} from "components";
 
-// import {syncConsentStatus} from "misc/trackerWem";
 import {Media} from '../Media'
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";

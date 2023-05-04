@@ -5,6 +5,7 @@ import {VideoPlayer} from "components/VideoPlayer";
 export const Video = ({videoId, videoURL,ownerID}) => <VideoPlayer videoId={videoId} videoURL={videoURL} ownerID={ownerID}/>
 
 Video.propTypes={
-    url:PropTypes.string.isRequired,
+    videoId:PropTypes.string.isRequired,
+    videoURL:PropTypes.string.isRequired,
     ownerID:PropTypes.string.isRequired,
 }

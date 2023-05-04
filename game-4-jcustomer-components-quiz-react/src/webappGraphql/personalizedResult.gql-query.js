@@ -8,12 +8,12 @@ export const GetPersonalizedResult = gql`
             workspace
             result: nodeById(uuid: $id) {
                 ...CoreNodeFields
-                jExperience: jExperience(profileId: $profileId, sessionId: $sessionId) {
-                    variant:personalizedVariant{
-                        ...CoreNodeFields
-                        title:displayName(language:$language)
-                        text:property(language:$language,name:"text"){
-                            value
+                jExperience: asExperience{
+                    resolve(profileId: $profileId, sessionId: $sessionId) {
+                        variant{
+                            ...CoreNodeFields
+                            title:displayName(language:$language)
+                            text:property(language:$language,name:"text"){value}
                         }
                     }
                 }
@@ -22,3 +22,4 @@ export const GetPersonalizedResult = gql`
     }`
 
 
+//1c3fe3d4-05b8-4e30-acb6-ba3e8366c809

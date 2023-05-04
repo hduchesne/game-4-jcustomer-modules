@@ -28,7 +28,7 @@ export const Warmup = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
     const { id : warmupId } = props;
-    const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
+    const { workspace, locale } = React.useContext(JahiaCtx);
     const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {

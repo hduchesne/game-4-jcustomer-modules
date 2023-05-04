@@ -1,0 +1,82 @@
+import React from 'react';
+import PropTypes from "prop-types";
+import {JahiaCtx} from "contexts";
+import {Typography} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+import classnames from "clsx";
+import cssSharedClasses from "components/cssSharedClasses";
+import {CxsCtx} from "unomi/cxs";
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {GetPersonalizedResult} from "webappGraphql";
+import {useLazyQuery} from "@apollo/client";
+import DOMPurify from "dompurify";
+
+const useStyles = makeStyles(theme => ({
+    result:{
+        marginTop: `${theme.spacing(4)}px`,
+    }
+}));
+
+export const Variant = (props) => {
+    const { workspace, locale } = React.useContext(JahiaCtx);
+    const cxs = React.useContext(CxsCtx);
+
+    const sharedClasses = cssSharedClasses(props);
+    const classes = useStyles(props);
+
+    const { personalizedResultId } = props;
+
+
+    const [loadVariant, variantQuery] = useLazyQuery(GetPersonalizedResult);
+
+
+//wait 1s before to call jExp in order to have time to synch user profile with answer
+    React.useEffect(() => {
+        if(personalizedResultId && cxs)
+            setTimeout(
+                () => loadVariant({
+                    variables: {
+                        workspace,
+                        language:locale,
+                        id:personalizedResultId,
+                        profileId:cxs.profileId,
+                        sessionId:cxs.sessionId,
+
+                    },
+                    fetchPolicy: "no-cache"
+                }),
+                1000
+            );
+    },[loadVariant,locale,workspace, personalizedResultId, cxs])
+
+    if (!variantQuery.data || variantQuery.loading)
+        return (
+            <>
+                <Typography
+                    className={classnames(
+                        sharedClasses.wait,
+                        sharedClasses.textUppercase
+                    )}
+                    variant="body2"
+                >
+                    score calculation in progress...
+                </Typography>
+                <CircularProgress/>
+            </>
+        );
+    if (variantQuery.error) return <p>Error getting your result :(</p>;
+
+    const { variant } = variantQuery.data.response?.result?.jExperience?.resolve;
+
+    return(
+        <Typography className={classes.result}
+                    component="div"
+                    dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(variant.text.value, { ADD_ATTR: ['target'] })}}/>
+    );
+
+}
+
+Variant.propTypes={
+    personalizedResultId:PropTypes.string.isRequired
+}

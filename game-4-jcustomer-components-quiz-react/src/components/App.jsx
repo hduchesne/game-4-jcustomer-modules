@@ -2,13 +2,10 @@ import React from 'react';
 // import PropTypes from "prop-types";
 
 import {Grid,Typography} from '@material-ui/core';
-import {useQuery} from "@apollo/client";
-import {CxsCtx} from "../unomi/cxs";
 import {JahiaCtx, StoreCtx} from "../contexts";
 
 import {Quiz, Warmup, Transition, Score, Header, Qna} from "components"
 
-import {syncTracker} from "misc/trackerWem";
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from 'clsx';
 
@@ -36,7 +33,6 @@ const useStyles = makeStyles(theme => ({
 
 export const App = (props)=> {
     const classes = useStyles(props);
-    const cxs = React.useContext(CxsCtx);
     const { cndTypes } = React.useContext(JahiaCtx);
 
     const { state } = React.useContext(StoreCtx);
@@ -81,7 +77,7 @@ export const App = (props)=> {
                                     />
                                 return <Typography color="error"
                                                    component="p">
-                                    node type {node.types} is not supported
+                                    node type {node.type} is not supported
                                 </Typography>
 
                             })}

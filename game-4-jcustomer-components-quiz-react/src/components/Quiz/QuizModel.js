@@ -1,4 +1,6 @@
 import {getTypes} from 'misc/utils'
+import {cndTypes} from "douane/lib/config";
+
 
 const getTheme = (theme)=>{
     if(typeof theme === 'string'){
@@ -42,13 +44,22 @@ const initLanguageBundle = quizJcrProps =>
         return bundle;
     },{})
 
+const removePersoResult = childNodes =>
+    childNodes?.filter(
+        ({primaryNodeType:{name}}) => name !== cndTypes.PERSO_RESULT
+    )?.map(node => ({
+        id: node.uuid,
+        type: node.primaryNodeType.name,
+        types: getTypes(node)
+    })
+) || [];
 
 export const formatQuizJcrProps = (quizJcrProps) => ({
     //NOTE be sure string value like "false" or "true" are boolean I use JSON.parse to cast
     id: quizJcrProps.uuid,
     path: quizJcrProps.path,
-    types: getTypes(quizJcrProps),
     type: quizJcrProps.primaryNodeType?.name,
+    types: getTypes(quizJcrProps),
     quizContent: {
         quizKey: quizJcrProps.quizKey.value,
         title: quizJcrProps.title,
@@ -60,15 +71,8 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
             types: getTypes(quizJcrProps.media?.node),
             path: quizJcrProps.media?.node?.path || null,
         },
-        personalizedResult: {
-            id: quizJcrProps.personalizedResult?.node?.uuid || null,
-            types: getTypes(quizJcrProps.personalizedResult?.node)
-        },
-        childNodes: quizJcrProps.children?.nodes?.map(node => ({
-                id: node.uuid,
-                types: getTypes(node)
-            })
-        ) || [],
+        childNodes: removePersoResult(quizJcrProps.children?.nodes),
+        persoResult: quizJcrProps.children?.nodes?.find(({primaryNodeType:{name}}) => name === cndTypes.PERSO_RESULT ),
         mktgForm: quizJcrProps.mktgForm?.value,
         mktoConfig: getMktoConfig(quizJcrProps.mktoConfig?.value),
     },
