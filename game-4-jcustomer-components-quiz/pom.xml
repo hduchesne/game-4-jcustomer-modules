@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.jahia.se.modules</groupId>
@@ -10,14 +11,10 @@
   <packaging>bundle</packaging>
   <name>Game for jCustomer QuizChild Components Module</name>
   <description>This is the custom module (Game for jCustomer QuizChild Components Module) for running on a Jahia server.</description>
-<!--  <scm>-->
-<!--    <connection>scm:dummy:uri</connection>-->
-<!--    <developerConnection>scm:dummy:uri</developerConnection>-->
-<!--  </scm>-->
   <properties>
-    <jahia-depends>default,game-4-jcustomer-core,widen-picker,codemirror-editor,jexperience</jahia-depends>
     <yarn.arguments>build:production</yarn.arguments>
     <require-capability>osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
+    <jahia-depends>default,game-4-jcustomer-core,codemirror-editor,jexperience,widen-picker</jahia-depends>
   </properties>
   <dependencies>
     <dependency>
@@ -29,9 +26,6 @@
   </dependencies>
   <repositories>
     <repository>
-      <id>jahia-public</id>
-      <name>Jahia Public Repository</name>
-      <url>https://devtools.jahia.com/nexus/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
@@ -39,6 +33,9 @@
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
+      <id>jahia-public</id>
+      <name>Jahia Public Repository</name>
+      <url>https://devtools.jahia.com/nexus/content/groups/public</url>
     </repository>
     <repository>
       <releases>
@@ -53,7 +50,6 @@
       <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-releases</url>
     </repository>
   </repositories>
-
   <build>
     <plugins>
       <plugin>
@@ -62,8 +58,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <_dsannotations>org.jahia.se.modules.game.quiz.rules.*</_dsannotations>
-<!--            <Export-Package>org.jahia.modules.bootstrap4</Export-Package>-->
+            <_dsannotations>*</_dsannotations>
             <Jahia-Static-Resources>/css,/fonts,/javascript,/icons</Jahia-Static-Resources>
           </instructions>
         </configuration>
@@ -86,7 +81,6 @@
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>1.6</version>
-        <!-- executions go here -->
         <executions>
           <execution>
             <id>npm install node and yarn</id>
@@ -120,7 +114,6 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>dev</id>

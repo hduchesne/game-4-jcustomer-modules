@@ -6,9 +6,10 @@
 
 <%--Add files used by the webapp--%>
 <%--<template:addResources type="css" resources="webapp/2.6c0f60ba.chunk.css" />--%>
-<template:addResources type="css" resources="webapp/main.e4fe0e78.css" media="screen"/>
+<template:addResources type="css" resources="webapp/${requestScope.webappCssFileName}" media="screen"/>
 <%--<template:addResources type="javascript" resources="webapp/2.b90ff848.chunk.js" />--%>
-<template:addResources type="javascript" resources="webapp/main.dfbbb74d.js" />
+<%--<template:addResources type="javascript" resources="webapp/main.dfbbb74d.js" />--%>
+<template:addResources type="javascript" resources="webapp/${requestScope.webappJsFileName}"/>
 
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
