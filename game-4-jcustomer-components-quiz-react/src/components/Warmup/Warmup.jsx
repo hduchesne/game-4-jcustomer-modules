@@ -6,7 +6,7 @@ import {useQuery} from "@apollo/client";
 import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 import {GetWarmup} from "webappGraphql";
 import {formatWarmupJcrProps} from "components/Warmup/WarmupModel";
-import {Media, Qna} from "components";
+import {Loading, Media, Qna} from "components";
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import {makeStyles} from "@material-ui/core/styles";
@@ -27,14 +27,14 @@ const useStyles = makeStyles(theme => ({
 export const Warmup = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
-    const { id : warmupId } = props;
+    const { id : warmupId, persoId } = props;
     const { workspace, locale } = React.useContext(JahiaCtx);
     const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {
         currentSlide,
     } = state;
-
+    const show = currentSlide === warmupId || currentSlide === persoId;;
 
     const {loading, error, data} = useQuery(GetWarmup, {
         variables:{
@@ -59,11 +59,10 @@ export const Warmup = (props) => {
         }
     },[loading,data]);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading show={show} msg="Loading the warmup..."/>;
     if (error) return <p>Error :(</p>;
 
     const {id, media, title, subtitle, video, content, childNodes} = formatWarmupJcrProps(data.response.warmup);
-    const show = currentSlide === warmupId;
 
     const handleCLick = () =>
         manageTransition({
@@ -136,5 +135,6 @@ export const Warmup = (props) => {
 }
 
 Warmup.propTypes={
-    id:PropTypes.string.isRequired
+    id:PropTypes.string.isRequired,
+    persoId: PropTypes.string
 }

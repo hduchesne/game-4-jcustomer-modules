@@ -74,7 +74,7 @@ export const Header = (props) => {
         slideSet,
         currentResult,
         showNext,
-        showScore
+        nextIsScore
     } = state;
 
     const handleNextSlide = () =>
@@ -107,7 +107,7 @@ export const Header = (props) => {
     }
 
     const getHeaderBtnNext=()=>{
-        if(showScore)
+        if(nextIsScore)
             return  <Button onClick={handleShowScore}
                             disabled={!showNext}>
                 {languageBundle.btnShowResults}

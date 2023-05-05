@@ -11,8 +11,8 @@ export const cndTypes = {
     CLOUDINARY_VIDEO:"cloudynt:video",
     JNT_FILE:'jnt:file',
     IMAGE:'jmix:image',
-    PERSO_RESULT:"game4nt:resultPerso",
-    PERSO_CONTENT:"game4nt:quizPerso",
+    SCORE_PERSO:"game4nt:scorePerso",
+    CONTENT_PERSO:"game4nt:contentPerso",
 }
 
 export const mktgFormEnum={

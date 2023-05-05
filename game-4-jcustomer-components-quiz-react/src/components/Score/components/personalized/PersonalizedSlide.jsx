@@ -7,7 +7,7 @@ import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 
 import {Media} from "components/Media";
-import {GetPersonalizedSlideContent} from "webappGraphql";
+import {GetPersonalizedScoreNode} from "webappGraphql";
 import {useQuery} from "@apollo/client";
 import {formatPersoResultJcrProps} from "./PersoResultModel";
 import {Variant} from "./Variant";
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     content:{
         // textAlign: 'left',
         maxWidth:'500px',
-        margin:`${theme.spacing(4)}px auto`,
+        margin:`${theme.spacing(4)}px auto 0`,
 
     },
 }));
@@ -32,7 +32,7 @@ export const PersonalizedSlide = (props) => {
     const { resetBtnIsEnabled, languageBundle } = React.useContext(AppCtx);
 
 
-    const {loading, error, data} = useQuery(GetPersonalizedSlideContent, {
+    const {loading, error, data} = useQuery(GetPersonalizedScoreNode, {
         variables:{
             workspace,
             language:locale,

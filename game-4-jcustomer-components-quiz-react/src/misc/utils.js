@@ -57,9 +57,11 @@ export function manageTransition({transitionIsEnabled, transitionTimeout,dispatc
         dispatch({
             case:"TOGGLE_TRANSITION"
         });
+
         setTimeout(()=>dispatch({
             case:"TOGGLE_TRANSITION"
         }),transitionTimeout);
+
         setTimeout(()=>dispatch(payload),transitionTimeout);
     }else{
         dispatch(payload)

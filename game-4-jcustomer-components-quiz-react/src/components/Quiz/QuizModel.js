@@ -46,7 +46,7 @@ const initLanguageBundle = quizJcrProps =>
 
 const removePersoResult = childNodes =>
     childNodes?.filter(
-        ({primaryNodeType:{name}}) => name !== cndTypes.PERSO_RESULT
+        ({primaryNodeType:{name}}) => name !== cndTypes.SCORE_PERSO
     )?.map(node => ({
         id: node.uuid,
         type: node.primaryNodeType.name,
@@ -72,7 +72,7 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
             path: quizJcrProps.media?.node?.path || null,
         },
         childNodes: removePersoResult(quizJcrProps.children?.nodes),
-        persoResult: quizJcrProps.children?.nodes?.find(({primaryNodeType:{name}}) => name === cndTypes.PERSO_RESULT ),
+        scorePerso: quizJcrProps.children?.nodes?.find(({primaryNodeType:{name}}) => name === cndTypes.SCORE_PERSO ),
         mktgForm: quizJcrProps.mktgForm?.value,
         mktoConfig: getMktoConfig(quizJcrProps.mktoConfig?.value),
     },

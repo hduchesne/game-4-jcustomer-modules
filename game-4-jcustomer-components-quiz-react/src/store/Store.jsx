@@ -5,8 +5,8 @@ import {getRandomString} from "misc/utils";
 import {syncQuizScore} from "misc/trackerWem";
 
 
-const showNext = ({slideSet,max,slide}) =>
-    slideSet.indexOf(slide) < max;
+const showNext = ({slideSet,slide}) =>
+    slideSet.indexOf(slide) < slideSet.length;//-1 ?
 
 const getScore = ({resultSet,quiz,isPreview}) =>{
 
@@ -32,15 +32,18 @@ const getScore = ({resultSet,quiz,isPreview}) =>{
 
 const init = ({quizData,focusId}) => {
     // console.log("jContent.transition : ",jContent.transition);
-    const scoreIndex = getRandomString(5,"#aA");
+
+
     const quiz = {id:quizData.id,type:quizData.type, ...quizData.quizContent}
-    const {childNodes = []} = quiz;
+    const {childNodes = [],scorePerso} = quiz;
+
+    const scoreId = scorePerso?.uuid || getRandomString(5,"#aA");
 
     const slideSet = [quizData.id];
     childNodes.forEach(node => slideSet.push(node.id));
-    slideSet.push(scoreIndex);
+    slideSet.push(scoreId);
 
-    const max = slideSet.length -1;
+    // const max = slideSet.length -1;
 
     return {
         quiz,
@@ -50,12 +53,13 @@ const init = ({quizData,focusId}) => {
         currentSlide:focusId,//quizData.id,//null,//previously index
         showResult:false,
         showNext:false,
-        showScore:false,
-        max,
+        showScore:focusId === scoreId,
+        nextIsScore:false,
+        // max,
         score:0,
         reset:false,
         transitionActive:false,
-        scoreIndex,
+        scoreId,
         // scoreSplitPattern:"::"
     }
 }
@@ -76,35 +80,26 @@ const reducer = (state, action) => {
                 slideSet = [...slideSet, ...slides];
             }
 
-            const max = slideSet.length -1;
-
-            // console.debug("[STORE] ADD_SLIDE - slides: ",slides," parentSlide: ",parentSlide);
             return {
                 ...state,
                 slideSet,
-                showNext:showNext({slideSet,max,slide:state.currentSlide}),
-                max
+                showNext:showNext({slideSet,slide:state.currentSlide}),
             };
         }
         case "NEXT_SLIDE":{
             const currentIndex = state.slideSet.indexOf(state.currentSlide);
             const nextIndex = currentIndex+1;
-            // console.debug("[STORE] NEXT_SLIDE - currentIndex: ",currentIndex,", max : ",state.max);
 
             let nextSlide = state.currentSlide;
 
-            if(currentIndex  < state.max )
+            if(currentIndex  < (state.slideSet.length -1))
                 nextSlide = state.slideSet[nextIndex];
-
-            // const showScore = nextIndex === state.max-1;
 
             return {
                 ...state,
                 currentSlide:nextSlide,
                 showNext: showNext({...state,slide:nextSlide}),
                 showResult:false,
-                // showScore,
-                // score,
                 reset:false,
             };
         }
@@ -112,21 +107,20 @@ const reducer = (state, action) => {
             // console.debug("[STORE] SHOW_SCORE");
             const {isPreview} = payload;
             const [slide] = state.slideSet.slice(-1);
-            // const {quiz} = state;
             let {score} = state;
 
-            // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
-                score = getScore({
-                    resultSet:state.resultSet,
-                    quiz:state.quiz,
-                    isPreview
-                });
+            score = getScore({
+                resultSet:state.resultSet,
+                quiz:state.quiz,
+                isPreview
+            });
 
             return {
                 ...state,
                 currentSlide: slide,
                 showNext: showNext({...state, slide}),
                 showResult:false,
+                showScore:true,
                 score
             };
         }
@@ -143,7 +137,7 @@ const reducer = (state, action) => {
             const {result:currentResult,skipScore,isPreview} = payload;
             const currentIndex = state.slideSet.indexOf(state.currentSlide);
             const nextIndex = currentIndex+1;
-            const showScore = nextIndex === state.max;
+            const nextIsScore = nextIndex === (state.slideSet.length -1);
 
             // console.debug("[STORE] SHOW_RESULT - currentResult: ", currentResult);
 
@@ -152,24 +146,25 @@ const reducer = (state, action) => {
             let {score,currentSlide:nextSlide} = state;
 
             if(skipScore) {
-                if(showScore){
-                    // if(!quiz.personalizedResult || !quiz.personalizedResult.id)
-                            score = getScore({
-                                resultSet: resultSet,
-                                quiz: state.quiz,
-                                isPreview
-                        });
-                    [nextSlide] = state.slideSet.slice(-1);
-                }else{
-                    nextSlide=state.slideSet[nextIndex]
-                }
+                if(nextIsScore)//{
+                    score = getScore({
+                        resultSet: resultSet,
+                        quiz: state.quiz,
+                        isPreview
+                    });
+                //     [nextSlide] = state.slideSet.slice(-1);
+                // }else{
+                //     nextSlide=state.slideSet[nextIndex]
+                // }
+                nextSlide=state.slideSet[nextIndex]
             }
 
             return {
                 ...state,
                 currentSlide:nextSlide,
                 showNext: showNext({...state,slide:nextSlide}),
-                showScore,
+                showScore:skipScore && nextIsScore ? true : false,
+                nextIsScore,
                 resultSet,
                 currentResult,
                 score,
@@ -189,6 +184,7 @@ const reducer = (state, action) => {
                 currentSlide,
                 resultSet:[],
                 showScore:false,
+                nextIsScore:false,
                 currentResult:false,
                 reset:true
             }

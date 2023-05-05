@@ -8,3 +8,5 @@ export * from './Media';
 export * from './Header';
 export * from './Marketo';
 export * from './Score';
+export * from './Loading';
+export * from './ContentPerso';

@@ -16,6 +16,7 @@ import classnames from "clsx";
 import {FormGroup, Typography,Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {manageTransition} from "misc/utils";
+import {Loading} from "components/Loading";
 
 
 const useStyles = makeStyles(theme => ({
@@ -105,7 +106,7 @@ const reducer = (qna, action) => {
 export const Qna = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
-    const { id : qnaId } = props;
+    const { id : qnaId, persoId } = props;
     const { workspace, locale, isPreview } = React.useContext(JahiaCtx);
     const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
@@ -114,6 +115,7 @@ export const Qna = (props) => {
         currentSlide,
         reset
     } = state;
+    const show = currentSlide === qnaId || currentSlide === persoId;
 
     const {loading, error, data} = useQuery(GetQnA, {
         variables:{
@@ -153,10 +155,10 @@ export const Qna = (props) => {
         }
     }, [reset,data]);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading show={show} msg="Loading the question..."/>;
     if (error) return <p>Error :(</p>;
 
-    const show = currentSlide === qnaId;
+
 
     const handleSubmit = () => {
 
@@ -268,5 +270,6 @@ export const Qna = (props) => {
 }
 
 Qna.propTypes={
-    id:PropTypes.string.isRequired
+    id:PropTypes.string.isRequired,
+    persoId: PropTypes.string
 }

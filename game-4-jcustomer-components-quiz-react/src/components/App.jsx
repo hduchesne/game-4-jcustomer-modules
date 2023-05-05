@@ -4,7 +4,7 @@ import React from 'react';
 import {Grid,Typography} from '@material-ui/core';
 import {JahiaCtx, StoreCtx} from "../contexts";
 
-import {Quiz, Warmup, Transition, Score, Header, Qna} from "components"
+import {Quiz, Warmup, Transition, Score, Header, Qna, ContentPerso} from "components"
 
 import {makeStyles} from "@material-ui/core/styles";
 import classnames from 'clsx';
@@ -37,6 +37,7 @@ export const App = (props)=> {
 
     const { state } = React.useContext(StoreCtx);
     const {
+        currentSlide,
         showResult,
         showScore
     } = state;
@@ -46,6 +47,15 @@ export const App = (props)=> {
     const displayScore=()=>{
         if(showScore)
             return <Score {...quizContent} />
+    }
+
+    const displayPerso=(persoId)=>{
+        if(currentSlide === persoId)
+            return <ContentPerso
+                key={persoId}
+                id={persoId}
+                media={quizContent.media}
+            />
     }
 
     return (
@@ -75,6 +85,9 @@ export const App = (props)=> {
                                         key={node.id}
                                         id={node.id}
                                     />
+                                if(node.types.includes(cndTypes.CONTENT_PERSO))
+                                    return displayPerso(node.id)
+
                                 return <Typography color="error"
                                                    component="p">
                                     node type {node.type} is not supported

@@ -11,16 +11,16 @@ export const Score = (props) => {
     const { state,dispatch } = React.useContext(StoreCtx);
 
     const sharedClasses = cssSharedClasses(props);
-    const { media, title, subtitle, persoResult } = props;
+    const { media, title, subtitle, scorePerso } = props;
     const { transitionIsEnabled, transitionTimeout } = React.useContext(AppCtx);
-    const personalizedResultId = persoResult?.uuid;
+    const personalizedResultId = scorePerso?.uuid;
 
     const {
         currentSlide,
-        scoreIndex
+        scoreId
     } = state;
 
-    const show = currentSlide === scoreIndex;
+    const show = currentSlide === scoreId;
 
     const onClick = () => {
         manageTransition({

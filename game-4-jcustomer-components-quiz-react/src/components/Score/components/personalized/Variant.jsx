@@ -8,13 +8,16 @@ import cssSharedClasses from "components/cssSharedClasses";
 import {CxsCtx} from "unomi/cxs";
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {GetPersonalizedResult} from "webappGraphql";
+import {GetPersonalizedScoreVariant} from "webappGraphql";
 import {useLazyQuery} from "@apollo/client";
 import DOMPurify from "dompurify";
 
 const useStyles = makeStyles(theme => ({
-    result:{
-        marginTop: `${theme.spacing(4)}px`,
+    // result:{
+    //     marginTop: `${theme.spacing(4)}px`,
+    // },
+    personalizedArea:{
+        padding:`${theme.spacing(4)}px 0`
     }
 }));
 
@@ -28,7 +31,7 @@ export const Variant = (props) => {
     const { personalizedResultId } = props;
 
 
-    const [loadVariant, variantQuery] = useLazyQuery(GetPersonalizedResult);
+    const [loadVariant, variantQuery] = useLazyQuery(GetPersonalizedScoreVariant);
 
 
 //wait 1s before to call jExp in order to have time to synch user profile with answer
@@ -52,7 +55,9 @@ export const Variant = (props) => {
 
     if (!variantQuery.data || variantQuery.loading)
         return (
-            <>
+            <div className={classnames(
+                classes.personalizedArea
+            )}>
                 <Typography
                     className={classnames(
                         sharedClasses.wait,
@@ -63,14 +68,14 @@ export const Variant = (props) => {
                     score calculation in progress...
                 </Typography>
                 <CircularProgress/>
-            </>
+            </div>
         );
     if (variantQuery.error) return <p>Error getting your result :(</p>;
 
     const { variant } = variantQuery.data.response?.result?.jExperience?.resolve;
 
     return(
-        <Typography className={classes.result}
+        <Typography className={classes.personalizedArea}
                     component="div"
                     dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(variant.text.value, { ADD_ATTR: ['target'] })}}/>
     );
