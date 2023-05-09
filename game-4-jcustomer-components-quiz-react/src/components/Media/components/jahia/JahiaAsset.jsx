@@ -3,9 +3,10 @@ import {JahiaCtx} from "contexts";
 import {Image} from "components/Media/components/jahia/Image";
 import {Video} from "components/Media/components/jahia/Video";
 import PropTypes from "prop-types";
+import {resolveJahiaMediaURL} from 'misc/utils';
 
 export const JahiaAsset = ({id,types,path,alt,sourceID}) => {
-    const { cndTypes,filesServerUrl } = React.useContext(JahiaCtx);
+    const { cndTypes,host, workspace } = React.useContext(JahiaCtx);
 
     switch (true){
         case Array.isArray(types) && types.length === 0 :
@@ -15,7 +16,7 @@ export const JahiaAsset = ({id,types,path,alt,sourceID}) => {
             return <Image path={path} alt={alt}/>
 
         case types.includes(cndTypes.JNT_FILE):
-            return <Video videoId={id} videoURL={filesServerUrl+encodeURI(path)} ownerID={sourceID} />
+            return <Video videoId={id} videoURL={resolveJahiaMediaURL({host,path,workspace})} ownerID={sourceID} />
 
         default:
             if(path)

@@ -1,4 +1,5 @@
 import {getTypes} from 'misc/utils'
+import DOMPurify from "dompurify";
 
 export const formatPersoResultJcrProps = (warmupJcrProps) => {
 
@@ -12,7 +13,7 @@ export const formatPersoResultJcrProps = (warmupJcrProps) => {
         id: warmupJcrProps.uuid,
         title: warmupJcrProps.title?.value,
         subtitle: warmupJcrProps.subtitle?.value,
-        content: warmupJcrProps.content?.value,
+        content: DOMPurify.sanitize(warmupJcrProps.content?.value, { ADD_ATTR: ['target'] }),
         media: media,
     }
 }

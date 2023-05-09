@@ -11,8 +11,8 @@ import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, Button} from "@material-ui/core";
-import DOMPurify from "dompurify";
 import {manageTransition} from "misc/utils";
+import {EmbeddedPathInHtmlResolver} from "components/Jahia";
 
 const useStyles = makeStyles(theme => ({
     contentGroup:{
@@ -106,7 +106,7 @@ export const Warmup = (props) => {
                     <div className={classes.contentGroup}>
                         <Typography component="div"
                                     className={classes.content}
-                                    dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(content, { ADD_ATTR: ['target'] })}}/>
+                                    children={<EmbeddedPathInHtmlResolver htmlAsString={content} />}/>
 
                         {video &&
                         <div>

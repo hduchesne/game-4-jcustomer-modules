@@ -11,7 +11,8 @@ import {GetPersonalizedScoreNode} from "webappGraphql";
 import {useQuery} from "@apollo/client";
 import {formatPersoResultJcrProps} from "./PersoResultModel";
 import {Variant} from "./Variant";
-import DOMPurify from "dompurify";
+import {Loading} from "components/Loading";
+import {EmbeddedPathInHtmlResolver} from "components/Jahia";
 
 const useStyles = makeStyles(theme => ({
     content:{
@@ -41,7 +42,7 @@ export const PersonalizedSlide = (props) => {
         skip:!personalizedResultId
     });
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading show={true} msg="Loading the score..."/>;;
     if (error) return <p>Error :(</p>;
 
     const {
@@ -76,7 +77,10 @@ export const PersonalizedSlide = (props) => {
 
                 <Typography component="div"
                             className={classes.content}
-                            dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(content, { ADD_ATTR: ['target'] })}}/>
+                            children={<EmbeddedPathInHtmlResolver htmlAsString={content} />}/>
+                {/*<Typography component="div"*/}
+                {/*            className={classes.content}*/}
+                {/*            dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(content, { ADD_ATTR: ['target'] })}}/>*/}
 
                 <Variant personalizedResultId={personalizedResultId}/>
 

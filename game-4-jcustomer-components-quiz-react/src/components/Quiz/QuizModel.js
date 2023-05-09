@@ -1,5 +1,6 @@
 import {getTypes} from 'misc/utils'
 import {cndTypes} from "douane/lib/config";
+import DOMPurify from "dompurify";
 
 
 const getTheme = (theme)=>{
@@ -64,7 +65,7 @@ export const formatQuizJcrProps = (quizJcrProps) => ({
         quizKey: quizJcrProps.quizKey.value,
         title: quizJcrProps.title,
         subtitle: quizJcrProps.subtitle?.value || "",
-        description: quizJcrProps.description?.value || "",
+        description: DOMPurify.sanitize(quizJcrProps.description?.value || "", { ADD_ATTR: ['target'] }),
         duration: quizJcrProps.duration?.value || "",
         media: {
             id: quizJcrProps.media?.node?.uuid || null,

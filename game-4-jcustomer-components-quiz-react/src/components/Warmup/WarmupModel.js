@@ -1,11 +1,12 @@
 import {getTypes} from 'misc/utils'
+import DOMPurify from "dompurify";
 
 export const formatWarmupJcrProps = (warmupJcrProps) => {
     return{
         id: warmupJcrProps.uuid,
         title: warmupJcrProps.title,
         subtitle: warmupJcrProps.subtitle?.value || "",
-        content: warmupJcrProps.content?.value || "",
+        content: DOMPurify.sanitize(warmupJcrProps.content?.value || "", { ADD_ATTR: ['target'] }),
         duration: warmupJcrProps.duration?.value || "",
         media: {
             id: warmupJcrProps.media?.node?.uuid || null,

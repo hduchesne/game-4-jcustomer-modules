@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {GetPersonalizedScoreVariant} from "webappGraphql";
 import {useLazyQuery} from "@apollo/client";
 import DOMPurify from "dompurify";
+import {EmbeddedPathInHtmlResolver} from "components/Jahia";
 
 const useStyles = makeStyles(theme => ({
     // result:{
@@ -77,7 +78,7 @@ export const Variant = (props) => {
     return(
         <Typography className={classes.personalizedArea}
                     component="div"
-                    dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(variant.text.value, { ADD_ATTR: ['target'] })}}/>
+                    children={<EmbeddedPathInHtmlResolver htmlAsString={DOMPurify.sanitize(variant.text.value, { ADD_ATTR: ['target'] })} />}/>
     );
 
 }

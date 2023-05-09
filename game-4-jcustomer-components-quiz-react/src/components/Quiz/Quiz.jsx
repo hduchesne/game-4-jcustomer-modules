@@ -11,9 +11,9 @@ import {useMarketo} from "components";
 import {Media} from '../Media'
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
-import DOMPurify from "dompurify";
 import {manageTransition} from "misc/utils";
 import {CxsCtx} from "unomi/cxs";
+import {EmbeddedPathInHtmlResolver} from "components/Jahia";
 
 const useStyles = makeStyles(theme => ({
     duration:{
@@ -161,7 +161,7 @@ export const Quiz = (props) => {
 
                 <Typography component="div"
                             className={classes.description}
-                            dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(description, { ADD_ATTR: ['target'] })}}/>
+                            children={<EmbeddedPathInHtmlResolver htmlAsString={description} />}/>
 
                 {getStartComponent()}
             </div>

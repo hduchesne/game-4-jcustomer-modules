@@ -34,11 +34,12 @@ export const context = {
         quizId:{type:"string"},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
         targetId:{type:["string", "null"], default:null},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
         previewCm:{type:"boolean", default:false},
-        filesServerUrl:{
-            type:"string",
-            format:"uri",
-            default:process.env.REACT_APP_JCONTENT_FILES_ENDPOINT || "http://localhost:8080/files/live"
-        },
+        isEdit:{type:"boolean", default:false},
+        // filesServerUrl:{
+        //     type:"string",
+        //     format:"uri",
+        //     default:process.env.REACT_APP_JCONTENT_FILES_ENDPOINT || "http://localhost:8080" //"http://localhost:8080/files/live"
+        // },
         gqlServerUrl:{
             type:"string",
             format:"uri",
@@ -60,7 +61,7 @@ export const context = {
         "scope",
         "locale",
         "quizId",
-        "filesServerUrl",
+        // "filesServerUrl",
         "gqlServerUrl",
         // "gql_authorization",
         "contextServerUrl"

@@ -67,3 +67,37 @@ export function manageTransition({transitionIsEnabled, transitionTimeout,dispatc
         dispatch(payload)
     }
 }
+
+export const resolveJahiaMediaURL = ({host,path, workspace}) => {
+    const jahiaFilePath = `/files/${workspace === 'EDIT' ? 'default' : 'live'}`;
+    if (!path) {
+        return '';
+    }
+    return `${host}${jahiaFilePath}${encodeURI(path)}`;
+};
+
+export const resolveJahiaEmbeddedURL = ({host,path, isPreview,isEdit,locale}) => {
+    if (!path) {
+        return '';
+    }
+
+    const paths = {
+        preview: '/cms/render/default',
+        edit: '/cms/editframe/default'
+    }
+
+    let pagePath;
+    switch (true){
+        case (isPreview && isEdit) :
+            pagePath = `${host}${paths.edit}/${locale}${path}`;
+            break;
+        case isPreview :
+            pagePath = `${host}${paths.preview}/${locale}${path}`;
+            break;
+        default :
+            pagePath = `${host}/${locale}${path}`;
+            break;
+    }
+
+    return pagePath;
+};

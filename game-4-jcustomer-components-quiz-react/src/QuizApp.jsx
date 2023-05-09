@@ -43,7 +43,7 @@ const render= async (target,context)=>{
 
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
-        const {workspace,locale,quizId,filesServerUrl,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,targetId} = context;
+        const {host,workspace,isEdit,locale,quizId,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,targetId} = context;
 
         const isPreview = workspace !== "LIVE";
         const client = getClient(gqlServerUrl)
@@ -106,7 +106,8 @@ const render= async (target,context)=>{
                         quizId:quizData.id,
                         quizPath:quizData.path,
                         quizType:quizData.type,
-                        filesServerUrl,
+                        host,
+                        isEdit,
                         contextServerUrl,
                         cndTypes,
                         previewCm,
