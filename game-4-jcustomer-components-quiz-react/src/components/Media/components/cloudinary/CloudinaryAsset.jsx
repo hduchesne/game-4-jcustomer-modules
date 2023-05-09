@@ -29,8 +29,10 @@ export const CloudinaryAsset = ({types,id,width,sourceID}) => {
 
         case types.includes(cndTypes.CLOUDINARY_VIDEO) :
             return <CloudinaryVideo videoId={id} videoURL={url} ownerID={sourceID} />
+
+        default :
+            return <></>
     }
-    return <></>
 }
 
 CloudinaryAsset.propTypes={

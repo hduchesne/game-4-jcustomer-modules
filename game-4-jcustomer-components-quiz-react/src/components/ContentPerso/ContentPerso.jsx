@@ -1,34 +1,17 @@
 import React from "react";
 import {JahiaCtx, StoreCtx} from "contexts";
 import {CxsCtx} from "unomi/cxs";
-import cssSharedClasses from "components/cssSharedClasses";
 import {useLazyQuery} from "@apollo/client";
 import {GetPersonalizedContentVariant} from "webappGraphql";
-import classnames from "clsx";
 import {Typography} from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import {Media} from "components/Media";
-import {makeStyles} from "@material-ui/core/styles";
 import {Qna} from "components/Qna";
 import {Warmup} from "components/Warmup";
 import {Loading} from "components/Loading";
-
-const useStyles = makeStyles(theme => ({
-    content:{
-        // textAlign: 'left',
-        maxWidth:'500px',
-        margin:`${theme.spacing(4)}px auto 0`,
-
-    },
-}));
 
 export const ContentPerso = (props) => {
     const { workspace, cndTypes } = React.useContext(JahiaCtx);
     const cxs = React.useContext(CxsCtx);
     const { state : {currentSlide} } = React.useContext(StoreCtx);
-
-    const sharedClasses = cssSharedClasses(props);
-    const classes = useStyles(props);
 
     const { id : persoId, media } = props;
 

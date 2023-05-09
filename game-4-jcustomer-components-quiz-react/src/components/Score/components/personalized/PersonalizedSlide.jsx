@@ -78,11 +78,18 @@ export const PersonalizedSlide = (props) => {
                 <Typography component="div"
                             className={classes.content}
                             children={<EmbeddedPathInHtmlResolver htmlAsString={content} />}/>
-                {/*<Typography component="div"*/}
-                {/*            className={classes.content}*/}
-                {/*            dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(content, { ADD_ATTR: ['target'] })}}/>*/}
 
-                <Variant personalizedResultId={personalizedResultId}/>
+                {!isPreview &&
+                    <Variant personalizedResultId={personalizedResultId}/>
+                }
+
+                {isPreview &&
+                <Typography component="div"
+                            className={classes.content}>
+                    variant is not rendered in preview mode
+                </Typography>
+                }
+
 
                 {resetBtnIsEnabled &&
                 <Button onClick={onClick}>
@@ -92,7 +99,6 @@ export const PersonalizedSlide = (props) => {
             </div>
         </>
     );
-
 }
 
 PersonalizedSlide.propTypes={

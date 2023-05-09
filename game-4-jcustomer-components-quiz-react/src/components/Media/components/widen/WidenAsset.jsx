@@ -33,8 +33,10 @@ export const WidenAsset = ({types,id,width,sourceID}) => {
 
         case types.includes(cndTypes.WIDEN_VIDEO) && !!videoURL :
             return <WidenVideo videoId={id} videoURL={videoURL} ownerID={sourceID} />
+
+        default:
+            return <></>;
     }
-    return <></>;
 }
 
 WidenAsset.propTypes={
