@@ -11,6 +11,7 @@
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
 <c:set var="workspace" value="${renderContext.workspace}"/>
+<c:set var="isEdit" value="${renderContext.editMode}"/>
 <c:set var="site" value="${renderContext.site.siteKey}"/>
 <c:set var="host" value="${url.server}"/>
 <c:set var="targetId" value="REACT_Quiz_${fn:replace(random.nextInt(),'-','_')}"/>
@@ -21,10 +22,11 @@
     window.quizUIApp("${targetId}",{
         host:"${host}",
         workspace:"${workspace}",
+        isEdit:${isEdit},
         scope:"${site}",//site key
         locale:"${language}",
         quizId:"${_uuid_}",
-        filesServerUrl:"${host}/files/${workspace}",
+        <%--filesServerUrl:"${host}/files/${workspace}",--%>
         gqlServerUrl:"${host}/modules/graphql",
         contextServerUrl:window.digitalData?window.digitalData.contextServerPublicUrl:undefined,//digitalData is set in live mode only
     });

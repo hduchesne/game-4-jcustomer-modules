@@ -14,6 +14,7 @@
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
 <c:set var="workspace" value="${renderContext.workspace}"/>
+<c:set var="isEdit" value="${renderContext.editMode}"/>
 
 <c:set var="site" value="${renderContext.site.siteKey}"/>
 <c:set var="host" value="${url.server}"/>
@@ -27,10 +28,11 @@
     const quiz_context_${targetId}={
         host:"${host}",
         workspace:"${workspace}",
+        isEdit:${isEdit},
         scope:"${site}",//site key
         locale:"${language}",
         quizId:"${_uuid_}",
-        filesServerUrl:"${host}/files/${workspace}",
+        <%--filesServerUrl:"${host}/files/${workspace}",--%>
         gqlServerUrl:"${host}/modules/graphql",
         contextServerUrl:window.digitalData?window.digitalData.contextServerPublicUrl:undefined,//digitalData is set in live mode only
     };
@@ -39,7 +41,7 @@
         //in case if edit mode slow down the load waiting for the jahia GWT UI was setup,
         // otherwise the react app failed (maybe loosing his position as the DOM is updated by the jahia UI at the same time)
         <c:choose>
-        <c:when test="${renderContext.editMode}" >
+        <c:when test="${isEdit}" >
         setTimeout(() => {
             window.quizUIApp("${targetId}",quiz_context_${targetId});
         },500);

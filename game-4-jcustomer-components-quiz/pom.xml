@@ -58,7 +58,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <_dsannotations>*</_dsannotations>
+            <_dsannotations>org.jahia.se.modules.game.*</_dsannotations>
             <Jahia-Static-Resources>/css,/fonts,/javascript,/icons</Jahia-Static-Resources>
           </instructions>
         </configuration>

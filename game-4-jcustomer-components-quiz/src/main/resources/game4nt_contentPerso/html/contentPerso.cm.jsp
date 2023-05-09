@@ -16,6 +16,7 @@
 <c:set var="site" value="${renderContext.site.siteKey}"/>
 <c:set var="host" value="${url.server}"/>
 <c:set var="targetId" value="REACT_Quiz_${fn:replace(random.nextInt(),'-','_')}"/>
+<c:set var="isEdit" value="${renderContext.editMode}"/>
 
 <!-- CM view -->
 <div id="${targetId}"></div>
@@ -26,7 +27,8 @@
         scope:"${site}",//site key
         locale:"${language}",
         quizId:"${quizId}",
-        filesServerUrl:"${host}/files/${workspace}",
+        isEdit:${isEdit},
+        <%--filesServerUrl:"${host}/files/${workspace}",--%>
         targetId:"${_uuid_}",
         previewCm:true,
         gqlServerUrl:"${host}/modules/graphql",
