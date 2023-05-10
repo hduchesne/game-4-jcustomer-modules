@@ -59,7 +59,7 @@ export const Warmup = (props) => {
         }
     },[loading,data]);
 
-    if (loading) return <Loading show={show} msg="Loading the warmup..."/>;
+    if (loading) return <Loading show={show} msg="loading.warmup"/>;
     if (error) return <p>Error :(</p>;
 
     const {id, media, title, subtitle, video, content, childNodes} = formatWarmupJcrProps(data.response.warmup);

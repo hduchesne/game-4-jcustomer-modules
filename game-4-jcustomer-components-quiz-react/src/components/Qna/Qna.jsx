@@ -155,7 +155,7 @@ export const Qna = (props) => {
         }
     }, [reset,data]);
 
-    if (loading) return <Loading show={show} msg="Loading the question..."/>;
+    if (loading) return <Loading show={show} msg="loading.question"/>;
     if (error) return <p>Error :(</p>;
 
 

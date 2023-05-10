@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const PersonalizedSlide = (props) => {
-    const { workspace, locale, isPreview } = React.useContext(JahiaCtx);
+    const { workspace, locale, previewCm } = React.useContext(JahiaCtx);
 
     const sharedClasses = cssSharedClasses(props);
     const classes = useStyles(props);
@@ -42,7 +42,7 @@ export const PersonalizedSlide = (props) => {
         skip:!personalizedResultId
     });
 
-    if (loading) return <Loading show={true} msg="Loading the score..."/>;;
+    if (loading) return <Loading show={true} msg="loading.score"/>;;
     if (error) return <p>Error :(</p>;
 
     const {
@@ -79,11 +79,11 @@ export const PersonalizedSlide = (props) => {
                             className={classes.content}
                             children={<EmbeddedPathInHtmlResolver htmlAsString={content} />}/>
 
-                {!isPreview &&
+                {!previewCm &&
                     <Variant personalizedResultId={personalizedResultId}/>
                 }
 
-                {isPreview &&
+                {previewCm &&
                 <Typography component="div"
                             className={classes.content}>
                     variant is not rendered in preview mode

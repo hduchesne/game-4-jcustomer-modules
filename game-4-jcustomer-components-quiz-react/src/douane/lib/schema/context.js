@@ -54,6 +54,9 @@ export const context = {
             format:"uri",
             default:process.env.REACT_APP_JCUSTOMER_ENDPOINT //could be null in case of edit!
         },
+        cndTypes:{
+            type:"array"
+        }
     },
     required: [
         "host",

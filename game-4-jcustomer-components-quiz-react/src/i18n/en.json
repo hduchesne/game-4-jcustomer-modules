@@ -1,0 +1,20 @@
+{
+    "loading" : {
+        "nextQuestion": "Look for the next question...",
+        "score": "Loading the score...",
+        "warmup": "Loading the warmup...",
+        "question": "Loading the question...",
+        "bgImage": "Background image is loading...",
+        "default": "Loading..."
+    },
+    "error" : {
+        "default" : {
+            "title": "Error",
+            "msg" : "An error occurred"
+        },
+        "validation" : {
+            "title": "Validation errors",
+            "msg" : "An error occurred when validating"
+        }
+    }
+}

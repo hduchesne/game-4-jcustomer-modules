@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 
 export const ErrorHandler = ({item,errors})=> {
+    const { t } = useTranslation();
     if(errors){
         return(
             <div>
-                <h1>Validation errors</h1>
-                <p>An error occurred when validating <b>{item}</b></p>
+                <h1>{t("error.validation.title")}</h1>
+                <p>{t("error.validation.msg")} <b>{item}</b></p>
                 <ul>
                     {errors.map( error =>{
                         const additionalProperty = error.params?.additionalProperty;
@@ -20,8 +22,8 @@ export const ErrorHandler = ({item,errors})=> {
     }else{
         return(
             <div>
-                <h1>Error</h1>
-                <p>An error occurred: <b>{item}</b></p>
+                <h1>{t("error.default.title")}</h1>
+                <p>{t("error.default.msg")}: <b>{item}</b></p>
             </div>
         )
     }

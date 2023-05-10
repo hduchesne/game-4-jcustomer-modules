@@ -7,9 +7,10 @@ import {Typography} from "@material-ui/core";
 import {Qna} from "components/Qna";
 import {Warmup} from "components/Warmup";
 import {Loading} from "components/Loading";
+import PropTypes from "prop-types";
 
 export const ContentPerso = (props) => {
-    const { workspace, cndTypes } = React.useContext(JahiaCtx);
+    const { workspace, cndTypes, previewCm } = React.useContext(JahiaCtx);
     const cxs = React.useContext(CxsCtx);
     const { state : {currentSlide} } = React.useContext(StoreCtx);
 
@@ -21,24 +22,31 @@ export const ContentPerso = (props) => {
 
 //wait 1s before to call jExp in order to have time to synch user profile with answer
     React.useEffect(() => {
+        console.log("loadVariant (1) persoId=",persoId," cxs : ",cxs);
         if(persoId && cxs)
             setTimeout(
-                () => loadVariant({
-                    variables: {
-                        workspace,
-                        id:persoId,
-                        profileId:cxs.profileId,
-                        sessionId:cxs.sessionId,
+                () => {
+                    console.log("loadVariant (2) persoId=",persoId," cxs : ",cxs);
+                    loadVariant({
+                        variables: {
+                            workspace,
+                            id:persoId,
+                            profileId:cxs.profileId,
+                            sessionId:cxs.sessionId,
 
-                    },
-                    fetchPolicy: "no-cache"
-                }),
+                        },
+                        fetchPolicy: "no-cache"
+                    })
+                },
                 1000
             );
     },[loadVariant,workspace, persoId, cxs])
 
-    if (!variantQuery.data || variantQuery.loading)
-        return <Loading show={show} media={media} msg="Look for the next question..."/>;
+    if (!variantQuery.data || variantQuery.loading){
+        if(previewCm)
+            return
+        return <Loading show={show} media={media} msg="loading.nextQuestion"/>;
+    }
 
     if (variantQuery.error) return <p>Error getting your next question :(</p>;
 
@@ -75,4 +83,9 @@ export const ContentPerso = (props) => {
     }
 
     return getContent(variant);
+}
+
+ContentPerso.propTypes={
+    id : PropTypes.string.isRequired,
+    media: PropTypes.object
 }

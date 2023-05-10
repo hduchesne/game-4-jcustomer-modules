@@ -18,6 +18,10 @@ import 'index.css';
 import {syncTracker} from "misc/trackerWem";
 import {formatQuizJcrProps} from "components/Quiz/QuizModel";
 
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import {appLanguageBundle} from "i18n/resources";
+
 async function getQuizData ({client,workspace,locale,quizId}){
     const {data} = await client.query({
         query: GetQuiz,
@@ -44,6 +48,15 @@ const render= async (target,context)=>{
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
         const {host,workspace,isEdit,locale,quizId,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,targetId} = context;
+        i18n.use(initReactI18next) // passes i18n down to react-i18next
+            .init({
+                resources:appLanguageBundle,
+                lng: locale,
+                fallbackLng: "en",
+                interpolation: {
+                    escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+                }
+            });
 
         const isPreview = workspace !== "LIVE";
         const client = getClient(gqlServerUrl)

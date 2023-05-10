@@ -5,9 +5,11 @@ import {JahiaCtx} from "contexts";
 import PropTypes from "prop-types";
 import {useQuery} from "@apollo/client";
 import {GetWidenMedia} from "webappGraphql";
+import {useTranslation} from "react-i18next";
 
 export const WidenAsset = ({types,id,width,sourceID}) => {
     // const width = '1024';
+    const { t } = useTranslation();
     const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
 
     const {loading, error, data} = useQuery(GetWidenMedia, {
@@ -19,7 +21,7 @@ export const WidenAsset = ({types,id,width,sourceID}) => {
         skip:!id
     });
 
-    if (loading) return <p>Loading...</p>;//<img src={`https://via.placeholder.com/${width}x768/09f/fff?text=Loading`} alt="loading"/>;
+    if (loading) return <p>{t("loading.bgImage")}</p>;//<img src={`https://via.placeholder.com/${width}x768/09f/fff?text=Loading`} alt="loading"/>;
     if (error) return <p>Error :(</p>;
 
     const mediaJcrProps = data.response.media;

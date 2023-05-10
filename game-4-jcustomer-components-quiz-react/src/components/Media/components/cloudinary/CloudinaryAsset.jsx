@@ -5,8 +5,10 @@ import {CloudinaryImage} from "components/Media/components/cloudinary/Cloudinary
 import {CloudinaryVideo} from "components/Media/components/cloudinary/CloudinaryVideo";
 import {useQuery} from "@apollo/client";
 import {GetCloudyMedia} from "webappGraphql";
+import { useTranslation } from "react-i18next";
 
 export const CloudinaryAsset = ({types,id,width,sourceID}) => {
+    const { t } = useTranslation();
     const { workspace, locale, cndTypes } = React.useContext(JahiaCtx);
 
     const {loading, error, data} = useQuery(GetCloudyMedia, {
@@ -18,7 +20,7 @@ export const CloudinaryAsset = ({types,id,width,sourceID}) => {
         skip:!id
     });
 
-    if (loading) return <p>Loading...</p>;//<img src={`https://via.placeholder.com/${width}x768/09f/fff?text=Loading`} alt="loading"/>;
+    if (loading) return <p>{t("loading.bgImage")}</p>;//<img src={`https://via.placeholder.com/${width}x768/09f/fff?text=Loading`} alt="loading"/>;
     if (error) return <p>Error :(</p>;
 
     const {title,url :{value : url} = {}, baseUrl: {value : baseUrl} = {}, endUrl: {value : endUrl} = {}} = data.response.media
