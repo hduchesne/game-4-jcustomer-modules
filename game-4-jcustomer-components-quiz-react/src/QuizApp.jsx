@@ -67,6 +67,7 @@ const render= async (target,context)=>{
         if(workspace === "LIVE" && !window.wem){
             if(!window.digitalData)
                 window.digitalData= {
+                    _webapp:true,
                     scope,
                     site: {
                         siteInfo: {
@@ -90,13 +91,13 @@ const render= async (target,context)=>{
                         consentTypes: []
                     },
                     events: [],
-                    loadCallbacks:[{
-                        priority:5,
-                        name:'Unomi tracker context loaded',
-                        execute: () => {
-                            window.cxs = window.wem.getLoadedContext();
-                        }
-                    }],
+                    // loadCallbacks:[{
+                    //     priority:5,
+                    //     name:'Unomi tracker context loaded',
+                    //     execute: () => {
+                    //         window.cxs = window.wem.getLoadedContext();
+                    //     }
+                    // }],
                     wemInitConfig: {
                         contextServerUrl,
                         timeoutInMilliseconds: "1500",
@@ -138,7 +139,7 @@ const render= async (target,context)=>{
                                             transitionLabel,
                                             transitionTimeout:1000,
                                             resetBtnIsEnabled,
-                                            browsingIsEnabled,
+                                            browsingIsEnabled: (browsingIsEnabled && !isEdit && !previewCm),
                                             scope
                                         }}>
                                             <App quizData={quizData}/>

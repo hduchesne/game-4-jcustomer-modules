@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {AppCtx, JahiaCtx} from "contexts";
 import {Button, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import InfoIcon from '@material-ui/icons/Info';
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 
@@ -13,6 +14,8 @@ import {formatPersoResultJcrProps} from "./PersoResultModel";
 import {Variant} from "./Variant";
 import {Loading} from "components/Loading";
 import {EmbeddedPathInHtmlResolver} from "components/Jahia";
+import {useTranslation} from "react-i18next";
+
 
 const useStyles = makeStyles(theme => ({
     content:{
@@ -24,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const PersonalizedSlide = (props) => {
+    const { t } = useTranslation();
     const { workspace, locale, previewCm } = React.useContext(JahiaCtx);
 
     const sharedClasses = cssSharedClasses(props);
@@ -84,10 +88,14 @@ export const PersonalizedSlide = (props) => {
                 }
 
                 {previewCm &&
-                <Typography component="div"
-                            className={classes.content}>
-                    variant is not rendered in preview mode
-                </Typography>
+                    <>
+
+                        <Typography component="div"
+                                    className={classes.content}>
+                            <InfoIcon/> < br/>
+                            {t("rendering.perso.notRendered")}
+                        </Typography>
+                    </>
                 }
 
 

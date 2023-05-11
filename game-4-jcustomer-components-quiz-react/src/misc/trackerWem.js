@@ -21,9 +21,9 @@ export const syncTracker = () => {
 
             wem.initTracker(window.digitalData);
 
-            // wem._registerCallback(() => {
-            //     window.cxs = wem.getLoadedContext();
-            // }, 'Unomi tracker context loaded', 5);
+            wem._registerCallback(() => {
+                window.cxs = wem.getLoadedContext();
+            }, 'Unomi tracker context loaded', 5);
 
             //Load page view event
             const pageViewEvent = wem.buildEvent(

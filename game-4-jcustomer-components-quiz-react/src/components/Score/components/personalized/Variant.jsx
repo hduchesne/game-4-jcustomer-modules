@@ -12,6 +12,7 @@ import {GetPersonalizedScoreVariant} from "webappGraphql";
 import {useLazyQuery} from "@apollo/client";
 import DOMPurify from "dompurify";
 import {EmbeddedPathInHtmlResolver} from "components/Jahia";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
     // result:{
@@ -23,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Variant = (props) => {
+    const { t } = useTranslation();
     const { workspace, locale } = React.useContext(JahiaCtx);
     const cxs = React.useContext(CxsCtx);
 
@@ -66,7 +68,7 @@ export const Variant = (props) => {
                     )}
                     variant="body2"
                 >
-                    score calculation in progress...
+                    {t("loading.personalizedScore")}
                 </Typography>
                 <CircularProgress/>
             </div>

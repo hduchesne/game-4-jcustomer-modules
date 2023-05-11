@@ -2,10 +2,19 @@
     "loading" : {
         "nextQuestion": "Look for the next question...",
         "score": "Loading the score...",
+        "personalizedScore": "Score calculation in progress...",
         "warmup": "Loading the warmup...",
         "question": "Loading the question...",
         "bgImage": "Background image is loading...",
         "default": "Loading..."
+    },
+    "rendering": {
+        "perso": {
+            "notRendered": "Variant is not rendered in this context"
+        },
+        "app": {
+            "noStart": "You cannot play the quiz in Edit mode"
+        }
     },
     "error" : {
         "default" : {
@@ -15,6 +24,9 @@
         "validation" : {
             "title": "Validation errors",
             "msg" : "An error occurred when validating"
+        },
+        "jExp": {
+            "connexion": "Internal jExperience connection issue"
         }
     }
 }

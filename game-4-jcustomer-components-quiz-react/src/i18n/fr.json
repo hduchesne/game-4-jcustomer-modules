@@ -1,5 +1,32 @@
 {
     "loading" : {
-        "nextQuestion" : "Nous recherchons la question suivante..."
+        "nextQuestion": "Nous recherchons la question suivante...",
+        "score": "Chargement du score en cours...",
+        "personalizedScore": "Calcul du score en cours...",
+        "warmup": "Chargement du warmup en cours...",
+        "question": "Chargement de la question en cours...",
+        "bgImage": "Chargement de l'image d'arrière plan en cours...",
+        "default": "Chargement..."
+    },
+    "rendering": {
+        "perso": {
+            "notRendered": "Les contenus personnalisés ne sont pas rendu lors dans ce contexte"
+        },
+        "app": {
+            "noStart": "Vous ne pouvez pas jouer Le quiz en mode Edit"
+        }
+    },
+    "error" : {
+        "default" : {
+            "title": "Erreur",
+            "msg" : "Une erreur est survenue"
+        },
+        "validation" : {
+            "title": "Erreurs de validation",
+            "msg" : "Une erreur est survenue lors de la validation des paramètres"
+        },
+        "jExp": {
+            "connexion":"Problème de connexion à jExperience"
+        }
     }
 }

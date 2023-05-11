@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 export const Header = (props) => {
     const classes = useStyles(props);
 
-    const { previewCm, isPreview } = React.useContext(JahiaCtx);
+    const { isPreview } = React.useContext(JahiaCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {transitionIsEnabled, transitionTimeout, browsingIsEnabled, languageBundle } = React.useContext(AppCtx);
 
@@ -125,7 +125,7 @@ export const Header = (props) => {
                     <Indicator
                         key={itemId}
                         id={itemId}
-                        enabled={browsingIsEnabled && !previewCm}
+                        enabled={browsingIsEnabled}
                     />
                 )}
             </ol>

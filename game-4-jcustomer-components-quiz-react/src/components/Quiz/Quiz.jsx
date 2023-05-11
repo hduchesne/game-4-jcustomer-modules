@@ -5,7 +5,7 @@ import {Button,Typography} from "@material-ui/core";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import {makeStyles} from "@material-ui/core/styles";
 
-import {StoreCtx, AppCtx} from "contexts";
+import {StoreCtx, AppCtx, JahiaCtx} from "contexts";
 import {useMarketo} from "components";
 
 import {Media} from '../Media'
@@ -14,6 +14,8 @@ import cssSharedClasses from "components/cssSharedClasses";
 import {manageTransition} from "misc/utils";
 import {CxsCtx} from "unomi/cxs";
 import {EmbeddedPathInHtmlResolver} from "components/Jahia";
+import {useTranslation} from "react-i18next";
+import InfoIcon from "@material-ui/icons/Info";
 
 const useStyles = makeStyles(theme => ({
     duration:{
@@ -49,9 +51,11 @@ const MktoForm = (props) => {
 }
 
 export const Quiz = (props) => {
+    const { t } = useTranslation();
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
     const cxs = React.useContext(CxsCtx);
+    const { isEdit } =React.useContext(JahiaCtx);
     const { transitionIsEnabled, transitionTimeout, mktgFormEnum, languageBundle } = React.useContext(AppCtx);
 
     const {id, title, subtitle, duration, description, media, mktgForm, mktoConfig} = props;
@@ -99,14 +103,23 @@ export const Quiz = (props) => {
 
     const getStartComponent = () => {
 
+        if(isEdit)
+            return(
+                <Typography component="div"
+                            className={classes.description}>
+                    <InfoIcon/> < br/>
+                    {t("rendering.app.noStart")}
+                </Typography>
+            );
+
         const _cxs = window.cxs || false;
 
         if(!cxs &&
             _cxs.constructor === Object &&
             Object.keys(_cxs).length === 0)
             return <Typography className={classes.cxsError}
-                               variant="h5">
-                Internal jExperience connection issue
+                               component="h5">
+                {t("error.jExp.connexion")}
             </Typography>
 
         if(!mktgForm)

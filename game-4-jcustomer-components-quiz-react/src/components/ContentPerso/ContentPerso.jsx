@@ -8,6 +8,55 @@ import {Qna} from "components/Qna";
 import {Warmup} from "components/Warmup";
 import {Loading} from "components/Loading";
 import PropTypes from "prop-types";
+import InfoIcon from "@material-ui/icons/Info";
+import classnames from "clsx";
+import {Media} from "components/Media";
+import {useTranslation} from "react-i18next";
+import cssSharedClasses from "components/cssSharedClasses";
+import {makeStyles} from "@material-ui/core/styles";
+
+
+const useStyles = makeStyles(theme => ({
+    content:{
+        // textAlign: 'left',
+        maxWidth:'500px',
+        margin:`${theme.spacing(4)}px auto 0`,
+
+    },
+}));
+
+const PreviewContentNotRendered = (props) => {
+    const { media,show } = props;
+    const { t } = useTranslation();
+    const sharedClasses = cssSharedClasses(props);
+    const classes = useStyles(props);
+
+    return (
+        <div className={classnames(
+            sharedClasses.item,
+            sharedClasses.showOverlay,
+            (show ? 'active':'')
+        )}>
+            {media &&
+            <Media id={media.id}
+                   types={media.types}
+                   path={media.path}
+                   alt={"background"}
+            />
+            }
+            <div className={classnames(
+                sharedClasses.caption,
+                sharedClasses.captionMain
+            )}>
+                <Typography component="div"
+                            className={classes.content}>
+                    <InfoIcon/> < br/>
+                    {t("rendering.perso.notRendered")}
+                </Typography>
+            </div>
+        </div>
+    );
+}
 
 export const ContentPerso = (props) => {
     const { workspace, cndTypes, previewCm } = React.useContext(JahiaCtx);
@@ -15,7 +64,6 @@ export const ContentPerso = (props) => {
     const { state : {currentSlide} } = React.useContext(StoreCtx);
 
     const { id : persoId, media } = props;
-
 
     const [loadVariant, variantQuery] = useLazyQuery(GetPersonalizedContentVariant);
     const show = currentSlide === persoId;
@@ -44,11 +92,14 @@ export const ContentPerso = (props) => {
 
     if (!variantQuery.data || variantQuery.loading){
         if(previewCm)
-            return
+            return <PreviewContentNotRendered show={show} media={media} />
         return <Loading show={show} media={media} msg="loading.nextQuestion"/>;
     }
 
     if (variantQuery.error) return <p>Error getting your next question :(</p>;
+
+    if(previewCm)
+        return <PreviewContentNotRendered show={show} media={media} />
 
     const { variant } = variantQuery.data.response?.result?.jExperience?.resolve;
 
