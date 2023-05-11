@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.jahia.se.modules</groupId>
     <artifactId>game-4-jcustomer</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>game-4-jcustomer-components-quiz</artifactId>
   <packaging>bundle</packaging>
@@ -14,7 +13,7 @@
   <properties>
     <yarn.arguments>build:production</yarn.arguments>
     <require-capability>osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
-    <jahia-depends>default,game-4-jcustomer-core,codemirror-editor,jexperience,widen-picker</jahia-depends>
+    <jahia-depends>default,game-4-jcustomer-core,codemirror-editor,jexperience</jahia-depends>
   </properties>
   <dependencies>
     <dependency>
@@ -89,8 +88,8 @@
               <goal>install-node-and-yarn</goal>
             </goals>
             <configuration>
-              <nodeVersion>v12.0.0</nodeVersion>
-              <yarnVersion>v1.12.3</yarnVersion>
+              <nodeVersion>v16.14.0</nodeVersion>
+              <yarnVersion>v1.22.19</yarnVersion>
             </configuration>
           </execution>
           <execution>
