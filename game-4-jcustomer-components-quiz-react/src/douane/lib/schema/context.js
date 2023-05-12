@@ -32,7 +32,15 @@ export const context = {
         scope:{ type:"string",pattern:"[a-zA-Z0-9-_]+"},//iso
         locale:{type:"string",pattern:"[a-z]{2}(?:_[A-Z]{2})?",default:"en"},//"fr" or "fr_FR"
         quizId:{type:"string"},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
-        targetId:{type:["string", "null"], default:null},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
+        previewTarget:{
+            type:["object", "null"],
+            default:null,
+            properties:{
+                id:{type:"string"},//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
+                type:{type:"string"}//"game4nt:qna"
+            },
+            required: ["id", "type"]
+        },//"3ff7b68c-1cfa-4d50-8377-03f19db3a985"
         previewCm:{type:"boolean", default:false},
         isEdit:{type:"boolean", default:false},
         // filesServerUrl:{

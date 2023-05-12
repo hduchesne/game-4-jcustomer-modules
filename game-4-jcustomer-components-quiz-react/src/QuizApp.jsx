@@ -47,7 +47,7 @@ const render= async (target,context)=>{
 
         // console.log("context.theme : ",context.theme);
         // console.log("typeof context.theme : ",typeof context.theme);
-        const {host,workspace,isEdit,locale,quizId,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,targetId} = context;
+        const {host,workspace,isEdit,locale,quizId,gqlServerUrl,contextServerUrl,appContext, cndTypes,scope,previewCm,previewTarget} = context;
         i18n.use(initReactI18next) // passes i18n down to react-i18next
             .init({
                 resources:appLanguageBundle,
@@ -62,7 +62,7 @@ const render= async (target,context)=>{
         const client = getClient(gqlServerUrl)
         const quizData = await getQuizData({client,workspace,locale,quizId});
         const {transitionIsEnabled,transitionLabel,resetIsEnabled : resetBtnIsEnabled,browsingIsEnabled} = quizData.quizConfig;
-        const focusId = previewCm && !!targetId ? targetId : quizData.id;
+        const focusId = previewCm && !!previewTarget ? previewTarget.id : quizData.id;
 
         if(workspace === "LIVE" && !window.wem){
             if(!window.digitalData)
@@ -125,6 +125,7 @@ const render= async (target,context)=>{
                         contextServerUrl,
                         cndTypes,
                         previewCm,
+                        previewTarget,
                         isPreview
                     }}>
                         <Store quizData={quizData} focusId={focusId}>

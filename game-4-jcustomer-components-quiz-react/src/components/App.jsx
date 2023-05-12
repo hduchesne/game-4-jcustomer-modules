@@ -12,6 +12,8 @@ import classnames from 'clsx';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from 'components/theme';
 import 'react-circular-progressbar/dist/styles.css';
+import {useTranslation} from "react-i18next";
+import {Preview} from "components/Preview";
 
 const useStyles = makeStyles(theme => ({
     main: {
@@ -32,8 +34,9 @@ const useStyles = makeStyles(theme => ({
 
 
 export const App = (props)=> {
+    const { t } = useTranslation();
     const classes = useStyles(props);
-    const { cndTypes } = React.useContext(JahiaCtx);
+    const { cndTypes, previewTarget } = React.useContext(JahiaCtx);
 
     const { state } = React.useContext(StoreCtx);
     const {
@@ -69,7 +72,9 @@ export const App = (props)=> {
                     //(showResult?'showResult':'')
                 )}>
                     <Transition/>
-                    {quizContent &&
+                    {!!previewTarget && <Preview {...previewTarget} {...quizContent}/>}
+
+                    {!previewTarget &&
                         <>
                             <Quiz id={id} {...quizContent} />
 
@@ -90,7 +95,7 @@ export const App = (props)=> {
 
                                 return <Typography color="error"
                                                    component="p">
-                                    node type {node.type} is not supported
+                                    {t("error.nodeType.notSupported")} : {node.type}
                                 </Typography>
 
                             })}

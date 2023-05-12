@@ -1,6 +1,7 @@
 export const workspace = ["default","live"];
 
 export const cndTypes = {
+    QUIZ:"game4nt:quiz",
     QNA:"game4nt:qna",
     WARMUP:"game4nt:warmup",
     WIDEN:"wdenmix:widenAsset",

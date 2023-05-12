@@ -34,6 +34,9 @@ const useStyles = makeStyles(theme => ({
         margin:`${theme.spacing(4)}px auto`,
 
     },
+    editInfo:{
+        color:theme.palette.warning.dark,
+    },
     cxsError:{
         backgroundColor:theme.palette.error.dark,
         borderRadius:'3px',
@@ -106,7 +109,10 @@ export const Quiz = (props) => {
         if(isEdit)
             return(
                 <Typography component="div"
-                            className={classes.description}>
+                            className={classnames(
+                                classes.editInfo,
+                                classes.description
+                            )}>
                     <InfoIcon/> < br/>
                     {t("rendering.app.noStart")}
                 </Typography>
