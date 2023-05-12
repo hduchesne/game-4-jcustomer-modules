@@ -11,6 +11,7 @@
 
 <c:set var="quizId" value="${jcr:getParentOfType(currentNode,'game4nt:quiz').identifier}"/>
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
+<c:set var="_nodeType_" value="${currentNode.primaryNodeTypeName}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
 <c:set var="workspace" value="${renderContext.workspace}"/>
 <c:set var="site" value="${renderContext.site.siteKey}"/>
@@ -28,8 +29,11 @@
         locale:"${language}",
         quizId:"${quizId}",
         isEdit:${isEdit},
-        <%--filesServerUrl:"${host}/files/${workspace}",--%>
-        targetId:"${_uuid_}",
+        previewTarget:{
+
+            id:"${_uuid_}",
+            type:"${_nodeType_}"
+        },
         previewCm:true,
         gqlServerUrl:"${host}/modules/graphql",
         contextServerUrl:window.digitalData?window.digitalData.contextServerPublicUrl:undefined,//digitalData is set in live mode only

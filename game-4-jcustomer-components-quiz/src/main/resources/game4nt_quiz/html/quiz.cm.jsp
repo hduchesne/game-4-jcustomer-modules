@@ -9,6 +9,7 @@
 <script type="application/javascript" src="/modules/game-4-jcustomer-components-quiz/javascript/webapp/${requestScope.webappJsFileName}"></script>
 
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
+<c:set var="_nodeType_" value="${currentNode.primaryNodeTypeName}"/>
 <c:set var="language" value="${currentResource.locale.language}"/>
 <c:set var="workspace" value="${renderContext.workspace}"/>
 <c:set var="isEdit" value="${renderContext.editMode}"/>
@@ -26,7 +27,11 @@
         scope:"${site}",//site key
         locale:"${language}",
         quizId:"${_uuid_}",
-        <%--filesServerUrl:"${host}/files/${workspace}",--%>
+        previewTarget:{
+            id:"${_uuid_}",
+            type:"${_nodeType_}"
+        },
+        previewCm:true,
         gqlServerUrl:"${host}/modules/graphql",
         contextServerUrl:window.digitalData?window.digitalData.contextServerPublicUrl:undefined,//digitalData is set in live mode only
     });
