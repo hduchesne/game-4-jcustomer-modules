@@ -1,5 +1,5 @@
 <assembly>
-    <id>root</id>
+    <id>*</id>
     <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
         <format>jar</format>

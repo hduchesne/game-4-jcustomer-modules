@@ -70,11 +70,9 @@ export const ContentPerso = (props) => {
 
 //wait 1s before to call jExp in order to have time to synch user profile with answer
     React.useEffect(() => {
-        console.log("loadVariant (1) persoId=",persoId," cxs : ",cxs);
         if(persoId && cxs)
             setTimeout(
                 () => {
-                    console.log("loadVariant (2) persoId=",persoId," cxs : ",cxs);
                     loadVariant({
                         variables: {
                             workspace,
