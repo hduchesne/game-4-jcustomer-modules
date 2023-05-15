@@ -6,7 +6,7 @@ import {useQuery} from "@apollo/client";
 import {AppCtx, JahiaCtx, StoreCtx} from "contexts";
 import {GetWarmup} from "webappGraphql";
 import {formatWarmupJcrProps} from "components/Warmup/WarmupModel";
-import {Loading, Media, Qna} from "components";
+import {ContentPerso, Loading, Media, Qna} from "components";
 import classnames from "clsx";
 import cssSharedClasses from "components/cssSharedClasses";
 import {makeStyles} from "@material-ui/core/styles";
@@ -27,9 +27,9 @@ const useStyles = makeStyles(theme => ({
 export const Warmup = (props) => {
     const classes = useStyles(props);
     const sharedClasses = cssSharedClasses(props);
-    const { id : warmupId, persoId } = props;
-    const { workspace, locale } = React.useContext(JahiaCtx);
-    const { transitionIsEnabled, transitionTimeout, languageBundle } = React.useContext(AppCtx);
+    const {id: warmupId, persoId} = props;
+    const {workspace, locale, cndTypes} = React.useContext(JahiaCtx);
+    const {transitionIsEnabled, transitionTimeout, languageBundle} = React.useContext(AppCtx);
     const { state, dispatch } = React.useContext(StoreCtx);
     const {
         currentSlide,
@@ -69,20 +69,29 @@ export const Warmup = (props) => {
             transitionIsEnabled,
             transitionTimeout,
             dispatch,
-            payload:{
-                case:"NEXT_SLIDE"
+            payload: {
+                case: "NEXT_SLIDE"
             }
         });
 
-    return(
+    const displayPerso = (persoId) => {
+        if (currentSlide === persoId)
+            return <ContentPerso
+                key={persoId}
+                id={persoId}
+                media={media}
+            />
+    }
+
+    return (
         <>
             <div className={classnames(
                 sharedClasses.item,
                 sharedClasses.showOverlay,
-                (show ? 'active':'')
+                (show ? 'active' : '')
             )}>
                 {media &&
-                    <Media id={media.id}
+                <Media id={media.id}
                            types={media.types}
                            path={media.path}
                            alt={title}
@@ -119,17 +128,20 @@ export const Warmup = (props) => {
                         }
                     </div>
 
-                    <Button onClick={ handleCLick }>
+                    <Button onClick={handleCLick}>
                         {languageBundle && languageBundle.btnQuestion}
                     </Button>
                 </div>
             </div>
-            {childNodes.map( node =>
-                <Qna
-                    key={node.id}
-                    id={node.id}
-                />
-            )}
+            {childNodes.map(node => {
+                if (node.types.includes(cndTypes.QNA))
+                    return <Qna
+                        key={node.id}
+                        id={node.id}
+                    />
+                if (cndTypes.CONTENT_PERSO.some(type => node.types.includes(type)))
+                    return displayPerso(node.id)
+            })}
         </>
     );
 }

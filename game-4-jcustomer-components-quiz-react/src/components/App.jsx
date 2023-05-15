@@ -85,12 +85,12 @@ export const App = (props)=> {
                                         id={node.id}
                                     />
 
-                                if(node.types.includes(cndTypes.WARMUP))
+                                if (node.types.includes(cndTypes.WARMUP))
                                     return <Warmup
                                         key={node.id}
                                         id={node.id}
                                     />
-                                if(node.types.includes(cndTypes.CONTENT_PERSO))
+                                if (cndTypes.CONTENT_PERSO.some(type => node.types.includes(type)))
                                     return displayPerso(node.id)
 
                                 return <Typography color="error"

@@ -29,6 +29,7 @@
 
 
 [game4mix:quizChild] mixin
+[game4mix:warmupChild] mixin
 
 [game4mix:quizStaticLabels] mixin
  - game4:btnStart (string) = resourceBundle('label.game4_btnStart') autocreated internationalized mandatory indexed=no
@@ -66,18 +67,22 @@ orderable
  - game4:subtitle (string) internationalized
  - game4:content (string, richtext[ckeditor.toolbar='Tinny',ckeditor.customConfig='$context/modules/game-4-jcustomer-components-quiz/javascript/ckeditor/config/small.js']) internationalized
  - game4:qnaDuration (string,choicelist[resourceBundle]) = '5 mins' autocreated indexed=no < '5 mins', '10 mins', '30 mins', '1h' , '> 1h'
- + * (game4nt:qna)
+ + * (game4mix:warmupChild)
 
-[game4nt:qna] > jnt:content, game4mix:showInTree, game4mix:usesResultAsJExpProperty, game4mix:imageReference, game4mix:quizChild, mix:title
+[game4nt:warmupPerso] > jnt:content, jmix:list, mix:title, game4mix:quizChild
+orderable
++ * (game4nt:warmup)
+
+[game4nt:qna] > jnt:content, game4mix:showInTree, game4mix:usesResultAsJExpProperty, game4mix:imageReference, game4mix:quizChild,game4mix:warmupChild, mix:title
  - game4:question (string) mandatory internationalized
  - game4:help (string) internationalized
  - game4:answers (string) mandatory multiple internationalized
  - game4:randomSelection (boolean) = false autocreated indexed=no
  - game4:notUsedForScore (boolean) indexed=no
 
-[game4nt:contentPerso] > jnt:content, jmix:list, mix:title, game4mix:quizChild
+[game4nt:qnaPerso] > jnt:content, jmix:list, mix:title, game4mix:quizChild,game4mix:warmupChild
 orderable
-+ * (game4mix:quizChild)
++ * (game4nt:qna)
 
 [game4nt:scorePerso] > jnt:content, jmix:list, game4mix:imageReference, game4mix:quizChild
 orderable

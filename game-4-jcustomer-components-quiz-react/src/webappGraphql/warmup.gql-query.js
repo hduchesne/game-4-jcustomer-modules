@@ -17,9 +17,9 @@ export const GetWarmup = gql`
                     value
                     node: refNode {...CoreNodeFields }
                 }
-                children(typesFilter:{types:["game4nt:qna"]}) { nodes { ...CoreNodeFields } }
+                children(typesFilter:{types:["game4mix:warmupChild"]}) { nodes { ...CoreNodeFields } }
                 ...MediaProperty
             }
         }
     }
-    `;
+`;
