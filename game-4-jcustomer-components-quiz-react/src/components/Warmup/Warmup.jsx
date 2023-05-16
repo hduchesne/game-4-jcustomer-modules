@@ -53,7 +53,7 @@ export const Warmup = (props) => {
                 case:"ADD_SLIDES",
                 payload:{
                     slides: data.response.warmup.children?.nodes?.map(node=>node.uuid),
-                    parentSlide:data.response.warmup.uuid
+                    parentSlide: persoId || data.response.warmup.uuid
                 }
             });
         }

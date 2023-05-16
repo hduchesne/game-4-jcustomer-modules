@@ -8,18 +8,18 @@ import {resolveJahiaMediaURL} from 'misc/utils';
 export const JahiaAsset = ({id,types,path,alt,sourceID}) => {
     const { cndTypes,host, workspace } = React.useContext(JahiaCtx);
 
-    switch (true){
-        case Array.isArray(types) && types.length === 0 :
-            return <Video url={path} ownerID={sourceID} />
+    switch (true) {
+        case Array.isArray(types) && types.length === 0 && path : //case external video
+            return <Video videoId="external" url={path} ownerID={sourceID}/>
 
         case types.includes(cndTypes.JNT_FILE) && types.includes(cndTypes.IMAGE):
             return <Image path={path} alt={alt}/>
 
         case types.includes(cndTypes.JNT_FILE):
-            return <Video videoId={id} videoURL={resolveJahiaMediaURL({host,path,workspace})} ownerID={sourceID} />
+            return <Video videoId={id} videoURL={resolveJahiaMediaURL({host, path, workspace})} ownerID={sourceID}/>
 
         default:
-            if(path)
+            if (path)
                 return <Image path={path} alt={alt}/>
     }
     return <></>

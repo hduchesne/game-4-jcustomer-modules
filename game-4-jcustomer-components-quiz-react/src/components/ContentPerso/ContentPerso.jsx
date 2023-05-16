@@ -61,7 +61,7 @@ const PreviewContentNotRendered = (props) => {
 export const ContentPerso = (props) => {
     const { workspace, cndTypes, previewCm } = React.useContext(JahiaCtx);
     const cxs = React.useContext(CxsCtx);
-    const { state : {currentSlide} } = React.useContext(StoreCtx);
+    const {state: {currentSlide}, dispatch} = React.useContext(StoreCtx);
 
     const { id : persoId, media } = props;
 
@@ -70,15 +70,15 @@ export const ContentPerso = (props) => {
 
 //wait 1s before to call jExp in order to have time to synch user profile with answer
     React.useEffect(() => {
-        if(persoId && cxs)
+        if (persoId && cxs) {
             setTimeout(
                 () => {
                     loadVariant({
                         variables: {
                             workspace,
-                            id:persoId,
-                            profileId:cxs.profileId,
-                            sessionId:cxs.sessionId,
+                            id: persoId,
+                            profileId: cxs.profileId,
+                            sessionId: cxs.sessionId,
 
                         },
                         fetchPolicy: "no-cache"
@@ -86,6 +86,13 @@ export const ContentPerso = (props) => {
                 },
                 1000
             );
+            dispatch({
+                case: "PERSO_WAS_DONE",
+                payload: {
+                    persoId
+                }
+            })
+        }
     },[loadVariant,workspace, persoId, cxs])
 
     if (!variantQuery.data || variantQuery.loading){

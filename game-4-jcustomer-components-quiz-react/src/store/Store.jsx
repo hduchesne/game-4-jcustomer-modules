@@ -47,18 +47,19 @@ const init = ({quizData,focusId}) => {
 
     return {
         quiz,
-        resultSet:[],//array of boolean, order is the same a slideSet
-        currentResult:false,//previously result
+        resultSet: [],//array of boolean, order is the same a slideSet
+        currentResult: false,//previously result
         slideSet,//[],//previously slideIndex
-        currentSlide:focusId,//quizData.id,//null,//previously index
-        showResult:false,
-        showNext:false,
-        showScore:focusId === scoreId,
-        nextIsScore:false,
+        persoWasDone: [],
+        currentSlide: focusId,//quizData.id,//null,//previously index
+        showResult: false,
+        showNext: showNext({slideSet, focusId}),
+        showScore: focusId === scoreId,
+        nextIsScore: false,
         // max,
-        score:0,
-        reset:false,
-        transitionActive:false,
+        score: 0,
+        reset: false,
+        transitionActive: false,
         scoreId,
         // scoreSplitPattern:"::"
     }
@@ -161,9 +162,9 @@ const reducer = (state, action) => {
 
             return {
                 ...state,
-                currentSlide:nextSlide,
-                showNext: showNext({...state,slide:nextSlide}),
-                showScore:skipScore && nextIsScore ? true : false,
+                currentSlide: nextSlide,
+                showNext: showNext({...state, slide: nextSlide}),
+                showScore: skipScore && nextIsScore,
                 nextIsScore,
                 resultSet,
                 currentResult,
@@ -180,21 +181,30 @@ const reducer = (state, action) => {
 
             return {
                 ...state,
-                showNext: showNext({...state,slide:currentSlide}),
+                showNext: showNext({...state, slide: currentSlide}),
                 currentSlide,
-                resultSet:[],
-                showScore:false,
-                nextIsScore:false,
-                currentResult:false,
-                reset:true
+                resultSet: [],
+                showScore: false,
+                nextIsScore: false,
+                currentResult: false,
+                reset: true,
+                persoWasDone: []
             }
         }
         case "TOGGLE_TRANSITION": {
             // console.debug("[STORE] TOGGLE_TRANSITION");
             return {
                 ...state,
-                transitionActive:!state.transitionActive
+                transitionActive: !state.transitionActive
             }
+        }
+        case "PERSO_WAS_DONE": {
+            const {persoId} = payload
+            // console.debug("[STORE] SHOW_SLIDE - slide: ",slide);
+            return {
+                ...state,
+                persoWasDone: [...state.persoWasDone, persoId]
+            };
         }
         default:
             throw new Error(`[STORE] action case '${action.case}' is unknown `);

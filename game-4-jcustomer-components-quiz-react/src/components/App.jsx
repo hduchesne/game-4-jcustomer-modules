@@ -42,7 +42,8 @@ export const App = (props)=> {
     const {
         currentSlide,
         showResult,
-        showScore
+        showScore,
+        persoWasDone
     } = state;
 
     const {quizData : {id, quizContent, quizConfig}} = props;
@@ -53,7 +54,7 @@ export const App = (props)=> {
     }
 
     const displayPerso=(persoId)=>{
-        if(currentSlide === persoId)
+        if ((currentSlide === persoId) || persoWasDone.includes(persoId))
             return <ContentPerso
                 key={persoId}
                 id={persoId}
