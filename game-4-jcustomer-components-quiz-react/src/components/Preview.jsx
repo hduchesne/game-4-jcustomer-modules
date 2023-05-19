@@ -5,23 +5,23 @@ import {Typography} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 
 export const Preview = (props) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const {id, type, media} = props;
 
-    switch (type) {
-        case cndTypes.QUIZ:
+    switch (true) {
+        case type === cndTypes.QUIZ:
             return <Quiz id={id} {...props} />
-        case cndTypes.QNA :
-            return <Qna id={id} />
-        case cndTypes.WARMUP :
-            return <Warmup id={id} />
-        case cndTypes.CONTENT_PERSO :
+        case type === cndTypes.QNA :
+            return <Qna id={id}/>
+        case type === cndTypes.WARMUP :
+            return <Warmup id={id}/>
+        case cndTypes.CONTENT_PERSO.includes(type) :
             return <ContentPerso id={id} media={media}/>
-        case cndTypes.SCORE_PERSO :
+        case type === cndTypes.SCORE_PERSO :
             return <Score {...props} />
         default :
             return (<Typography color="error"
-                               component="p">
+                                component="p">
                 {t("error.nodeType.notSupported")} : {type}
             </Typography>)
 

@@ -50,6 +50,7 @@ const init = ({quizData,focusId}) => {
         resultSet: [],//array of boolean, order is the same a slideSet
         currentResult: false,//previously result
         slideSet,//[],//previously slideIndex
+        slideSetInit: [...slideSet],
         persoWasDone: [],
         currentSlide: focusId,//quizData.id,//null,//previously index
         showResult: false,
@@ -188,7 +189,8 @@ const reducer = (state, action) => {
                 nextIsScore: false,
                 currentResult: false,
                 reset: true,
-                persoWasDone: []
+                persoWasDone: [],
+                slideSet: [...state.slideSetInit]
             }
         }
         case "TOGGLE_TRANSITION": {
