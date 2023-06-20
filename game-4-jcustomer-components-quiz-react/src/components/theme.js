@@ -13,7 +13,8 @@ const defaultTheme = () =>({
             }
         },
         item:{
-            minHeight:"700px",
+            // minHeight:"700px",
+            minHeight:"650px",
         },
         caption:{
             // minHeight:"700px",
