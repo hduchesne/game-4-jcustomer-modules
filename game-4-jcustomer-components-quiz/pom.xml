@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jahia.se.modules</groupId>
     <artifactId>game-4-jcustomer</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>game-4-jcustomer-components-quiz</artifactId>
   <packaging>bundle</packaging>
@@ -22,6 +22,12 @@
       <version>[2.0,3.0)</version>
       <scope>provided</scope>
     </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.apache.unomi</groupId>-->
+    <!--      <artifactId>unomi-api</artifactId>-->
+    <!--      <version>1.9.0</version>-->
+    <!--      <scope>provided</scope>-->
+    <!--    </dependency>-->
   </dependencies>
   <repositories>
     <repository>

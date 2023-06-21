@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+//import org.apache.unomi.api.ContextRequest;
 
 public final class Functions {
     public static final Logger logger = LoggerFactory.getLogger(Functions.class);
@@ -36,13 +37,24 @@ public final class Functions {
     public static Map<String, String> searchQuizScoreEvent (HttpServletRequest request, String siteKey, String quizKey, String scorePropertyName, String locale) {
         ContextServerService contextServerService = BundleUtils.getOsgiService(ContextServerService.class,null);
         String profileId = contextServerService.getProfileId(request, siteKey);
+//        ContextRequest contextRequest = new ContextRequest();
+//        contextRequest.setProfileId(profileId);
+//        contextRequest.setRequiredProfileProperties()
+//
+//        // send request
+//        try {
+//            ContextResponse contextResponse = contextServerService.executeContextRequest(contextRequest, request, siteKey);
+//        } catch (IOException e) {
+//            logger.error("Error getting unomi user profile properties ", e);
+//        }
+
         Map<String, String> properties = new HashMap<>();
         StringBuilder payloadJSONStringBuilder =
                 new StringBuilder("{\"offset\" : 0,\"limit\" : 1,\"sortby\": \"timeStamp:desc\",");
         payloadJSONStringBuilder.append("\"condition\" : { \"type\": \"booleanCondition\",\"parameterValues\": {");
         payloadJSONStringBuilder.append("\"operator\": \"and\",\"subConditions\": [");
         payloadJSONStringBuilder.append("{ \"type\": \"eventTypeCondition\",\"parameterValues\" : {\"eventTypeId\": \"setQuizScore\"} },");
-        payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"properties.quizKey\",\"comparisonOperator\": \"equals\",\"propertyValue\":\""+quizKey+"\"} },");
+        payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"source.properties.quiz.key\",\"comparisonOperator\": \"equals\",\"propertyValue\":\""+quizKey+"\"} },");
         payloadJSONStringBuilder.append("{ \"type\": \"eventPropertyCondition\",\"parameterValues\": {\"propertyName\": \"profileId\",\"comparisonOperator\": \"equals\",\"propertyValue\":\""+profileId+"\"} }");
         payloadJSONStringBuilder.append("]}}}");
 
@@ -92,7 +104,6 @@ public final class Functions {
 //                    String quizReleaseDate = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).format(LocalDate.parse(event.getString("timeStamp")));
                     DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale(locale));
                     String quizReleaseDate = df.format(Date.from(Instant.parse(event.getString("timeStamp"))));
-
 
                     properties.put("quizScore",quizScore);
                     properties.put("quizReleaseDate",quizReleaseDate);
