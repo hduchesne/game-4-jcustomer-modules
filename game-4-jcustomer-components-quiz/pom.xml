@@ -22,6 +22,12 @@
       <version>[2.0,3.0)</version>
       <scope>provided</scope>
     </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.apache.unomi</groupId>-->
+    <!--      <artifactId>unomi-api</artifactId>-->
+    <!--      <version>1.9.0</version>-->
+    <!--      <scope>provided</scope>-->
+    <!--    </dependency>-->
   </dependencies>
   <repositories>
     <repository>
