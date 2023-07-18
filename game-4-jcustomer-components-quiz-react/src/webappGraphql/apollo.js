@@ -2,7 +2,7 @@ import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
 
 const httpLink = (endpoint) => createHttpLink({
-    uri: endpoint || process.env.REACT_APP_GQL_ENDPOINT
+    uri: endpoint || process.env.REACT_APP_JCONTENT_GQL_ENDPOINT
 });
 
 const authLink = setContext((_, {headers}) => {
