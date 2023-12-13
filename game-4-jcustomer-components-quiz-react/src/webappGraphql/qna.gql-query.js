@@ -16,7 +16,7 @@ export const GetQnA = gql`
                 answers: property(language:$language,name:"game4:answers"){ values }
                 randomSelection: property(name:"game4:randomSelection"){ value }
                 notUsedForScore: property(name:"game4:notUsedForScore"){ value }
-                jExpField2Map: property(name:"game4:jExpProperty"){ value }
+                jExpField2Map: property(name:"seu:jExpProperty"){ value }
                 ...MediaProperty
             }
         }

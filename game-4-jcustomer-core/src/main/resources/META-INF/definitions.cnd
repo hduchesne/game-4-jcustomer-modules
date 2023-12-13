@@ -5,7 +5,3 @@
 [game4mix:components] > jmix:droppableContent mixin
 
 [game4mix:showInTree] > jmix:visibleInContentTree, jmix:editorialContent mixin
-
-[game4mix:usesResultAsJExpProperty] mixin
- - game4:jExpCard (string, choicelist[jExpProfileCardsInitializer,resourceBundle]) indexed=no
- - game4:jExpProperty (string, choicelist[jExpProfilePropertiesInitializer,dependentProperties='game4:jExpCard',resourceBundle]) indexed=no

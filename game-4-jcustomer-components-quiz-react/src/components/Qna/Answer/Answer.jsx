@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
         }),
         borderRadius: '5px 0px 0px 5px',
         backgroundColor: theme.palette.grey[300],
-        zIndex: 1,
+        zIndex: 4,
         ".showResult &":{
             opacity: 1,
         },
