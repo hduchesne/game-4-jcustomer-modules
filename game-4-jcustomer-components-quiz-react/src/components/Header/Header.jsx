@@ -7,7 +7,7 @@ import {manageTransition} from "misc/utils";
 
 const useStyles = makeStyles(theme => ({
     header:{
-        zIndex: 2,
+        zIndex: 5,
         position:'relative',
         display: 'flex',
         flexDirection:'column',
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     headerIndicators: {
         display: 'flex',
         justifyContent: 'center',
-        zIndex:1,
+        zIndex:4,
         listStyle: 'none',
         padding:0,
         marginTop:0,

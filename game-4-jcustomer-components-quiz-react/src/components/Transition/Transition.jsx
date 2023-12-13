@@ -23,7 +23,7 @@ const childTiles = (nbRow) =>{
 const useStyles = makeStyles(theme => ({
     loader: {
         position: 'absolute',
-        zIndex: 5,//'999',
+        zIndex: 8,//'999',
         top: 0,
         left: 0,
         bottom:0,
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     },
     icon: {
         position: 'absolute',
-        zIndex: 1,
+        zIndex: 4,
         top: '50%',
         left: '50%',
         transform: 'translateX(-50%) translateY(-50%)',

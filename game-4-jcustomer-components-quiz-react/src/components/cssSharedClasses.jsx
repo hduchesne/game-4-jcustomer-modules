@@ -30,7 +30,7 @@ export default makeStyles((theme)=> ({
             position: 'absolute',
             width: '100%',
             height: '100%',
-            zIndex: -1,
+            zIndex: 0,
             marginTop:`-${theme.geometry.header.heights.max}px`//todo get from theme
         },
         "&.active":{
@@ -44,6 +44,7 @@ export default makeStyles((theme)=> ({
     },
     showOverlay:{
         "&::before":{
+            zIndex:1,
             position:'absolute',
             top:0, right:0, bottom:0, left:0,
             content:'""',
@@ -69,7 +70,7 @@ export default makeStyles((theme)=> ({
             paddingLeft:theme.geometry.caption.padding.xs,
             paddingBottom:theme.geometry.caption.padding.xs,
         },
-        zIndex: 3,//10,
+        zIndex: 6,//10,
         textAlign: 'center',
 
         ".showResult &": {

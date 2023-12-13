@@ -73,7 +73,7 @@ orderable
 orderable
 + * (game4nt:warmup)
 
-[game4nt:qna] > jnt:content, game4mix:showInTree, game4mix:usesResultAsJExpProperty, game4mix:imageReference, game4mix:quizChild,game4mix:warmupChild, mix:title
+[game4nt:qna] > jnt:content, game4mix:showInTree, seumix:mapJExpProperty, game4mix:imageReference, game4mix:quizChild,game4mix:warmupChild, mix:title
  - game4:question (string) mandatory internationalized
  - game4:help (string) internationalized
  - game4:answers (string) mandatory multiple internationalized indexed=no
