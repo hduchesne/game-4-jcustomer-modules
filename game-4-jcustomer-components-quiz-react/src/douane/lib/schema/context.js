@@ -59,7 +59,7 @@ export const context = {
         // },
         contextServerUrl:{
             type:"string",
-            format:"uri",
+            // format:"uri", // with 8.2.0.4 and jCustomer v2 now it is the proxy path which is not an uri
             default:process.env.REACT_APP_JCUSTOMER_ENDPOINT //could be null in case of edit!
         },
         cndTypes:{

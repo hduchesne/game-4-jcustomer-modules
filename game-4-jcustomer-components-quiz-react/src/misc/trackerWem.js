@@ -63,6 +63,9 @@ export const syncVideoStatus = ({quiz,parentId,status,player,video}) =>{
 }
 
 export const syncVisitorData = ({qna,propertyName,propertyValue}) =>{
+    // const flattenedPropertyName = `flattenedProperties.${propertyName}`;
+    const flattenedPropertyName = `properties.${propertyName}`;
+
     const  event = window.wem.buildEvent("updateQuizVisitorData",
         window.wem.buildTarget(propertyName,"user-property"),
         window.wem.buildSource(qna.id,qna.type,{
@@ -71,13 +74,14 @@ export const syncVisitorData = ({qna,propertyName,propertyValue}) =>{
 
     event.properties = {
         update : {
-            [propertyName]:propertyValue
+            [flattenedPropertyName]:propertyValue
         }
     }
     window.wem.collectEvent(event);
 }
 
 export const syncQuizScore = ({quiz,score}) => {
+    // const propertyName = `flattenedProperties.quiz-score-${quiz.quizKey}`;
     const propertyName = `properties.quiz-score-${quiz.quizKey}`;
     const {quizKey:key, title, subtitle} = quiz;
 
