@@ -3,7 +3,7 @@
   "fields": [
     {
       "name": "game4:video",
-      "selectorType": "DamSelector",
+      "selectorType": "Picker",
       "selectorOptionsMap": {
         "type": "video"
       }

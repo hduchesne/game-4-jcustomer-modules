@@ -191,7 +191,7 @@ export const Qna = (props) => {
                         type:qna.type,
                         title:qna.title
                     },
-                    propertyName:`properties.${qna.jExpField2Map}`,
+                    propertyName: qna.jExpField2Map,
                     propertyValue:values
                 })
         }

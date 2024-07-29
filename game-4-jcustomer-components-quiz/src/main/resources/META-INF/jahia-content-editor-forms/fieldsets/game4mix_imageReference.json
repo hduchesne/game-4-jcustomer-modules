@@ -3,7 +3,7 @@
   "fields": [
     {
       "name": "game4:image",
-      "selectorType": "DamSelector",
+      "selectorType": "Picker",
       "selectorOptionsMap": {
         "type": "image"
       }
