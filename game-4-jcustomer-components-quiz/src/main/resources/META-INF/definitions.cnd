@@ -45,7 +45,7 @@
 [game4mix:quizConfiguration] mixin
  extends = game4nt:quiz
  itemtype = content
- - game4:webappTheme (string) indexed=no
+ - game4:webappTheme (string) = resourceBundle('config.webappTheme') indexed=no
  - game4:transition (boolean) = false autocreated mandatory indexed=no
  - game4:transitionLabel (string) indexed=no
  - game4:reset (boolean) = false autocreated mandatory indexed=no
