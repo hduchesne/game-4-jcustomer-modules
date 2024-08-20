@@ -34,10 +34,10 @@
       const context={
         // host,
         // workspace:"default",
-        scope: "Motor Retail",//site key
+        scope: "motor-retail",//site key
         locale: "en",
         // quizId: "8992b1e0-d4fe-4ec0-8886-bdbe3dd29e65",
-        quizId: "a1784169-ecc1-4238-b9cd-56efe95e5610",
+        quizId: "2a1365df-7191-4596-ab14-7c8bba8f41b2",
         // quizId: "751f7674-ccea-42e7-b3f8-1bf686daa52b", //qmirg
         // quizId: "52771181-c1e1-4fd0-aba3-98894dd9141c", //quantum
         // previewTarget:{
@@ -50,6 +50,7 @@
         // },
         // previewCm:true,
         // isEdit:true
+        contextServerUrl:window.digitalData?window.digitalData.contextServerPublicUrl:undefined
       };
 
       window.addEventListener("DOMContentLoaded", (event) => window.quizUIApp("root",context));

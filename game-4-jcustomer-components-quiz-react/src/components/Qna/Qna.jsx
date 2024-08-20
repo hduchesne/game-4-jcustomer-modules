@@ -162,7 +162,7 @@ export const Qna = (props) => {
 
     const handleSubmit = () => {
 
-        // console.log("[handleSubmit] qna.jExpField2Map => ",qna.jExpField2Map);
+        // console.debug("[handleSubmit] qna.jExpField2Map => ",qna.jExpField2Map);
         if(qna.jExpField2Map){
             //Get response cdpValue
             //Note case multiple is manage by comma separated case
