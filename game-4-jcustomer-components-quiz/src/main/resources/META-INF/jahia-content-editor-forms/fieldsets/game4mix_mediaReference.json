@@ -12,7 +12,7 @@
             "type": "String",
             "value": "reference"
           },
-          "displayValue": "Digital asset manager",
+          "displayValue": "Pick a video",
           "propertyList": [
             {
               "name": "addMixin",
