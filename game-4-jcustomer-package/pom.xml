@@ -39,12 +39,12 @@
         <dependency>
             <groupId>org.jahia.se.modules</groupId>
             <artifactId>game-4-jcustomer-core</artifactId>
-            <version>4.0.0</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.jahia.se.modules</groupId>
             <artifactId>game-4-jcustomer-components-quiz</artifactId>
-            <version>4.0.0</version>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
     <build>
