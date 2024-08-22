@@ -42,7 +42,7 @@ export const syncTracker = () => {
 };
 
 export const syncVideoStatus = ({quiz,parentId,status,player,video}) =>{
-    const  event = window.wem.buildEvent("click",
+    const  event = window.wem.buildEvent("clickPlayer",
         window.wem.buildTarget(video.id,"react-video-player",{
             video:{
                 ...video,
