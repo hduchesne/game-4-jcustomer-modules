@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.jahia.se.modules</groupId>
-    <artifactId>game-4-jcustomer</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <artifactId>jahia-modules</artifactId>
+    <groupId>org.jahia.modules</groupId>
+    <version>8.1.7.1</version>
   </parent>
+<!--  <parent>-->
+<!--    <groupId>org.jahia.se.modules</groupId>-->
+<!--    <artifactId>game-4-jcustomer</artifactId>-->
+<!--    <version>3.0.1-SNAPSHOT</version>-->
+<!--  </parent>-->
+  <groupId>org.jahia.se.modules</groupId>
   <artifactId>game-4-jcustomer-components-quiz</artifactId>
+  <name>Quiz 4 Jahia: Enhancing User Profiles Through Gamification</name>
+  <version>3.0.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
-  <name>Game for jCustomer QuizChild Components Module</name>
-  <description>This is the custom module (Game for jCustomer QuizChild Components Module) for running on a Jahia server.</description>
+  <description>Quiz for Jahia using jCustomer to synch results</description>
+
+  <scm>
+    <connection>scm:git:git@github.com:hduchesne/game-4-jcustomer-modules.git</connection>
+    <developerConnection>scm:git:git@github.com:hduchesne/game-4-jcustomer-modules.git</developerConnection>
+    <url>https://github.com/hduchesne/game-4-jcustomer-modules</url>
+  </scm>
+
   <properties>
     <yarn.arguments>build:production</yarn.arguments>
     <require-capability>osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
-    <jahia-depends>default,game-4-jcustomer-core,codemirror-editor,jexperience,se-jExp-utils</jahia-depends>
+    <jahia-depends>default,codemirror-editor,jexperience,se-jExp-utils</jahia-depends>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.jahia.modules</groupId>
       <artifactId>jexperience</artifactId>
-      <!--      <version>[2.0,3.0)</version>-->
       <version>3.3.0</version>
       <scope>provided</scope>
     </dependency>
-    <!--    <dependency>-->
-    <!--      <groupId>org.apache.unomi</groupId>-->
-    <!--      <artifactId>unomi-api</artifactId>-->
-    <!--      <version>1.9.0</version>-->
-    <!--      <scope>provided</scope>-->
-    <!--    </dependency>-->
   </dependencies>
+
   <repositories>
     <repository>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
       <id>jahia-public</id>
       <name>Jahia Public Repository</name>
       <url>https://devtools.jahia.com/nexus/content/groups/public</url>
-    </repository>
-    <repository>
       <releases>
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
@@ -51,11 +52,21 @@
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
+    </repository>
+    <repository>
       <id>jahia-marketing-factory</id>
       <name>Jahia jExp Repository</name>
       <url>https://devtools.jahia.com/nexus/content/repositories/marketing-factory-releases</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
+
   <build>
     <plugins>
       <plugin>
@@ -86,7 +97,7 @@
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.13.4</version>
+        <version>1.15.0</version>
         <executions>
           <execution>
             <id>npm install node and yarn</id>
@@ -95,7 +106,7 @@
               <goal>install-node-and-yarn</goal>
             </goals>
             <configuration>
-              <nodeVersion>v18.16.0</nodeVersion>
+              <nodeVersion>v18.19.0</nodeVersion>
               <yarnVersion>v1.22.22</yarnVersion>
             </configuration>
           </execution>
@@ -128,8 +139,4 @@
       </properties>
     </profile>
   </profiles>
-
-  <scm>
-    <tag>game-4-jcustomer-components-quiz-3.0.0</tag>
-  </scm>
 </project>

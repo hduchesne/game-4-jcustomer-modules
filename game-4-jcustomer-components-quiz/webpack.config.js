@@ -2,8 +2,12 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const shared = require('./webpack.shared');
+const getModuleFederationConfig = require('@jahia/webpack-config/getModuleFederationConfig');
+const packageJson = require('./package.json');
+
+// const shared = require('./webpack.shared');
 
 module.exports = (env, argv) => {
     let config = {
@@ -29,6 +33,7 @@ module.exports = (env, argv) => {
                 {
                     test: /\.jsx?$/,
                     include: [path.join(__dirname, 'src')],
+                    exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
                         options: {
@@ -65,40 +70,58 @@ module.exports = (env, argv) => {
                             }
                         },
                         // Compiles Sass to CSS
-                        'sass-loader'
+                        // 'sass-loader'
                     ]
                 },
                 {
                     test: /\.(png|svg)$/,
-                    use: ['file-loader']
+                    type: 'asset/resource',
+                    // use: ['file-loader']
                 },
                 {
                     test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                    use: [{
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].[ext]',
-                            outputPath: 'fonts/'
-                        }
-                    }]
+                    type: 'asset/resource',
+                    dependency: { not: ['url'] }
+                    // use: [{
+                    //     loader: 'file-loader',
+                    //     options: {
+                    //         name: '[name].[ext]',
+                    //         outputPath: 'fonts/'
+                    //     }
+                    // }]
                 }
             ]
         },
         plugins: [
-            new ModuleFederationPlugin({
-                name: "quizQnAJsonEditor",
-                library: { type: "assign", name: "appShell.remotes.quizQnAJsonEditor" },
-                filename: "remoteEntry.js",
-                exposes: {
-                    './init': './src/javascript/init'
-                },
+            // new ModuleFederationPlugin({
+            //     name: "quizQnAJsonEditor",
+            //     library: { type: "assign", name: "appShell.remotes.quizQnAJsonEditor" },
+            //     filename: "remoteEntry.js",
+            //     exposes: {
+            //         './init': './src/javascript/init'
+            //     },
+            //     remotes: {
+            //         '@jahia/app-shell': 'appShellRemote'
+            //     },
+            //     shared
+            // }),
+            new ModuleFederationPlugin(getModuleFederationConfig(packageJson, {
                 remotes: {
                     '@jahia/app-shell': 'appShellRemote'
-                },
-                shared
+                }
+            })),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: [`${path.resolve(__dirname, 'src/main/resources/javascript/apps/')}/**/*`],
+                verbose: false
             }),
-            new CleanWebpackPlugin({verbose: false}),
-            new CopyWebpackPlugin([{from: './package.json', to: ''}])
+            new CopyWebpackPlugin({
+                patterns: [{
+                    from: './package.json',
+                    to: ''
+                }]
+            }),
+            // new CopyWebpackPlugin([{from: './package.json', to: ''}])
+            new CaseSensitivePathsPlugin()
         ],
         mode: 'development'
     };
