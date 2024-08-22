@@ -2,28 +2,22 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>jahia-modules</artifactId>
-    <groupId>org.jahia.modules</groupId>
-    <version>8.1.7.1</version>
-  </parent>
 <!--  <parent>-->
-<!--    <groupId>org.jahia.se.modules</groupId>-->
-<!--    <artifactId>game-4-jcustomer</artifactId>-->
-<!--    <version>3.0.1-SNAPSHOT</version>-->
+<!--    <artifactId>jahia-modules</artifactId>-->
+<!--    <groupId>org.jahia.modules</groupId>-->
+<!--    <version>8.1.7.1</version>-->
 <!--  </parent>-->
-  <groupId>org.jahia.se.modules</groupId>
+  <parent>
+    <groupId>org.jahia.se.modules</groupId>
+    <artifactId>game-4-jcustomer</artifactId>
+    <version>3.0.1-SNAPSHOT</version>
+  </parent>
+<!--  <groupId>org.jahia.se.modules</groupId>-->
   <artifactId>game-4-jcustomer-components-quiz</artifactId>
   <name>Quiz 4 Jahia: Enhancing User Profiles Through Gamification</name>
-  <version>3.0.1-SNAPSHOT</version>
+<!--  <version>3.0.1-SNAPSHOT</version>-->
   <packaging>bundle</packaging>
   <description>Quiz for Jahia using jCustomer to synch results</description>
-
-  <scm>
-    <connection>scm:git:git@github.com:hduchesne/game-4-jcustomer-modules.git</connection>
-    <developerConnection>scm:git:git@github.com:hduchesne/game-4-jcustomer-modules.git</developerConnection>
-    <url>https://github.com/hduchesne/game-4-jcustomer-modules</url>
-  </scm>
 
   <properties>
     <yarn.arguments>build:production</yarn.arguments>

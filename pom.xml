@@ -49,7 +49,7 @@
         </repository>
     </repositories>
     <modules>
-        <module>game-4-jcustomer-core-deprecated</module>
+<!--        <module>game-4-jcustomer-core-deprecated</module>-->
         <module>game-4-jcustomer-components-quiz</module>
 <!--        <module>game-4-jcustomer-package</module>-->
     </modules>
