@@ -6,7 +6,7 @@
     <parent>
         <artifactId>jahia-packages-parent</artifactId>
         <groupId>org.jahia.packages</groupId>
-        <version>8.1.3.0</version>
+        <version>8.1.7.0</version>
     </parent>
     <artifactId>game-experience-package</artifactId>
     <name>Jahia Gamification Experience Package</name>
@@ -18,7 +18,8 @@
         <jahia.package.sources.assembly.file>src/main/assembly/dependencies-sources.xml</jahia.package.sources.assembly.file>
         <jahia.final.package.name>GamificationExperience</jahia.final.package.name>
         <jahia.manifest.package.id>game-experience-package</jahia.manifest.package.id>
-        <jahia.manifest.description>game-4-jcustomer-core, game-4-jcustomer-components-quiz</jahia.manifest.description>
+<!--        <jahia.manifest.description>game-4-jcustomer-core, game-4-jcustomer-components-quiz</jahia.manifest.description>-->
+        <jahia.manifest.description>game-4-jcustomer-components-quiz</jahia.manifest.description>
         <jahia.manifest.license>org.jahia.core</jahia.manifest.license>
     </properties>
     <repositories>
@@ -36,15 +37,15 @@
         </repository>
     </repositories>
     <dependencies>
-        <dependency>
-            <groupId>org.jahia.se.modules</groupId>
-            <artifactId>game-4-jcustomer-core</artifactId>
-            <version>3.0.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jahia.se.modules</groupId>-->
+<!--            <artifactId>game-4-jcustomer-core</artifactId>-->
+<!--            <version>3.0.1-SN</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.jahia.se.modules</groupId>
             <artifactId>game-4-jcustomer-components-quiz</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
     <build>
