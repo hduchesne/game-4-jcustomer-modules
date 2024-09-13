@@ -5,7 +5,10 @@
 <jsp:useBean id="random" class="java.util.Random" scope="application" />
 
 <%--Add files used by the webapp--%>
+<%--<template:addResources type="css" resources="webapp/2.6c0f60ba.chunk.css" />--%>
 <template:addResources type="css" resources="webapp/${requestScope.webappCssFileName}" media="screen"/>
+<%--<template:addResources type="javascript" resources="webapp/2.b90ff848.chunk.js" />--%>
+<%--<template:addResources type="javascript" resources="webapp/main.dfbbb74d.js" />--%>
 <template:addResources type="javascript" resources="webapp/${requestScope.webappJsFileName}"/>
 
 <c:set var="_uuid_" value="${currentNode.identifier}"/>
@@ -18,8 +21,26 @@
 
 <c:set var="targetId" value="REACT_Quiz_${fn:replace(random.nextInt(),'-','_')}"/>
 
-<div id="${targetId}"></div>
-<script>
+<c:set var="imageNode" value="${currentNode.properties['game4:image'].node}"/>
+<c:set var="imageURL" value="${imageNode.getUrl()}"/>
+
+
+<div class="inner-page">
+    <div class="slider-item" style="background-image: url('${imageURL}');">
+        <div class="container">
+            <div class="row slider-text align-items-center justify-content-center">
+                <div class="col-md-8 text-center col-sm-12 pt-5 element-animate">
+                    <h1 class="pt-5"><span>Quiz</span></h1>
+                    <p class="mb-5 w-75"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section bg-light">
+    <div id="${targetId}" style="max-width: 1300px;margin-left: auto;margin-right: auto"></div>
+    <script>
     const quiz_context_${targetId}={
         host:"${host}",
         workspace:"${workspace}",
@@ -46,4 +67,5 @@
         </c:otherwise>
         </c:choose>
     });
-</script>
+    </script>
+</section>

@@ -70,7 +70,7 @@
         <configuration>
           <instructions>
             <_dsannotations>org.jahia.se.modules.game.*</_dsannotations>
-            <Jahia-Static-Resources>/css,/fonts,/javascript,/icons</Jahia-Static-Resources>
+            <Jahia-Static-Resources>/css,/fonts,/javascript,/icons,/images</Jahia-Static-Resources>
           </instructions>
         </configuration>
       </plugin>
