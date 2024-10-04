@@ -6,20 +6,26 @@ import {makeStyles} from "@material-ui/core/styles";
 import {manageTransition} from "misc/utils";
 
 const useStyles = makeStyles(theme => ({
-    header:{
+    wrapper:{
         zIndex: 5,
+        position:'relative',
+        '.showResult &':{
+            backgroundColor: theme.palette.grey['300'],
+        }
+    },
+    header:{
+
         position:'relative',
         display: 'flex',
         flexDirection:'column',
         justifyContent: 'center',
+        alignItems: 'center',
         // width:'100%',
         padding: `${theme.spacing(2)}px ${theme.geometry.caption.padding.lg}`,
         [theme.breakpoints.between('xs', 'sm')]: {
             padding: `${theme.spacing(2)}px ${theme.geometry.caption.padding.main}`,
-        },
-        '.showResult &':{
-            backgroundColor: theme.palette.grey['300'],
         }
+
     },
     headerIndicators: {
         display: 'flex',
@@ -42,6 +48,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'space-between',
         height: 0,
         width:'100%',
+        maxWidth: '1280px',
         overflow:"hidden",
         transition:theme.transitions.create(['height'],{
             duration: theme.transitions.duration.standard,//'10s',//
@@ -119,6 +126,7 @@ export const Header = (props) => {
     }
 
     return(
+        <div className={classes.wrapper}>
         <div className={classes.header}>
             <ol className={classes.headerIndicators}>
                 {slideSet.map( itemId =>
@@ -139,6 +147,7 @@ export const Header = (props) => {
                 {getHeaderBtnNext()}
             </div>
             }
+        </div>
         </div>
     )
 };
